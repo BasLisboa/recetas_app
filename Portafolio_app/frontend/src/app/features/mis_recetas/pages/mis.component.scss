@@ -1,0 +1,105 @@
+ion-content {
+  --background: #f9f9f6;
+  --padding-bottom: 60px;
+  overflow: auto;
+}
+
+ion-toolbar {
+  --background: #2e7d32;
+  --color: #ffffff;
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.receta-card {
+  background-color: #a3d9a5;
+  border-radius: 16px;
+  color: #2e7d32;
+  margin: 12px auto;
+  padding: 12px;
+  width: 95%;
+  max-width: 600px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.receta-card:hover {
+  transform: scale(1.01);
+}
+
+.receta-contenido {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.receta-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+  border: 2px solid #ececec;
+}
+
+.receta-texto {
+  flex: 1;
+}
+
+ion-card-title {
+  color: #1b5e20;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+ion-card-content p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: #2e7d32;
+}
+
+.info p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: #2e7d32;
+}
+
+.botones {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+ion-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  --icon-color: #2e7d32;
+  --background: transparent;
+  font-size: 1.2rem;
+}
+
+ion-button[color='danger'] {
+  --color: #e57373;
+}
+
+ion-fab-button {
+  background-color: #2e7d32;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+ion-fab {
+  bottom: 120px !important;
+}
+
+.contenido-detalle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}

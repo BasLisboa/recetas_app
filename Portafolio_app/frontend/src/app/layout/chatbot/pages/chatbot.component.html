@@ -1,0 +1,14 @@
+<div class="chatbot-container">
+  <div class="messages">
+    <div *ngFor="let msg of messages">
+      <div [class.user]="msg.role === 'user'" [class.bot]="msg.role === 'assistant'">
+        {{ msg.content }}
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <input [(ngModel)]="userMessage" (keyup.enter)="sendMessage()" placeholder="Escribe tu mensaje..." />
+    <button (click)="sendMessage()" [disabled]="loading">Enviar</button>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<!--//***************************************************************************/
+//*                                   Recetas app                               */
+//*******************************************************************************/
+//* Modulo: Login                                                             */
+//* Desarrollador: Ivan Ahumada (IVA)                                         */
+//* Fecha: 28-04-2025                                                           */
+//*******************************************************************************/
+//* MODIFICACIONES      
+/* Creación del login para la plataforma, se deja los botones de iniciar sesión y de ir a registrarse
+  solo necesito email y password
+*/                                                        */
+//*******************************************************************************/
+//*******************************************************************************/-->
+<ion-header [translucent]="true">
+</ion-header>
+
+<ion-content class="loginr-bg" >
+
+  <!-- Fondo con imagen superior -->
+  <div class="top-image"></div>
+
+  <!-- Logo y tarjeta -->
+  <div class="login-container">
+    <img src="assets/icon/logo.jpg" alt="Logo" class="logo" />
+
+    <ion-card class="login-card">
+      <ion-card-header>
+        <ion-card-title style="color: #81ac8a;">Ingresar</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- ion-item lines="none">
+          <ion-input  [(ngModel)]="lg_nombre" type="nombre" placeholder="Nombre" style="color: #81ac8a;"></ion-input>
+        </ion-item -->
+        <label position="floating">Correo Electrónico</label>
+        <ion-item lines="none">
+          <ion-input  [(ngModel)]="lg_email" type="email" placeholder="email@emal.com" style="color: #81ac8a;"></ion-input>
+        </ion-item>
+        <label position="floating">Contraseña</label>
+        <ion-item lines="none">
+          <ion-input [(ngModel)]="lg_password" type="password" placeholder="Contraseña" style="color: #81ac8a;"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="iniciarSesion()">Iniciar Sesión</ion-button>
+      
+        <p style="text-align: center">Si no tienes una cuenta:</p>
+        <div class="registrarse-button">
+          <ion-button expand="block" (click)="registrarse()">Registrate</ion-button>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

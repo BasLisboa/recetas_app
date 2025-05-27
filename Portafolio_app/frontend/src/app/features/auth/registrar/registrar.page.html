@@ -1,0 +1,56 @@
+<!--//***************************************************************************/
+//*                                   Recetas app                               */
+//*******************************************************************************/
+//* Modulo: Login                                                             */
+//* Desarrollador: Bastian Lisboa (BAS)                                         */
+//* Fecha: 22-04-2025                                                           */
+//*******************************************************************************/
+//* MODIFICACIONES                                                              */
+//*******************************************************************************/
+//*******************************************************************************/-->
+<ion-header [translucent]="true">
+</ion-header>
+
+<ion-content class="register-bg">
+
+  <!-- Fondo con imagen superior -->
+  <div class="top-image"></div>
+
+  <!-- Logo y tarjeta -->
+  <div class="register-container">
+    <img src="assets/icon/logo.jpg" alt="Logo" class="logo" />
+
+    <ion-card class="register-card">
+      <ion-card-header>
+        <ion-card-title style="color: #81ac8a;">Registrar</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-input  [(ngModel)]="rg_nombre" type="nombre" placeholder="Nombre" style="color: #81ac8a;"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input  [(ngModel)]="rg_email" type="email" placeholder="Email" style="color: #81ac8a;"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input [(ngModel)]="rg_password" type="password" placeholder="Contraseña" style="color: #81ac8a;"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" class="signup-btn" (click)="Registrar()">Registrar</ion-button>
+        
+        <div class="divider">
+          <span>o</span>
+        </div>
+
+        <div class="social-icons">
+          <ion-icon name="logo-facebook"></ion-icon>
+          <ion-icon name="logo-google"></ion-icon>
+          <ion-icon name="logo-twitter"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

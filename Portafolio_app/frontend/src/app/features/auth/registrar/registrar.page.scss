@@ -1,0 +1,98 @@
+.register-bg {
+  --background: #ffffff;
+  padding-top: 230px;
+  position: relative;
+}
+
+.top-image {
+  background-image: url('/assets/icon/fondo.png');
+  background-size: cover;
+  background-position: top center;
+  height: 230px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  z-index: 1;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+
+  .logo {
+    width: 130px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    margin-top: 10%;
+  }
+
+  .register-card {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background-color: #ffff;
+    ion-card-header {
+      text-align: center;
+      padding-top: 16px;
+      margin: 5%;
+    }
+
+    ion-item {
+      --background: #f0f0f0;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .signup-btn {
+      --background: #8AAE92;
+      --color: #ffffff;
+      margin-top: 50px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+
+      ion-icon {
+        font-size: 24px;
+        color: #8AAE92;
+        transition: transform 0.2s;
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+}
+
+/* segmento */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 1.2rem 0;
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #d9d9d9;     
+
+  span {
+    margin: 0 .75rem;
+    font-size: 0.9rem;
+    color: #454545;
+    user-select: none;
+  }
+}
+}

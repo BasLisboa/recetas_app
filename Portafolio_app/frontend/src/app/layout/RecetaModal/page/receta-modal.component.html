@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar class="toolbar-custom">
+    <ion-title>{{ receta?.nombre_receta }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()" class="close-btn" fill="clear">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding content-custom">
+  <div class="recipe-img-wrapper">
+    <img class="receta-img" [src]="receta.imagen_url" />
+  </div>
+
+  <div class="recipe-info">
+    <div class="tiempo">
+      <ion-icon name="time-outline"></ion-icon>
+      <span>{{ receta?.tiempo }}</span>
+    </div>
+
+    <h2 class="subtitulo">Descripción</h2>
+    <p class="descripcion-text">{{ receta?.descripcion_receta }}</p>
+  </div>
+
+  <div class="actions">
+    <ion-button expand="block" color="success" fill="solid">
+      <ion-icon slot="start" name="qr-code-outline"></ion-icon>
+      Compartir por QR
+    </ion-button>
+
+    <ion-button expand="block" color="secondary" fill="outline">
+      <ion-icon slot="start" name="list-outline"></ion-icon>
+      Iniciar Paso a Paso
+    </ion-button>
+  </div>
+</ion-content>

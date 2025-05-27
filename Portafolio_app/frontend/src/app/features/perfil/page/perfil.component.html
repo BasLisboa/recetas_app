@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="user-card">
+    <ion-card-header>
+      <ion-avatar>
+        <img src="assets/avatar-default.png" />
+      </ion-avatar>
+      <!-- Cambiado para usar los campos reales del backend -->
+      <ion-card-title>{{ usuario.nombre_cliente || 'Nombre no disponible' }}</ion-card-title>
+      <ion-card-subtitle>{{ usuario.email || 'Email no disponible' }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content *ngIf="mostrarCampos">
+      <ion-item lines="none">
+        <ion-label>Edad</ion-label>
+        <ion-note slot="end">{{ edad !== null ? edad + ' años' : 'No definida' }}</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Sexo</ion-label>
+        <ion-note slot="end">{{ usuario.sexo || 'No definido' }}</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Altura</ion-label>
+        <ion-note slot="end">{{ usuario.estatura || 'No definida' }} m</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Peso</ion-label>
+        <ion-note slot="end">{{ usuario.peso || 'No definido' }} kg</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>IMC</ion-label>
+        <ion-note slot="end">{{ imcValor }} ({{ categoriaIMC }})</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Alergias</ion-label>
+        <ion-note slot="end">{{ usuario.alergias || 'Ninguna' }}</ion-note>
+      </ion-item>
+    </ion-card-content>
+
+    <ion-card-content *ngIf="!mostrarCampos">
+      <p style="text-align: center; color: gray;">Presiona "Editar Perfil" para mostrar los datos.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Acciones -->
+  <ion-button expand="block" fill="outline" color="success" (click)="abrirModalEditar()">
+    Editar Perfil
+  </ion-button>
+  <ion-button expand="block" fill="outline" color="medium">
+    Ver Historial de Recetas
+  </ion-button>
+</ion-content>
+
+<app-tab-menu></app-tab-menu>

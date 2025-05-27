@@ -1,0 +1,23 @@
+ion-tabs {
+  pointer-events: none;      /* Desactiva eventos por defecto */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+ion-tab-bar {
+  pointer-events: auto;      /* El menú sí recibe clics */
+  --background: #E8F5E9;
+  --color: #66BB6A;
+  --color-selected: #2E7D32;
+  border-top: 1px solid #c8e6c9;
+  height: 60px;               
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+ion-tab-button {
+  --ripple-color: #81C784;
+}

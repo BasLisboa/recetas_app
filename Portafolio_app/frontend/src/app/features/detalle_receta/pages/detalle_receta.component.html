@@ -1,0 +1,24 @@
+<!-- recipe-detail.component.html -->
+<ion-header translucent>
+    <div class="header-wrapper">
+      <img src="assets/icon/logo.jpg" alt="Cookwell" class="logo-img" />
+      <h2 class="header-title">{{ receta.nombre_receta }}</h2>
+    </div>
+  </ion-header>
+  
+  <ion-content fullscreen>
+    <img [src]="receta.imagen_url" alt="{{ receta.nombre_receta }}" class="detail-image" />
+    <ion-card>
+      <ion-card-content>
+        <p>{{ receta.descripcion_receta }}</p>
+        <!-- aquí más datos (ingredientes, pasos, etc.) -->
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+  
+  <ion-footer>
+    <ion-toolbar color="light">
+      <app-tab-menu></app-tab-menu>
+    </ion-toolbar>
+  </ion-footer>
+  
