@@ -19,11 +19,8 @@ router.get('/', RecetasController.obtenerRecetas);
 
 // PUT para editar una receta existente
 router.put('/:id_receta', RecetasController.editarReceta);
-<<<<<<< HEAD
 
 router.delete('/:id_receta', RecetasController.eliminarReceta);
-=======
->>>>>>> 2383b4f043ff09478893cdbf1a8bce035d54f531
 module.exports = router;
 
 

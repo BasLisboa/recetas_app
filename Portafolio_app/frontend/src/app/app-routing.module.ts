@@ -12,7 +12,15 @@ const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./features/home/pages/home.component')
-        .then(m => m.HomeComponent)
+        .then(m => m.HomeComponent),
+    children: [
+    {
+      path: 'detalle_receta/:id',
+      loadChildren: () =>
+        import('./features/detalle_receta/detalle_receta.module')
+          .then(m => m.DetalleRecetaModule)
+    }
+  ]
   },
   {
     path: 'auth',
@@ -23,20 +31,27 @@ const routes: Routes = [
   },
   {
     path: 'tab',
-    //canActivate: [authGuard], 
-    loadChildren: () => import('./layout/tab-menu/tab-menu.module').then(m => m.TabMenuModule),  
+    //canActivate: [authGuard],
+    loadChildren: () => import('./layout/tab-menu/tab-menu.module').then(m => m.TabMenuModule),
   },
   {
     path: 'mis',
-    //canActivate: [authGuard], 
+    //canActivate: [authGuard],
     loadChildren: () => import('./features/mis_recetas/mis.module').then( m => m.MisPageModule)
   },
   {
     path: 'perfil',
-    //canActivate: [authGuard], 
+    //canActivate: [authGuard],
     loadChildren: () => import('./features/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
-
+  /*{
+    path: 'detalle_receta/:id',
+    loadChildren: () =>
+      import('./features/detalle_receta/detalle_receta.module')
+        .then(m => m.DetalleRecetaModule)
+  },*/
+  // fallback 404
+  { path: '**', redirectTo: 'home' }
 
 
 ];

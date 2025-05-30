@@ -1,85 +1,17 @@
-<!--ion-header translucent></ion-header>
-
-<ion-content class="content-bg"-->
-
-  <!-- ENCABEZADO CON LOGO Y TÍTULO -->
-  <!--div class="top-image">
-    <img src="assets/icon/logo.jpg" alt="Logo" class="logo" />
-    <h2 class="title">Come sano con lo que tienes a mano</h2>
-  </div>
-
-  <div class="custom-input-wrapper" style="position: relative;">
-
-    <ion-icon name="search"></ion-icon>
-
-    <ion-input
-      placeholder="Buscar ingredientes..."
-      [(ngModel)]="textoBusqueda"
-      (ionInput)="onBuscarCambio($event)"
-      (keyup.enter)="onBuscarCambioManual()"
-      clear-input="true"
-      type="text"
-      inputmode="text"
-      class="search-input">
-    </ion-input>
-    <p style="color: red">🔍 Sugerencias: {{ sugerencias | json }}</p-->
-    <!-- SUGERENCIAS AUTOCOMPLETADAS -->
-    <!--ion-list *ngIf="sugerencias.length > 0" class="sugerencias-list">
-      <ion-item *ngFor="let sugerencia of sugerencias" (click)="seleccionarSugerencia(sugerencia)">
-        {{ sugerencia }}
-      </ion-item>
-    </ion-list>
-    <ion-button expand="block" (click)="probarBusquedaManual()">🔍 Probar arroz</ion-button>
-  </div-->
-
-
-  <!-- CHIPS DE INGREDIENTES -->
-  <!--div class="chips-container">
-    <ion-chip *ngFor="let chip of chips" color="success" outline>
-      <ion-label>{{ chip }}</ion-label>
-    </ion-chip>
-  </div>
-
-</ion-content-->
-
-<!-- TARJETA RECOMENDADA AL FINAL Y MÁS ABAJO EN CAPAS -->
-<!--div style="position: relative; z-index: 0; margin: 0 16px 80px;">
-  <h4 class="section-title">Recomendado para ti</h4>
-  <ion-card class="custom-card">
-    <img src="assets/plato-ejemplo.jpg" alt="Receta recomendada">
-    <ion-card-content>
-      <p class="recommend-text">Receta recomendada basada en tus ingredientes</p>
-    </ion-card-content>
-  </ion-card>
-</div-->
-
-<!-- MENU INFERIOR >
-<app-tab-menu></app-tab-menu-->
-<!-- home.component.html -->
-
-
-<!--ion-header translucent>
-  <ion-toolbar color="success">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Come sano con lo que tienes a mano</ion-title>
-  </ion-toolbar>
-</ion-header-->
-
 <ion-header translucent></ion-header>
 <ion-content fullscreen class="home-content">
-  <!-- 1. Encabezado verde con logo centrado y título -->
+
+  <!-- Encabezado -->
   <div class="header-wrapper">
-    <div class="logo-container" >
-      <img src="assets/icon/logo.jpg" alt="Cookwell" class="logo-img" />
-      <h2 class="header-title">Come sano con lo que tienes a mano</h2>
-    </div>
-    
+    <img src="assets/icon/logo.jpg"
+         alt="Cookwell logo"
+         class="logo-img" />
+    <h2 class="header-title">
+      Come sano con lo que tienes a mano
+    </h2>
   </div>
-  <br>
-  <br>
-  <br>
+
+  <!-- Buscador -->
   <div class="search-card">
     <ion-searchbar
       placeholder="Buscar ingrediente..."
@@ -96,27 +28,36 @@
     </ion-button>
   </div>
 
-  <!-- Resultados de búsqueda -->
+  <!-- RESULTADOS DE BÚSQUEDA -->
   <ng-container *ngIf="busquedaActiva; else defaultSection">
     <h2
       class="section-message"
-      [ngClass]="{ 
-        'found': recetas.length > 0, 
-        'not-found': recetas.length === 0 
+      [ngClass]="{
+        'found': recetas.length > 0,
+        'not-found': recetas.length === 0
       }">
       {{ recetas.length
-        ? 'Resultados para "' + textoBusqueda + '"' 
-        : 'No se encontraron recetas para "' + textoBusqueda + '"' }}
+         ? 'Resultados para "' + textoBusqueda + '"'
+         : 'No se encontraron recetas para "' + textoBusqueda + '"' }}
     </h2>
     <ion-grid>
       <ion-row>
-        <ion-col size="12" size-md="6" size-lg="4"
-                 *ngFor="let r of recetas">
-            <ion-card 
-              class="recipe-card" 
-              button 
-              [routerLink]="['/home/detalle_receta', r.id]">          
-            <img class="card-image" [src]="r.imagen_url" [alt]="r.nombre_receta" />
+        <ion-col
+          size="12" size-md="6" size-lg="4"
+          *ngFor="let r of recetas"
+        >
+          <!-- Card clickeable -->
+          <ion-card
+            button
+            class="recipe-card"
+            [routerLink]="['detalle_receta', r.id]"
+          >
+            <ion-img
+              class="card-image"
+              [src]="r.imagen_url"
+              alt="{{ r.nombre_receta }}"
+              title="{{ r.nombre_receta }}"
+            ></ion-img>
             <ion-card-header>
               <ion-card-title>{{ r.nombre_receta }}</ion-card-title>
             </ion-card-header>
@@ -126,15 +67,26 @@
     </ion-grid>
   </ng-container>
 
-  <!-- Sección por defecto: primeras 5 recetas -->
+  <!-- SECCIÓN POR DEFECTO -->
   <ng-template #defaultSection>
     <h2 class="section-title">Recetas recomendadas</h2>
     <ion-grid>
       <ion-row>
-        <ion-col size="12" size-md="6" size-lg="4"
-                 *ngFor="let r of recetas">
-          <ion-card class="recipe-card">
-            <img [src]="r.imagen_url" [alt]="r.nombre_receta" />
+        <ion-col
+          size="12" size-md="6" size-lg="4"
+          *ngFor="let r of recetas"
+        >
+          <ion-card
+            button
+            class="recipe-card"
+            [routerLink]="['detalle_receta', r.id]"
+          >
+            <ion-img
+              class="card-image"
+              [src]="r.imagen_url"
+              alt="{{ r.nombre_receta }}"
+              title="{{ r.nombre_receta }}"
+            ></ion-img>
             <ion-card-header>
               <ion-card-title>{{ r.nombre_receta }}</ion-card-title>
             </ion-card-header>
@@ -143,6 +95,7 @@
       </ion-row>
     </ion-grid>
   </ng-template>
+
 </ion-content>
 
 <ion-footer>
@@ -150,19 +103,3 @@
     <app-tab-menu></app-tab-menu>
   </ion-toolbar>
 </ion-footer>
-
-<!-- Pelota flotante -->
-<div class="chatball" (click)="toggleChat()">
-  💬
-</div>
-
-<!-- Overlay para cerrar/minimizar el chat al click fuera -->
-<div 
-  class="chat-overlay" 
-  *ngIf="showChat" 
-  (click)="minimizarChat()">
-</div>
-
-<!-- Chatbot -->
-<app-chatbot [class.hidden]="!showChat"></app-chatbot>
-

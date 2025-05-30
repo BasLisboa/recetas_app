@@ -1,24 +1,76 @@
-<!-- recipe-detail.component.html -->
+<!-- src/app/features/detalle_receta/pages/detalle_receta.component.html -->
+
+<!-- Header fijo -->
 <ion-header translucent>
-    <div class="header-wrapper">
-      <img src="assets/icon/logo.jpg" alt="Cookwell" class="logo-img" />
-      <h2 class="header-title">{{ receta.nombre_receta }}</h2>
-    </div>
-  </ion-header>
-  
-  <ion-content fullscreen>
-    <img [src]="receta.imagen_url" alt="{{ receta.nombre_receta }}" class="detail-image" />
-    <ion-card>
-      <ion-card-content>
-        <p>{{ receta.descripcion_receta }}</p>
-        <!-- aquí más datos (ingredientes, pasos, etc.) -->
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
-  
-  <ion-footer>
-    <ion-toolbar color="light">
-      <app-tab-menu></app-tab-menu>
-    </ion-toolbar>
-  </ion-footer>
-  
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ receta?.nombre_receta }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Contenido desplazable -->
+<ion-content fullscreen class="detail-content ion-padding">
+
+  <!-- Imagen -->
+  <ion-card class="recipe-card">
+    <ion-img
+      *ngIf="receta?.imagen_url"
+      [src]="receta.imagen_url"
+      alt="{{ receta.nombre_receta }}"
+      class="recipe-img"
+  ></ion-img>
+  </ion-card>
+
+  <!-- Tiempo + Descripción -->
+  <ion-card class="info-card">
+    <ion-card-content>
+      <p>
+        <ion-icon name="time-outline"></ion-icon>
+        {{ receta?.tiempo_coccion }}
+      </p>
+      <p>{{ receta?.descripcion_receta }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón Compartir -->
+  <ion-button expand="block" fill="outline">
+    <ion-icon slot="start" name="share-outline"></ion-icon>
+    Compartir
+  </ion-button>
+
+  <!-- Macros -->
+  <div class="macros">
+    <div>Calorías</div>
+    <div>Carb.</div>
+    <div>Grasas</div>
+  </div>
+
+  <!-- Pasos -->
+  <ion-card class="steps-card">
+    <ion-card-header>
+      <ion-card-title>Preparación</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item *ngFor="let paso of pasos">
+          <ion-label>
+            <h4>Paso {{ paso.numero_paso }}</h4>
+            <p>{{ paso.descripcion_paso }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<!-- Footer fijo con TabBar -->
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <app-tab-menu></app-tab-menu>
+  </ion-toolbar>
+</ion-footer>
+
+

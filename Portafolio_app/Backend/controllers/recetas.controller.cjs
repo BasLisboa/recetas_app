@@ -64,7 +64,6 @@ async function editarReceta(req, res) {
     res.status(500).json({ message: 'Error al actualizar receta' });
   }
 }
-<<<<<<< HEAD
 
 async function eliminarReceta(req, res) {
   console.log('🗑️ Entró a eliminarReceta (backend)');
@@ -99,6 +98,3 @@ async function eliminarReceta(req, res) {
 
 
 module.exports = { obtenerRecetas, editarReceta, eliminarReceta };
-=======
-module.exports = { obtenerRecetas, editarReceta };
->>>>>>> 2383b4f043ff09478893cdbf1a8bce035d54f531

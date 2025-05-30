@@ -5,10 +5,11 @@ import { TabMenuComponent } from './tab-menu/page/tab-menu.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [TabMenuComponent],
+  //declarations: [TabMenuComponent],
   imports: [
     CommonModule,
     IonicModule,
+    TabMenuComponent,
     RouterModule
   ],
   exports: [TabMenuComponent]

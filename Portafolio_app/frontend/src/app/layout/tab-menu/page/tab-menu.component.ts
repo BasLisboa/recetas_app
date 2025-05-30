@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./tab-menu.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,    
-    IonicModule       
+    CommonModule,
+    IonicModule
   ]
 })
 export class TabMenuComponent  implements OnInit {
