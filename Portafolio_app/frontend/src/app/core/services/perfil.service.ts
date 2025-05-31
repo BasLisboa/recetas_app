@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerfilService {
-  private baseUrl = 'http://localhost:3000/api/perfil'; 
+  //private baseUrl = 'http://localhost:3000/api/perfil'; 
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +18,7 @@ export class PerfilService {
    */
   apiObtCli(usuarioId: number): Observable<any> {
     try {
-      const url = `${this.baseUrl}?id_usuario=${usuarioId}`;
+      const url = `${environment.apiUrl}/perfil?id_usuario=${usuarioId}`;
       console.log('🔍 Llamando a apiObtCli con URL:', url);
 
       return this.http.get<any>(url).pipe(
@@ -40,7 +41,7 @@ export class PerfilService {
    */
   actualizarPerfil(usuario: any): Observable<any> {
     try {
-      const url = `${this.baseUrl}/${usuario.id_cliente}`;
+      const url = `${environment.apiUrl}/perfil/${usuario.id_cliente}`;
       console.log('📤 Llamando a actualizarPerfil con:', usuario);
 
       return this.http.put<any>(url, usuario).pipe(
@@ -59,7 +60,7 @@ export class PerfilService {
 
   crearCliente(usuario: any): Observable<any> {
     try {
-      const url = this.baseUrl;  // Mismo endpoint base para crear
+      const url = environment.apiUrl;  // Mismo endpoint base para crear
       console.log('📤 Llamando a crearCliente con:', usuario);
       // Aquí haces la petición POST enviando el objeto usuario
       return this.http.post<any>(url, usuario).pipe(

@@ -76,9 +76,17 @@ async function actualizarCliente(req, res) {
   const values = [];
 
   for (const campo in campos) {
+    if (campo === 'fecha_nacimiento') {
+      // Convertir a formato YYYY-MM-DD
+      const fecha = new Date(campos[campo]);
+      if (!isNaN(fecha)) {
+        campos[campo] = fecha.toISOString().slice(0, 10); // 'YYYY-MM-DD'
+      }
+    }
     setStatements.push(`${campo} = ?`);
     values.push(campos[campo]);
-  }
+  } 
+
 
   const sql = `UPDATE cliente SET ${setStatements.join(', ')} WHERE id_cliente = ?`;
   values.push(id_cliente);

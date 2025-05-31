@@ -11,13 +11,14 @@
 //*******************************************************************************/
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 
 
 export class LogService {
 
-  private apiUrl = 'http://localhost:3000/api/logs';
+  //private apiUrl = 'http://localhost:3000/api/logs';
   
   constructor(private http: HttpClient) {}
 
@@ -39,7 +40,7 @@ export class LogService {
     };
 
     console.log(log);
-    this.http.post(`${this.apiUrl}/log`, log).subscribe({
+    this.http.post(`${environment.apiUrl}/logs/log`, log).subscribe({
       next: (response) => {
         const lastLogResponse = response;
         console.log('✅ Log enviado correctamente', lastLogResponse);

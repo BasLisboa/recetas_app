@@ -14,7 +14,7 @@ async function obtenerRecetas(req, res) {
 
   try {
     const [results] = await db.query(sql, values);
-    console.log('✅ Recetas obtenidas:', results.length);
+    console.log('✅ Cantidad recetas obtenidas:', results.length);
     res.status(200).json(results);
   } catch (err) {
     console.error('❌ Error al obtener recetas:', err);
@@ -64,7 +64,6 @@ async function editarReceta(req, res) {
     res.status(500).json({ message: 'Error al actualizar receta' });
   }
 }
-<<<<<<< HEAD
 
 async function eliminarReceta(req, res) {
   console.log('🗑️ Entró a eliminarReceta (backend)');
@@ -99,6 +98,4 @@ async function eliminarReceta(req, res) {
 
 
 module.exports = { obtenerRecetas, editarReceta, eliminarReceta };
-=======
-module.exports = { obtenerRecetas, editarReceta };
->>>>>>> 2383b4f043ff09478893cdbf1a8bce035d54f531
+

@@ -14,6 +14,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 import { catchError, Observable, throwError } from 'rxjs';
 import { LogService } from 'src/app/core/services/log.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class AuthService {
   //private apiUrl = 'http://10.0.2.2:3000/api/auth';
 
   //desde localhost
-  private apiUrl = 'http://localhost:3000/api/auth';
+  //private apiUrl = 'http://localhost:3000/api/auth';
 
   // Errores
   err_blancos: string = '';
@@ -111,7 +112,7 @@ export class AuthService {
       this.logService.log(this.id_fun, this.nom_ser, mensaje, 'info');
   
       // Realizando la solicitud HTTP con manejo de errores del servidor
-      return this.http.post(`${this.apiUrl}/register`, body).pipe(
+      return this.http.post(`${environment.apiUrl}/auth/register`, body).pipe(
         catchError(error => {
           const errMsg = `Error HTTP en registerUser: ${error.message || error}`;
           console.error(errMsg);
@@ -143,7 +144,7 @@ export class AuthService {
       console.log('🔵 Entro a loginUser en front -> auth.service.ts', body);
       this.logService.log(this.id_fun, this.nom_ser, mensaje, 'info');
   
-      return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
+      return this.http.post<any>(`${environment.apiUrl}/auth/login`, body).pipe(
         catchError(error => {
           const errMsg = `❌ Error HTTP en loginUser: ${error.message || error}`;
           console.error(errMsg);

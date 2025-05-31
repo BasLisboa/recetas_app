@@ -1,11 +1,9 @@
 // server/services/openrouterService.js
 const axios = require("axios");
 
-<<<<<<< HEAD
-const API_KEY = "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"; // ⚠️ Guarda esto en variables de entorno en producción
-=======
-const API_KEY = "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"; // ⚠️ Guarda esto en variables de entorno en producción
->>>>>>> 2383b4f043ff09478893cdbf1a8bce035d54f531
+
+const API_KEY = "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"; // ⚠️ Guarda esto en variables de entorno en producción
+
 
 async function callOpenRouter(messages) {
   const url = "https://openrouter.ai/api/v1/chat/completions";
