@@ -1,7 +1,9 @@
 // controllers/recetasadm.controller.cjs
 const db = require('../config/db.cjs');
+const { calcularNutricional } = require("./nutricional.controller.cjs");
 
 async function listarRecetasDefault(req, res) {
+  
   const sql = `
     SELECT
       r.id_recetas   AS id,

@@ -28,21 +28,10 @@ import { tap } from 'rxjs/internal/operators/tap';
 export class DetalleRecetaComponent implements OnInit {
   receta!: RecetaDetalle;
   pasos: PasoDetalle[] = [];
-
-
   constructor(
     private route: ActivatedRoute,
     private recetasService: RecetasadmService
   ) {}
-
-  /*ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.recetasService.getDetalleReceta(id)
-      .subscribe(res => {
-        this.receta = res;
-        this.pasos  = res.pasos;
-      });
-  }*/
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.recetasService.getDetalleReceta(id)
@@ -51,5 +40,4 @@ export class DetalleRecetaComponent implements OnInit {
         this.pasos  = res.pasos;
       });
   }
-
 }
