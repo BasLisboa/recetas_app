@@ -8,7 +8,7 @@ const routes: Routes = [
     redirectTo: 'auth/login',
     pathMatch: 'full'
   },
-  {
+  /*{
     path: 'home',
     loadComponent: () =>
       import('./features/home/pages/home.component')
@@ -20,7 +20,15 @@ const routes: Routes = [
         import('./features/detalle_receta/detalle_receta.module')
           .then(m => m.DetalleRecetaModule)
     }
-  ]
+    ]
+  },*/
+  {
+    path: 'home',
+    // En lugar de loadComponent, lazy-load HomeModule completo:
+    loadChildren: () =>
+      import('./features/home/home.module')
+        .then(m => m.HomeModule),
+    canActivate: [authGuard]  // opcional: si deseas proteger la sección /home
   },
   {
     path: 'auth',

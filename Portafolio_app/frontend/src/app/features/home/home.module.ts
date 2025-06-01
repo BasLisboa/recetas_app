@@ -13,7 +13,7 @@ import { HomeComponent } from './pages/home.component';
     FormsModule,
     //LayoutModule,
     HomeRoutingModule,
-    HomeComponent
+    //HomeComponent
   ]
 })
 export class HomeModule {}
