@@ -11,6 +11,7 @@ const recetasadmRoutes = require('./routes/recetasadm.routes.cjs');
 const CrearRecetas = require('./routes/crearReceta.routes.cjs');
 const perfilRoutes = require('./routes/perfil.routes.cjs');
 const chatbotRoutes = require("./routes/chatbot.cjs");
+const nutricionalRoutes = require('./routes/nutricional.routes.cjs');
 
 // Middlewares
 app.use(cors());
@@ -26,6 +27,8 @@ app.use('/api/CrearReceta', CrearRecetas);
 app.use('/api/CrearReceta', CrearRecetas);
 app.use('/api/perfil', perfilRoutes);
 app.use("/api/chatbot", chatbotRoutes);
+app.use('/api/nutricional', nutricionalRoutes)
+
 
 // Ruta base
 app.get('/', (req, res) => {

@@ -8,7 +8,7 @@ export interface RecetaAdm {
   nombre_receta: string;
   imagen_url: string;
 }
-/** Vista de detalle completo */
+
 export interface PasoDetalle {
   id_paso: number;
   nombre_parte: string;
@@ -32,13 +32,50 @@ export interface RecetaDetalle {
   valoracion_media: number;
   total_valoraciones: number;
   porciones: number;
-  nutricional: Nutritional;
+  nutricional: Nutritional;  // Si tu backend NO incluye este campo, puedes ignorarlo
   pasos: PasoDetalle[];
+}
+
+export interface IngredienteNutri {
+  id_ingrediente: number;
+  nombre_ingrediente: string;
+  cantidad_usada: number;
+  base_cantidad: number;
+  macros_por_base: {
+    calorias: number;
+    proteinas: number;
+    grasas: number;
+  };
+  contribucion: {
+    calorias: number;
+    proteinas: number;
+    grasas: number;
+  };
+}
+
+export interface TotalesNutri {
+  totalPeso: number;
+  totalCalorias: number;
+  totalProteinas: number;
+  totalGrasas: number;
+}
+
+export interface NutricionalReceta {
+  id_receta: number;
+  detalle_ingredientes: IngredienteNutri[];
+  totales: TotalesNutri;
+  porCada100gReceta: {
+    calorias: number;
+    proteinas: number;
+    grasas: number;
+  };
 }
 
 @Injectable({ providedIn: 'root' })
 export class RecetasadmService {
   private apiUrl = 'http://localhost:3000/api/recetasadm';
+
+  constructor(private http: HttpClient) {}
 
   listarDefault(): Observable<RecetaAdm[]> {
     return this.http.get<RecetaAdm[]>(this.apiUrl);
@@ -52,5 +89,8 @@ export class RecetasadmService {
     return this.http.get<RecetaDetalle>(`${this.apiUrl}/${id}`);
   }
 
-  constructor(private http: HttpClient) {}
+  getNutricionalReceta(id: number): Observable<NutricionalReceta> {
+    // AHORA apunta a /api/nutricional/${:id}
+    return this.http.get<NutricionalReceta>(`http://localhost:3000/api/nutricional/${id}`);
+  }
 }

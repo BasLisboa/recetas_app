@@ -1,6 +1,3 @@
-<!-- src/app/features/detalle_receta/pages/detalle_receta.component.html -->
-
-<!-- Header fijo -->
 <ion-header translucent>
   <ion-toolbar color="success">
     <ion-buttons slot="start">
@@ -10,44 +7,129 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- Contenido desplazable -->
 <ion-content fullscreen class="detail-content ion-padding">
-
-  <!-- Imagen -->
+  <!-- Imagen y descripción (igual que antes) -->
   <ion-card class="recipe-card">
     <ion-img
       *ngIf="receta?.imagen_url"
       [src]="receta.imagen_url"
       alt="{{ receta.nombre_receta }}"
       class="recipe-img"
-  ></ion-img>
+    ></ion-img>
   </ion-card>
 
-  <!-- Tiempo + Descripción -->
   <ion-card class="info-card">
     <ion-card-content>
       <p>
         <ion-icon name="time-outline"></ion-icon>
-        {{ receta?.tiempo_coccion }}
+        {{ receta?.tiempo_coccion }} min aprox.
       </p>
       <p>{{ receta?.descripcion_receta }}</p>
     </ion-card-content>
   </ion-card>
 
-  <!-- Botón Compartir -->
-  <ion-button expand="block" fill="outline">
-    <ion-icon slot="start" name="share-outline"></ion-icon>
-    Compartir
-  </ion-button>
+  <!-- **************** -->
+  <!-- NUEVO: RESUMEN NUTRICIONAL -->
+  <!-- **************** -->
+  <ng-container *ngIf="muestraNutri">
+    <ion-card class="nutri-summary-card">
+      <ion-card-header>
+        <ion-card-title>Resumen Nutricional</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="nutri-summary-content">
+          <div>
+            <strong>Calorías (x100 g):</strong>
+            {{ nutricional.porCada100gReceta.calorias }} kcal
+          </div>
+          <div>
+            <strong>Proteínas (x100 g):</strong>
+            {{ nutricional.porCada100gReceta.proteinas }} g
+          </div>
+          <div>
+            <strong>Grasas (x100 g):</strong>
+            {{ nutricional.porCada100gReceta.grasas }} g
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 
-  <!-- Macros -->
-  <div class="macros">
-    <div>Calorías</div>
-    <div>Carb.</div>
-    <div>Grasas</div>
-  </div>
+  <!-- **************** -->
+  <!-- DATOS DETALLADOS: ingredientes y totales -->
+  <!-- **************** -->
+  <ng-container *ngIf="muestraNutri">
+    <ion-card class="nutri-card">
+      <ion-card-header>
+        <ion-card-title>Valores Nutricionales Detallados</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <!-- Encabezado de tabla -->
+        <div class="ing-table-header">
+          <div>Ingrediente</div>
+          <div>Cant. (g)</div>
+          <div>Calorías</div>
+          <div>Proteínas</div>
+          <div>Grasas</div>
+        </div>
 
-  <!-- Pasos -->
+        <!-- Filas de ingredientes -->
+        <div
+          class="ing-table-row"
+          *ngFor="let ing of nutricional.detalle_ingredientes"
+        >
+          <div>{{ ing.nombre_ingrediente }}</div>
+          <div>{{ ing.cantidad_usada }} g</div>
+          <div>{{ ing.contribucion.calorias }} kcal</div>
+          <div>{{ ing.contribucion.proteinas }} g</div>
+          <div>{{ ing.contribucion.grasas }} g</div>
+        </div>
+
+        <!-- Totales absolutos -->
+        <ion-item lines="none" class="totales-macros">
+          <ion-label>
+            <h4>Totales de la receta:</h4>
+          </ion-label>
+          <ion-note slot="end">
+            <div>
+              <strong>Peso total:</strong> {{ nutricional.totales.totalPeso }} g
+            </div>
+            <div>
+              <strong>Calorías totales:</strong> {{ nutricional.totales.totalCalorias }} kcal
+            </div>
+            <div>
+              <strong>Proteínas totales:</strong> {{ nutricional.totales.totalProteinas }} g
+            </div>
+            <div>
+              <strong>Grasas totales:</strong> {{ nutricional.totales.totalGrasas }} g
+            </div>
+          </ion-note>
+        </ion-item>
+
+        <!-- Valores normalizados por cada 100 g (opcional réplica aquí si quieres) -->
+        <ion-item lines="none" class="por-100g">
+          <ion-label>
+            <h4>Valores por cada 100 g de receta:</h4>
+          </ion-label>
+          <ion-note slot="end">
+            <div>
+              <strong>Calorías:</strong> {{ nutricional.porCada100gReceta.calorias }} kcal
+            </div>
+            <div>
+              <strong>Proteínas:</strong> {{ nutricional.porCada100gReceta.proteinas }} g
+            </div>
+            <div>
+              <strong>Grasas:</strong> {{ nutricional.porCada100gReceta.grasas }} g
+            </div>
+          </ion-note>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <!-- **************** -->
+  <!-- PASOS DE PREPARACIÓN (igual que antes) -->
+  <!-- **************** -->
   <ion-card class="steps-card">
     <ion-card-header>
       <ion-card-title>Preparación</ion-card-title>
@@ -63,14 +145,10 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-
 </ion-content>
 
-<!-- Footer fijo con TabBar -->
 <ion-footer slot="fixed">
   <ion-toolbar>
     <app-tab-menu></app-tab-menu>
   </ion-toolbar>
 </ion-footer>
-
-

@@ -34,3 +34,35 @@
 .macro small {
   color: #999;
 }
+/* src/app/features/detalle_receta/pages/detalle_receta.component.scss */
+
+/* Encabezado de tabla nutricional: contenedor flexible en fila */
+.ing-table-header,
+.ing-table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 8px 0;
+}
+
+/* Diferenciar fondo de encabezado */
+.ing-table-header {
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Espaciado entre filas */
+.ing-table-row {
+  border-bottom: 1px solid #eee;
+}
+
+/* Margen externo para la tarjeta nutricional */
+.nutri-card {
+  margin-top: 16px;
+}
+
+/* Ajustar texto de totales */
+.totales-macros ion-note,
+.por-100g ion-note {
+  text-align: right;
+}

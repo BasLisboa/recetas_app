@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {
-  obtenerValoresNutricionales
-} = require('../controllers/nutricional.controller.cjs');
+const nutricionalController = require('../controllers/nutricional.controller.cjs');
 
-router.get('/nutri',obtenerValoresNutricionales);
+router.get('/:id', nutricionalController.obtenerValoresNutricionales);
 
 module.exports = router;
