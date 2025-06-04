@@ -32,8 +32,10 @@ async function obtenerValoresNutricionales(req, res) {
     const sql = `
       SELECT
         i.id_ingrediente,
-        i.nombre_ingrediente,
+        CONCAT(UPPER(LEFT(i.nombre_ingrediente, 1)),LOWER(SUBSTRING(i.nombre_ingrediente, 2))) AS nombre_ingrediente,
         ri.cantidad               AS cantidad_unidades,   -- ej. “2” tazas, “1” cuchara, etc.
+        um.medida                 AS unidad_medida,     -- ej. “taza”, “cucharada”
+        um.medida_plural          AS unidad_medida_plural, -- ej. “tazas”, “cucharadas”
         um.peso_en_gramos         AS peso_unitario,       -- ej. 240 (g por cada taza)
         vn.calorias               AS cal_base,            -- calorías POR 100 g
         vn.proteinas              AS prot_base,           -- proteínas POR 100 g
@@ -82,6 +84,12 @@ async function obtenerValoresNutricionales(req, res) {
       const protContrib  = parseFloat((factor * protBase).toFixed(2));
       const grasContrib  = parseFloat((factor * grasBase).toFixed(2));
 
+      let nombre_medida; // Variable para el nombre de la unidad de medida
+      if (unidadesUsadas > 1) {
+        nombre_medida = fila.unidad_medida_plural
+      }else{
+        nombre_medida = fila.unidad_medida;
+      };
       // 5.5) Acumular totales
       totalPeso       += pesoUsado;
       totalCalorias   += calContrib;
@@ -92,6 +100,8 @@ async function obtenerValoresNutricionales(req, res) {
       return {
         id_ingrediente: fila.id_ingrediente,
         nombre_ingrediente: fila.nombre_ingrediente,
+        cantidad_ing: fila.cantidad_unidades,
+        unidad_medida: nombre_medida, // cantidad en unidades (ej. “2” tazas
         // “cantidad_usada” ahora es el peso EN GRAMOS que se usa realmente
         cantidad_usada: parseFloat(pesoUsado.toFixed(2)),
         // “base_cantidad” lo dejamos igual para que el front no cambie (aunque ya no se use):

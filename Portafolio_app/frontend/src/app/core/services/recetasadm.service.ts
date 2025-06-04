@@ -39,6 +39,8 @@ export interface RecetaDetalle {
 export interface IngredienteNutri {
   id_ingrediente: number;
   nombre_ingrediente: string;
+  cantidad_ing: number;
+  unidad_medida: string;
   cantidad_usada: number;
   base_cantidad: number;
   macros_por_base: {
