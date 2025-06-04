@@ -66,3 +66,15 @@
 .por-100g ion-note {
   text-align: right;
 }
+.ingredients-card {
+  margin-top: 16px;
+}
+
+.ingredient-item {
+  padding: 4px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.ingredient-item:last-child {
+  border-bottom: none;
+}
