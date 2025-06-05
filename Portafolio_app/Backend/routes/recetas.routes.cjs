@@ -22,6 +22,9 @@ router.put('/:id_receta', RecetasController.editarReceta);
 
 router.delete('/:id_receta', RecetasController.eliminarReceta);
 
+router.get('/:id_receta', RecetasController.obtenerRecetaPorId);
+
+
 module.exports = router;
 
 

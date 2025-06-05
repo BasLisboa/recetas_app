@@ -33,6 +33,12 @@ export class MisRecetasService {
       console.error('Error al editar receta:', error);
       return throwError(() => error);
     })
-  );
-}
+    );
+  }
+
+  obtenerRecetaPorId(id: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/recetas/${id}`);
+  }
+
+
 }

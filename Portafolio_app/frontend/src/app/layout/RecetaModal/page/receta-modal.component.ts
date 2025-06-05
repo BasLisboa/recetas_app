@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-receta-modal',
@@ -19,4 +20,21 @@ export class RecetaModalComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  compartirReceta() {
+    if (navigator.share) {
+      navigator.share({
+      title: this.receta?.nombre_receta,
+      text: this.receta?.descripcion_receta,
+      url: `${environment.Url}/receta-compartida/${this.receta.id_recetas}`
+      }).then(() => {
+        console.log('✅ Receta compartida con éxito');
+     }).catch((error) => {
+        console.error('❌ Error al compartir receta:', error);
+      });
+    } else {
+      alert('La función de compartir no está disponible en este navegador.');
+    }
+  }
+
 }

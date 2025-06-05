@@ -1,9 +1,12 @@
+const baseUrl = 'https://somalia-expiration-strange-bold.trycloudflare.com';
+
 export const environment = {
   production: true,
   
-  // URL del backend (Express, Cloud Functions, etc.)
+   // URL del backend (Express, Cloud Functions, etc.)
   //apiUrl: 'http://localhost:3000/api',
-  apiUrl: 'https://automatic-scary-digit-beatles.trycloudflare.com/api',
+  Url: baseUrl,
+  apiUrl: `${baseUrl}/api`,
 
 
   // Configuración de Firebase (credenciales públicas, no secretas)

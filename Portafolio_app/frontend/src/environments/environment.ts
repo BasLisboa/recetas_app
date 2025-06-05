@@ -2,13 +2,15 @@
 // Configuración de entorno para desarrollo
 // Este archivo puede ser reemplazado por environment.prod.ts para producción usando fileReplacements en angular.json
 
+const baseUrl = 'https://somalia-expiration-strange-bold.trycloudflare.com';
+
 export const environment = {
   production: false,
   
   // URL del backend (Express, Cloud Functions, etc.)
   //apiUrl: 'http://localhost:3000/api',
-  apiUrl: 'https://automatic-scary-digit-beatles.trycloudflare.com/api',
-
+  Url: baseUrl,
+  apiUrl: `${baseUrl}/api`,
 
   // Configuración de Firebase (credenciales públicas, no secretas)
   firebase: {
@@ -24,7 +26,7 @@ export const environment = {
     email: 'bas.lisboa@duocuc.cl',
     password: 'bas1821.'
   }
-}
+} 
 
 /*
  * Para debugging en modo desarrollo, puedes importar este archivo para ignorar
