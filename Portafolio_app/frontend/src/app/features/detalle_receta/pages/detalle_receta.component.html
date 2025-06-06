@@ -1,24 +1,105 @@
-<!-- recipe-detail.component.html -->
 <ion-header translucent>
-    <div class="header-wrapper">
-      <img src="assets/icon/logo.jpg" alt="Cookwell" class="logo-img" />
-      <h2 class="header-title">{{ receta.nombre_receta }}</h2>
-    </div>
-  </ion-header>
-  
-  <ion-content fullscreen>
-    <img [src]="receta.imagen_url" alt="{{ receta.nombre_receta }}" class="detail-image" />
-    <ion-card>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ receta.nombre_receta }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="detail-content ion-padding">
+  <!-- -------------------------
+       Imagen y descripción (igual que antes)
+       ------------------------- -->
+  <ion-card class="recipe-card">
+    <ion-img
+      *ngIf="receta?.imagen_url"
+      [src]="receta.imagen_url"
+      alt="{{ receta.nombre_receta }}"
+      class="recipe-img"
+    ></ion-img>
+  </ion-card>
+
+  <ion-card class="info-card">
+    <ion-card-content>
+      <p>
+        <ion-icon name="time-outline"></ion-icon>
+        {{ receta.tiempo_coccion }} min aprox.
+      </p>
+      <p>{{ receta.descripcion_receta }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- **************** -->
+  <!-- NUEVO: RESUMEN NUTRICIONAL (SOLO TOTALES) -->
+  <!-- **************** -->
+  <ng-container *ngIf="muestraNutri">
+    <ion-card class="nutri-summary-card">
+      <ion-card-header>
+        <ion-card-title>Resumen Nutricional</ion-card-title>
+      </ion-card-header>
       <ion-card-content>
-        <p>{{ receta.descripcion_receta }}</p>
-        <!-- aquí más datos (ingredientes, pasos, etc.) -->
+        <div class="nutri-summary-content">
+          <!--div>
+            <strong>Peso total:</strong>
+            {{ nutricional.totales.totalPeso }} g
+          </div-->
+          <div>
+            <strong>Calorías totales:</strong>
+            {{ nutricional.totales.totalCalorias }} kcal
+          </div>
+          <div>
+            <strong>Proteínas totales:</strong>
+            {{ nutricional.totales.totalProteinas }} g
+          </div>
+          <div>
+            <strong>Grasas totales:</strong>
+            {{ nutricional.totales.totalGrasas }} g
+          </div>
+        </div>
       </ion-card-content>
     </ion-card>
-  </ion-content>
-  
-  <ion-footer>
-    <ion-toolbar color="light">
-      <app-tab-menu></app-tab-menu>
-    </ion-toolbar>
-  </ion-footer>
-  
+  </ng-container>
+
+  <!-- **************** -->
+  <!-- NUEVO: LISTA DE INGREDIENTES (cantidad + unidad) -->
+  <!-- **************** -->
+  <ng-container *ngIf="muestraNutri">
+    <ion-card class="ingredients-card">
+      <ion-card-header>
+        <ion-card-title>Ingredientes necesarios</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <!-- Recorremos el array detalle_ingredientes y mostramos nombre + cantidad usada -->
+        <div *ngFor="let ing of nutricional.detalle_ingredientes" class="ingredient-item">
+          {{ ing.nombre_ingrediente }}: {{ ing.cantidad_ing }} {{ ing.unidad_medida }}
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <!-- **************** -->
+  <!-- PASOS DE PREPARACIÓN (igual que antes) -->
+  <!-- **************** -->
+  <ion-card class="steps-card">
+    <ion-card-header>
+      <ion-card-title>Preparación</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item *ngFor="let paso of pasos">
+          <ion-label>
+            <h4>Paso {{ paso.numero_paso }}</h4>
+            <p>{{ paso.descripcion_paso }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <app-tab-menu></app-tab-menu>
+  </ion-toolbar>
+</ion-footer>

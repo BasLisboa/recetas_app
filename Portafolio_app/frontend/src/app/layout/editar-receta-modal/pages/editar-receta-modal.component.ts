@@ -101,6 +101,7 @@ export class ModalEditarRecetaComponent implements OnInit {
   }
 
   enviarActualizacion(receta: any) {
+
     console.log(receta.idUsuario);
 
     this.recetaService.editarReceta(receta).subscribe(() => {

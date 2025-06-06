@@ -1,5 +1,80 @@
-.detail-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
+/* detalle_receta.component.scss */
+.mockup-card {
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.mockup-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.rating ion-icon {
+  margin-right: 2px;
+}
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  color: #666;
+}
+.macro {
+  text-align: center;
+}
+.macro h3 {
+  margin: 0;
+}
+.macro small {
+  color: #999;
+}
+/* src/app/features/detalle_receta/pages/detalle_receta.component.scss */
+
+/* Encabezado de tabla nutricional: contenedor flexible en fila */
+.ing-table-header,
+.ing-table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 8px 0;
+}
+
+/* Diferenciar fondo de encabezado */
+.ing-table-header {
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Espaciado entre filas */
+.ing-table-row {
+  border-bottom: 1px solid #eee;
+}
+
+/* Margen externo para la tarjeta nutricional */
+.nutri-card {
+  margin-top: 16px;
+}
+
+/* Ajustar texto de totales */
+.totales-macros ion-note,
+.por-100g ion-note {
+  text-align: right;
+}
+.ingredients-card {
+  margin-top: 16px;
+}
+
+.ingredient-item {
+  padding: 4px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.ingredient-item:last-child {
+  border-bottom: none;
+}

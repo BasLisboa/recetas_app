@@ -6,7 +6,7 @@ const baseUrl = 'https://enhancement-nat-argue-matched.trycloudflare.com';
 
 export const environment = {
   production: false,
-  
+
   // URL del backend (Express, Cloud Functions, etc.)
   //apiUrl: 'http://localhost:3000/api',
   Url: baseUrl,
@@ -20,6 +20,7 @@ export const environment = {
     storageBucket: "guardar-foto-d4a53.firebasestorage.app",
     messagingSenderId: "621913189584",
     appId: "1:621913189584:web:94ad3d03301d6e59d1c2d5",
+
     measurementId: "G-678ZX5K4YC"       // opcional, sólo para analytics
   },
   adminUser: {

@@ -1,7 +1,9 @@
 // controllers/recetasadm.controller.cjs
 const db = require('../config/db.cjs');
+const { calcularNutricional } = require("./nutricional.controller.cjs");
 
 async function listarRecetasDefault(req, res) {
+  
   const sql = `
     SELECT
       r.id_recetas   AS id,
@@ -55,8 +57,43 @@ async function buscarRecetasPorIngrediente(req, res) {
     res.status(500).json({ message: 'Error interno' });
   }
 }
-
+async function getDetalleReceta(req, res) {
+  const id = req.params.id_recetas;
+  const sqlReceta = `
+    SELECT
+      r.id_recetas,
+      r.nombre_receta,
+      r.descripcion_receta,
+      r.tiempo   AS tiempo_coccion,
+      COALESCE(img.ruta_imagen, '') AS imagen_url
+    FROM recetas r
+    LEFT JOIN imagenes img ON img.id_recetas = r.id_recetas
+    WHERE r.id_recetas = ?
+    LIMIT 1
+  `;
+  const sqlPasos = `
+    SELECT numero_paso, descripcion_paso
+    FROM pasos_recetas
+    WHERE id_recetas = ?
+    ORDER BY numero_paso
+  `;
+  try {
+    const [recetas] = await db.query(sqlReceta, [id]);
+    if (recetas.length === 0) {
+      return res.status(404).json({ message: 'Receta no encontrada' });
+    }
+    const receta = recetas[0];
+    const [pasos] = await db.query(sqlPasos, [id]);
+    // Ajusta el nombre de propiedad según tu interfaz
+    receta.pasos = pasos;
+    return res.json(receta);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Error interno' });
+  }
+}
 module.exports = {
   listarRecetasDefault,
-  buscarRecetasPorIngrediente
+  buscarRecetasPorIngrediente,
+  getDetalleReceta
 };
