@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { RecetaCompartidaPage } from './features/RecetaCompartida/pages/receta-compartida.page';
 
 const routes: Routes = [
   {
@@ -47,6 +48,13 @@ const routes: Routes = [
     //canActivate: [authGuard],
     loadChildren: () => import('./features/mis_recetas/mis.module').then( m => m.MisPageModule)
   },
+  {
+    path: 'receta-compartida',
+    loadChildren: () =>
+      import('./features/RecetaCompartida/pages/receta-compartida.module')
+        .then(m => m.RecetaCompartidaPageModule)
+  },
+
   {
     path: 'perfil',
     //canActivate: [authGuard],

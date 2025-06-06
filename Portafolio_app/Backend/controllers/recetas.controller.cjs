@@ -14,7 +14,7 @@ async function obtenerRecetas(req, res) {
 
   try {
     const [results] = await db.query(sql, values);
-    console.log('✅ Recetas obtenidas:', results.length);
+    console.log('✅ Cantidad recetas obtenidas:', results.length);
     res.status(200).json(results);
   } catch (err) {
     console.error('❌ Error al obtener recetas:', err);
@@ -95,6 +95,37 @@ async function eliminarReceta(req, res) {
   }
 }
 
+async function obtenerRecetaPorId(req, res) {
+  const { id_receta } = req.params;
 
+  if (!id_receta) {
+    return res.status(400).json({ message: 'Falta id_receta en la URL' });
+  }
 
-module.exports = { obtenerRecetas, editarReceta, eliminarReceta };
+  const sql = `
+    SELECT r.id_recetas, r.nombre_receta, r.tiempo, r.descripcion_receta, 
+           r.id_valoracion, r.id_tipo_creador, r.id_usuario_creador,
+           COALESCE(MAX(img.ruta_imagen), "") AS imagen_url
+    FROM recetas r
+    LEFT JOIN imagenes img ON img.id_recetas = r.id_recetas
+    WHERE r.id_recetas = ?
+    GROUP BY r.id_recetas, r.nombre_receta, r.tiempo, r.descripcion_receta,
+             r.id_valoracion, r.id_tipo_creador, r.id_usuario_creador
+  `;
+
+  try {
+    const [results] = await db.query(sql, [id_receta]);
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Receta no encontrada' });
+    }
+
+    res.status(200).json(results[0]);
+  } catch (err) {
+    console.error('❌ Error al obtener receta por ID:', err);
+    res.status(500).json({ message: 'Error al obtener receta por ID' });
+  }
+}
+
+module.exports = { obtenerRecetas, editarReceta, eliminarReceta , obtenerRecetaPorId};
+

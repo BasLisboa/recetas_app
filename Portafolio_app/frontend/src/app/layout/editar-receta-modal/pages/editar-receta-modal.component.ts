@@ -101,7 +101,9 @@ export class ModalEditarRecetaComponent implements OnInit {
   }
 
   enviarActualizacion(receta: any) {
-    console.log(receta);
+
+    console.log(receta.idUsuario);
+
     this.recetaService.editarReceta(receta).subscribe(() => {
       this.modalCtrl.dismiss(receta); // Devolver receta actualizada
     }, error => {

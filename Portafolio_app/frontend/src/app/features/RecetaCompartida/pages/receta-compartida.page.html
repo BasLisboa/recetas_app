@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ receta?.nombre_receta || 'Receta' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!cargando && receta">
+  <ion-card>
+    <img [src]="receta.img_receta" *ngIf="receta.img_receta" />
+    <ion-card-header>
+      <ion-card-title>{{ receta.nombre_receta }}</ion-card-title>
+      <ion-card-subtitle>{{ receta.categoria }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ receta.descripcion_receta }}</p>
+      <p><strong>Ingredientes:</strong> {{ receta.ingredientes }}</p>
+      <p><strong>Preparación:</strong> {{ receta.preparacion }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

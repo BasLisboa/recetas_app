@@ -65,6 +65,7 @@ export class MisComponent implements OnInit {
           console.log('✅ Recetas cargadas:', this.misRecetas);
         },
         error: (err) => console.error('❌ Error al cargar recetas:', err)
+
       });
 
     } catch (error) {
