@@ -2,7 +2,7 @@
 // Configuración de entorno para desarrollo
 // Este archivo puede ser reemplazado por environment.prod.ts para producción usando fileReplacements en angular.json
 
-const baseUrl = 'https://enhancement-nat-argue-matched.trycloudflare.com';
+const baseUrl = 'https://specifications-jamaica-backing-ee.trycloudflare.com';
 
 export const environment = {
   production: false,

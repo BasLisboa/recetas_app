@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms'; // FormsModule para ngModel en for
 import { IonicModule } from '@ionic/angular'; // Módulos de Ionic para componentes UI
 import { CommonModule } from '@angular/common'; // Directivas comunes (ngIf, ngFor)
 import { TabMenuComponent } from 'src/app/layout/tab-menu/page/tab-menu.component'; // Componente de menú de pestañas
+import { ChatbotComponent } from 'src/app/layout/chatbot/pages/chatbot.component';
+
 
 @Component({
   selector: 'app-home', // Etiqueta HTML para usar el componente
@@ -18,15 +20,18 @@ import { TabMenuComponent } from 'src/app/layout/tab-menu/page/tab-menu.componen
     IonicModule,
     TabMenuComponent,
     RouterModule,
+    ChatbotComponent
 
   ],
   templateUrl: './home.component.html', // Plantilla HTML externa
   styleUrls: ['./home.component.scss'] // Estilos SCSS externos
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  showChat = false;
   textoBusqueda = ''; // Texto ingresado en la barra de búsqueda
   recetas: RecetaAdm[] = []; // Lista de recetas a mostrar
   busquedaActiva = false; // Indicador de si hay resultados de búsqueda
+
   private routerSub!: Subscription; // Suscripción para eventos de navegación
 
   constructor(
@@ -44,12 +49,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Se ejecuta al inicializar el componente
     this.loadDefault(); // Carga inicial de recetas por defecto
+
+    this.routerSub = this.router.events.pipe(
+      filter(evt => evt instanceof NavigationEnd && (evt as NavigationEnd).urlAfterRedirects === '/home')
+    ).subscribe(() => {
+      this.loadDefault();
+    });
+    
   }
 
   ngOnDestroy(): void {
     // Se ejecuta al destruir el componente
+    
     this.routerSub.unsubscribe(); // Evita fugas de memoria cancelando la suscripción
   }
+
+  
+  toggleChat() {
+    this.showChat = !this.showChat;
+  }
+
+  minimizarChat() {
+    this.showChat = false;
+  }
+
 
   /** Carga las 5 recetas por defecto y resetea el estado de búsqueda */
   loadDefault(): void {

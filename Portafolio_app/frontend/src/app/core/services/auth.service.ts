@@ -162,7 +162,7 @@ export class AuthService {
   //bas01-fin
 
 
-//GUARD CORE (EN CONSTRUCCION)
+//GUARD CORE
 isAuthenticated(): boolean {
   const token = localStorage.getItem('token');
 

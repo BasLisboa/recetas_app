@@ -94,11 +94,10 @@ export class RecetasadmService {
     const url = `${environment.apiUrl}/recetasadm/${id}`;
     return this.http.get<RecetaAdm>(url);
 
-    return this.http.get<RecetaAdm[]>(`${this.apiUrl}/buscar?ingrediente=${ingrediente}`);
   }
 
   getDetalleReceta(id: number): Observable<RecetaDetalle> {
-    return this.http.get<RecetaDetalle>(`${this.apiUrl}/${id}`);
+    return this.http.get<RecetaDetalle>(`${environment.apiUrl}/${id}`);
   }
 
   getNutricionalReceta(id: number): Observable<NutricionalReceta> {

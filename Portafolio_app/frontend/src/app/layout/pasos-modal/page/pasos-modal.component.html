@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Paso a Paso</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()" fill="clear">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngFor="let paso of pasos; let i = index" [class.active]="i === pasoActual" [class.done]="i < pasoActual">
+    <h3>Paso {{paso.numero_paso}}: {{paso.nombre_parte}}</h3>
+    <p>{{paso.descripcion_paso}}</p>
+    <span *ngIf="paso.duracion_paso">Duración: {{paso.duracion_paso}} min</span>
+  </div>
+  <ion-footer>
+    <ion-button expand="block" color="success" (click)="avanzarPaso()">
+      <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+      {{ pasoActual < pasos.length - 1 ? 'Siguiente paso' : 'Finalizar' }}
+    </ion-button>
+  </ion-footer>
+</ion-content>

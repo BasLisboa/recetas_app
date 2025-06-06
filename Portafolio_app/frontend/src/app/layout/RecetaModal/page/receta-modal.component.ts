@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { PasosRecetasService } from 'src/app/core/services/pasos-recetas.service';
+import { PasosModalComponent } from 'src/app/layout/pasos-modal/page/pasos-modal.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,7 +15,7 @@ import { environment } from 'src/environments/environment';
 export class RecetaModalComponent implements OnInit {
   @Input() receta: any;
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController,  private pasosRecetasService: PasosRecetasService) {}
 
   cerrarModal() {
     this.modalCtrl.dismiss();
@@ -35,6 +37,18 @@ export class RecetaModalComponent implements OnInit {
     } else {
       alert('La función de compartir no está disponible en este navegador.');
     }
+  }
+
+  async iniciarPasoAPaso() {
+    const pasos = await this.pasosRecetasService
+      .obtenerPasos(this.receta.id_recetas)
+      .toPromise();
+
+    const modal = await this.modalCtrl.create({
+      component: PasosModalComponent,
+      componentProps: { pasos }
+    });
+    await modal.present();
   }
 
 }

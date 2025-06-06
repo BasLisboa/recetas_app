@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { ChatbotComponent } from 'src/app/layout/chatbot/pages/chatbot.component';
 
 
 @Component({
@@ -17,10 +18,11 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   templateUrl: './crear-receta-modal.component.html',
   styleUrls: ['./crear-receta-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule]
+  imports: [CommonModule, IonicModule, ReactiveFormsModule,ChatbotComponent]
 })
 export class CrearRecetaModalComponent implements OnInit {
 
+  showChat = false;
   formReceta!: FormGroup;
   selectedFile: File | null = null;
   previewImage: string | null = null;
@@ -111,4 +113,15 @@ export class CrearRecetaModalComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
 
+    
+  toggleChat() {
+    this.showChat = !this.showChat;
+  }
+
+  minimizarChat() {
+    this.showChat = false;
+  }
 }
+
+
+

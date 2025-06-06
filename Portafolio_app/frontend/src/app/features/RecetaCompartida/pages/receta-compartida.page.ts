@@ -37,4 +37,6 @@ export class RecetaCompartidaPage implements OnInit {
       });
     }
   }
+
+  
 }

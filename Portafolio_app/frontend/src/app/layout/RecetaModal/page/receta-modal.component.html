@@ -25,14 +25,16 @@
   </div>
 
   <div class="actions">
+    
     <ion-button expand="block" color="success" fill="solid" (click)="compartirReceta()">
       <ion-icon slot="start" name="qr-code-outline"></ion-icon>Compartir receta
     </ion-button>
 
 
-    <ion-button expand="block" color="secondary" fill="outline">
-      <ion-icon slot="start" name="list-outline"></ion-icon>
+    <ion-button expand="block" color="secondary" fill="outline" (click)="iniciarPasoAPaso()">
+    <ion-icon slot="start" name="list-outline"></ion-icon>
       Iniciar Paso a Paso
     </ion-button>
+
   </div>
 </ion-content>

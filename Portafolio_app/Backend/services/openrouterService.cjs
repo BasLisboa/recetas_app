@@ -3,7 +3,7 @@ const axios = require("axios");
 
 
 
-const API_KEY = "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"; // ⚠️ Guarda esto en variables de entorno en producción
+const API_KEY = "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"; // ⚠️ Guarda esto en variables de entorno en producción
 
 
 

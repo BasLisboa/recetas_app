@@ -40,3 +40,18 @@
 
   </form>
 </ion-content>
+
+<!-- Pelota flotante -->
+<div class="chatball" (click)="toggleChat()">
+  💬
+</div>
+
+<!-- Overlay para cerrar/minimizar el chat al click fuera -->
+<div 
+  class="chat-overlay" 
+  *ngIf="showChat" 
+  (click)="minimizarChat()">
+</div>
+
+<!-- Chatbot -->
+<app-chatbot [class.hidden]="!showChat"></app-chatbot>
