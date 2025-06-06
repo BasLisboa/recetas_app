@@ -1,4 +1,4 @@
-const baseUrl = 'https://somalia-expiration-strange-bold.trycloudflare.com';
+const baseUrl = 'https://enhancement-nat-argue-matched.trycloudflare.com';
 
 export const environment = {
   production: true,
