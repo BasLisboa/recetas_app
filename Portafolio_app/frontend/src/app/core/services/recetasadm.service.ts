@@ -76,25 +76,26 @@ export interface NutricionalReceta {
 
 @Injectable({ providedIn: 'root' })
 export class RecetasadmService {
-  //private apiUrl = 'http://localhost:3000/api/recetasadm';
+  /**
+   * Endpoint base para las operaciones de recetas de administración.
+   * Se construye a partir de la URL del backend definida en `environment`.
+   */
+  private apiUrl = `${environment.apiUrl}/recetasadm`;
 
   constructor(private http: HttpClient) {}
 
   listarDefault(): Observable<RecetaAdm[]> {
-    return this.http.get<RecetaAdm[]>(environment.apiUrl + '/recetasadm');
+    return this.http.get<RecetaAdm[]>(this.apiUrl);
   }
 
   buscarPorIngrediente(ingrediente: string): Observable<RecetaAdm[]> {
-
-    const url = `${environment.apiUrl}/recetasadm/buscar?ingrediente=${encodeURIComponent(ingrediente)}`;
+    const url = `${this.apiUrl}/buscar?ingrediente=${encodeURIComponent(ingrediente)}`;
     return this.http.get<RecetaAdm[]>(url);
   }
   /** Obtiene una receta por su id */
   obtenerPorId(id: number): Observable<RecetaAdm> {
-    const url = `${environment.apiUrl}/recetasadm/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http.get<RecetaAdm>(url);
-
-    return this.http.get<RecetaAdm[]>(`${this.apiUrl}/buscar?ingrediente=${ingrediente}`);
   }
 
   getDetalleReceta(id: number): Observable<RecetaDetalle> {
@@ -102,8 +103,7 @@ export class RecetasadmService {
   }
 
   getNutricionalReceta(id: number): Observable<NutricionalReceta> {
-    // AHORA apunta a /api/nutricional/${:id}
-    return this.http.get<NutricionalReceta>(`http://localhost:3000/api/nutricional/${id}`);
-
+    // Llama al endpoint que calcula la información nutricional de la receta
+    return this.http.get<NutricionalReceta>(`${environment.apiUrl}/nutricional/${id}`);
   }
 }
