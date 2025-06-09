@@ -1,8 +1,126 @@
-.active {
-  background: #def;
-  border-left: 4px solid #389;
+.pasos-modal-bg {
+  --background: linear-gradient(180deg, #e0f7fa 0%, #f1f8e9 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
-.done {
-  opacity: 0.5;
-  text-decoration: line-through;
+
+.stepper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0 16px 0;
+
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #cfd8dc;
+    color: #607d8b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin: 0 6px;
+    font-size: 1.1rem;
+    box-shadow: 0 1px 4px #607d8b33;
+    transition: 0.3s;
+
+    &.current {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      color: #fff;
+      font-size: 1.25rem;
+      box-shadow: 0 3px 12px #43e97b22;
+      border: 2.5px solid #36a2eb;
+      transform: scale(1.1);
+    }
+    &.done {
+      background: #36a2eb;
+      color: #fff;
+      opacity: 0.7;
+      border: 2px solid #43e97b;
+    }
+  }
+}
+
+.paso-contenido {
+  background: #fff;
+  border-radius: 18px;
+  margin: 0 18px 24px 18px;
+  padding: 28px 18px 20px 18px;
+  box-shadow: 0 4px 18px #36a2eb25;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  animation: fadeIn 0.55s;
+  h3 {
+    color: #36a2eb;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  p {
+    color: #222;
+    font-size: 1.08rem;
+    margin-bottom: 14px;
+    line-height: 1.45;
+  }
+  span {
+    color: #43e97b;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    ion-icon {
+      font-size: 1.2em;
+      margin-right: 4px;
+    }
+  }
+}
+
+.progreso-barra {
+  margin: 18px auto 18px auto;
+  width: 86%;
+  height: 9px;
+  background: #c8e6c9;
+  border-radius: 12px;
+  overflow: hidden;
+  .barra {
+    height: 100%;
+    background: linear-gradient(90deg, #43e97b 0%, #36a2eb 100%);
+    width: 0%;
+    border-radius: 12px;
+    transition: width 0.6s cubic-bezier(.55,0,.1,1);
+  }
+}
+
+.footer-animado {
+  box-shadow: 0 -2px 12px #36a2eb2c;
+  padding: 16px 18px 28px 18px;
+  background: transparent;
+  .btn-avanzar {
+    --background: linear-gradient(90deg, #36a2eb 0%, #43e97b 100%);
+    --border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: .01em;
+    box-shadow: 0 3px 18px #36a2eb44;
+    animation: bounceIn .5s;
+  }
+}
+
+/* Animaciones fade y bounce */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(24px);}
+  100% { opacity: 1; transform: translateY(0);}
+}
+.animate-fade-in {
+  animation: fadeIn 0.7s;
+}
+@keyframes bounceIn {
+  0% { transform: scale(.7);}
+  80% { transform: scale(1.1);}
+  100% { transform: scale(1);}
 }

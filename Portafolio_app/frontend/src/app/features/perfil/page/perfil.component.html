@@ -1,59 +1,68 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="toolbar-custom">
     <ion-title>Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="abrirModalEditar()">
+        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card class="user-card">
-    <ion-card-header>
-      <ion-avatar>
-        <img src="assets/avatar-default.png" />
-      </ion-avatar>
-      <!-- Cambiado para usar los campos reales del backend -->
-      <ion-card-title>{{ usuario.nombre_cliente || 'Nombre no disponible' }}</ion-card-title>
-      <ion-card-subtitle>{{ usuario.email || 'Email no disponible' }}</ion-card-subtitle>
-    </ion-card-header>
+<ion-content class="profile-bg">
+  <!-- CABECERA -->
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img [src]="usuario.avatar_url || 'assets/avatar-default.png'" />
+    </ion-avatar>
+    <div class="profile-user-info">
+      <h2>{{ usuario.nombre_cliente || 'Nombre no disponible' }}</h2>
+      <p>{{ usuario.email || 'Email no disponible' }}</p>
+    </div>
+  </div>
 
-    <ion-card-content *ngIf="mostrarCampos">
-      <ion-item lines="none">
-        <ion-label>Edad</ion-label>
-        <ion-note slot="end">{{ edad !== null ? edad + ' años' : 'No definida' }}</ion-note>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Sexo</ion-label>
-        <ion-note slot="end">{{ usuario.sexo || 'No definido' }}</ion-note>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Altura</ion-label>
-        <ion-note slot="end">{{ usuario.estatura || 'No definida' }} m</ion-note>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Peso</ion-label>
-        <ion-note slot="end">{{ usuario.peso || 'No definido' }} kg</ion-note>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>IMC</ion-label>
-        <ion-note slot="end">{{ imcValor }} ({{ categoriaIMC }})</ion-note>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Alergias</ion-label>
-        <ion-note slot="end">{{ usuario.alergias || 'Ninguna' }}</ion-note>
-      </ion-item>
-    </ion-card-content>
+  <!-- IMC -->
+  <div class="imc-graph-wrapper">
+    <canvas id="imcChart"></canvas>
+    <div class="imc-value">
+      <strong>{{ imcValor }}</strong>
+      <span>{{ categoriaIMC }}</span>
+    </div>
+  </div>
 
-    <ion-card-content *ngIf="!mostrarCampos">
-      <p style="text-align: center; color: gray;">Presiona "Editar Perfil" para mostrar los datos.</p>
-    </ion-card-content>
-  </ion-card>
+  <!-- LISTADO DE INFO -->
+  <ion-list class="profile-info-list">
+    <ion-item>
+      <ion-label>Edad</ion-label>
+      <ion-note slot="end">{{ edad ? edad + ' años' : 'No definida' }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>Sexo</ion-label>
+      <ion-note slot="end">{{ usuario.sexo || 'No definido' }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>Altura</ion-label>
+      <ion-note slot="end">{{ usuario.estatura || 'No definida' }} m</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>Peso</ion-label>
+      <ion-note slot="end">{{ usuario.peso || 'No definido' }} kg</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>Alergias</ion-label>
+      <ion-note slot="end">{{ usuario.alergias || 'Ninguna' }}</ion-note>
+    </ion-item>
+    <div class="charts">
+      <app-imc-chart [data]="imcChartData" [options]="imcChartOptions"></app-imc-chart>
+      <app-macro-chart [data]="macroChartData"></app-macro-chart>
+    </div>
+  </ion-list>
 
-  <!-- Acciones -->
-  <ion-button expand="block" fill="outline" color="success" (click)="abrirModalEditar()">
-    Editar Perfil
-  </ion-button>
-  <ion-button expand="block" fill="outline" color="medium">
-    Ver Historial de Recetas
-  </ion-button>
+  <div class="profile-actions">
+    <ion-button expand="block" color="primary" (click)="abrirModalEditar()">
+      <ion-icon slot="start" name="create-outline"></ion-icon>
+      Editar Perfil
+    </ion-button>
+  </div>
 </ion-content>
-
 <app-tab-menu></app-tab-menu>

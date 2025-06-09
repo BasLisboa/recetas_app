@@ -7,6 +7,8 @@ import { PerfilService } from 'src/app/core/services/perfil.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ModalController } from '@ionic/angular';
 import { ModalPerfilComponent } from 'src/app/layout/modal-perfil/pages/modal-perfil.component';
+import { ImcChartComponent } from './imc-chart.component';
+import { MacroChartComponent } from './macro-chart.component';
 
 
 @Component({
@@ -19,6 +21,8 @@ import { ModalPerfilComponent } from 'src/app/layout/modal-perfil/pages/modal-pe
     IonicModule,
     FormsModule,
     TabMenuComponent,
+    ImcChartComponent,
+    MacroChartComponent,
   ]
 })
 export class PerfilComponent {

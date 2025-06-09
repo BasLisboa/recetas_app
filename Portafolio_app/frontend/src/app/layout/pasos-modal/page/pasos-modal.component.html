@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Paso a Paso</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="cerrar()" fill="clear">
@@ -8,16 +8,35 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content>
-  <div *ngFor="let paso of pasos; let i = index" [class.active]="i === pasoActual" [class.done]="i < pasoActual">
-    <h3>Paso {{paso.numero_paso}}: {{paso.nombre_parte}}</h3>
-    <p>{{paso.descripcion_paso}}</p>
-    <span *ngIf="paso.duracion_paso">Duración: {{paso.duracion_paso}} min</span>
+
+<ion-content [fullscreen]="true" class="pasos-modal-bg">
+  <!-- Stepper visual -->
+  <div class="stepper">
+    <div *ngFor="let paso of pasos; let i = index" class="step-circle"
+         [class.current]="i === pasoActual" [class.done]="i < pasoActual">
+      <span>{{ i+1 }}</span>
+    </div>
   </div>
-  <ion-footer>
-    <ion-button expand="block" color="success" (click)="avanzarPaso()">
+
+  <!-- Animación fade entre pasos -->
+  <div class="paso-contenido animate-fade-in">
+    <h3>Paso {{pasos[pasoActual].numero_paso}}: {{pasos[pasoActual].nombre_parte}}</h3>
+    <p>{{pasos[pasoActual].descripcion_paso}}</p>
+    <span *ngIf="pasos[pasoActual].duracion_paso">
+      <ion-icon name="time-outline"></ion-icon>
+      {{pasos[pasoActual].duracion_paso}} min
+    </span>
+  </div>
+
+  <!-- Barra de progreso -->
+  <div class="progreso-barra">
+    <div class="barra" [style.width.%]="(100*(pasoActual+1))/pasos.length"></div>
+  </div>
+
+  <ion-footer class="footer-animado">
+    <ion-button expand="block" size="large" color="success" (click)="avanzarPaso()" class="btn-avanzar">
       <ion-icon slot="start" name="checkmark-outline"></ion-icon>
-      {{ pasoActual < pasos.length - 1 ? 'Siguiente paso' : 'Finalizar' }}
+      {{ pasoActual < pasos.length - 1 ? 'Siguiente paso' : '¡Terminar!' }}
     </ion-button>
   </ion-footer>
 </ion-content>
