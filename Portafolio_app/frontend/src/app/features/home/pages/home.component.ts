@@ -51,7 +51,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadDefault(); // Carga inicial de recetas por defecto
 
     this.routerSub = this.router.events.pipe(
-      filter(evt => evt instanceof NavigationEnd && (evt as NavigationEnd).urlAfterRedirects === '/home')
+      filter(evt => evt instanceof NavigationEnd && (evt as NavigationEnd).urlAfterRedirects === '/home'
+)
     ).subscribe(() => {
       this.loadDefault();
     });

@@ -5,8 +5,8 @@ const db = require('../config/db.cjs');
 async function crearReceta(req, res){
   console.log("entro a crearReceta en backend");
   
-  const { nombre_receta, tiempo, descripcion_receta, id_tipo_creador, id_usuario_creador, imagen_url } = req.body;
-  console.log('➡️ Datos recibidos:', { nombre_receta, tiempo, descripcion_receta, id_tipo_creador, id_usuario_creador, imagen_url });
+  const { nombre_receta, tiempo, descripcion_receta, id_tipo_creador, id_usuario_creador, imagen_url, pasos } = req.body;
+  console.log('➡️ Datos recibidos:', { nombre_receta, tiempo, descripcion_receta, id_tipo_creador, id_usuario_creador, imagen_url, pasos });
 
   if (!nombre_receta || !tiempo || !descripcion_receta || !id_tipo_creador || !id_usuario_creador || !imagen_url) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' });
@@ -24,6 +24,11 @@ async function crearReceta(req, res){
       const id = results[0].id_recetas;
 
       await subirImagen(imagen_url, id , nombre_receta);
+
+      // Insertar pasos si vienen en la petición
+      if (Array.isArray(pasos) && pasos.length > 0) {
+        await insertarPasos(id, pasos);
+      }
 
       res.status(201).json({ success: true });     
       console.log('✅ receta guardada correctamente');
@@ -70,7 +75,23 @@ async function subirImagen(url, id, nom_receta){
 }
 
 
+async function insertarPasos(idReceta, pasos) {
+  for (let i = 0; i < pasos.length; i++) {
+    const descripcion = typeof pasos[i] === 'string' ? pasos[i] : pasos[i].descripcion_paso;
+    const numero = i + 1;
+    try {
+      await db.query(
+        `INSERT INTO pasos_recetas (id_recetas, numero_paso, descripcion_paso) VALUES (?, ?, ?)`,
+        [idReceta, numero, descripcion]
 
+      );
+      console.log('✅ Paso guardado correctamente');
+    } catch (error) {
+      console.error('❌ Error al insertar paso:', error);
+      throw error;
+    }
+  }
+}
 
 
 
@@ -92,5 +113,6 @@ module.exports = {
     crearReceta,
     subirImagen,
     consultarID,
-    subirReceta
+    subirReceta,
+    insertarPasos
 };

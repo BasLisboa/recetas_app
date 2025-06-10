@@ -12,8 +12,8 @@
 <ion-content class="ion-padding">
   <form [formGroup]="formReceta" (ngSubmit)="crearReceta()">
     
-    <ion-item>
-      <ion-label position="floating">Nombre de la receta</ion-label>
+    <ion-item class="input-item">
+      <ion-label position="floating" color="primary">Nombre de la receta</ion-label>
       <ion-input formControlName="nombre_receta" type="text"></ion-input>
     </ion-item>
 
@@ -34,6 +34,22 @@
 
     <ion-img *ngIf="previewImage" [src]="previewImage"></ion-img>
 
+    <div formArrayName="pasos">
+      <ion-reorder-group (ionItemReorder)="reorderPasos($event)" [disabled]="false">
+        <ion-item *ngFor="let paso of pasos.controls; let i=index" [formGroupName]="i">
+          <ion-reorder slot="start"></ion-reorder>
+          <ion-label class="ion-padding-end">{{i + 1}}</ion-label>
+          <ion-textarea formControlName="descripcion_paso" autoGrow="true" placeholder="Descripción del paso"></ion-textarea>
+          <ion-button fill="clear" color="danger" (click)="removePaso(i)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-reorder-group>
+      <ion-button expand="block" (click)="addPaso()" class="ion-margin-top">
+        Añadir Paso
+      </ion-button>
+    </div>
+    
     <ion-button expand="full" color="success" type="submit">
       Guardar Receta
     </ion-button>

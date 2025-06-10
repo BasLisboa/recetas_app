@@ -1,68 +1,74 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="modal-toolbar">
     <ion-title>Editar Perfil</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="cancelar()">Cerrar</ion-button>
+      <ion-button fill="clear" (click)="cancelar()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true" class="profile-modal-bg ion-padding">
   <form [formGroup]="perfilForm" (ngSubmit)="guardar()" class="formulario-perfil">
-    <ion-card>
-      <ion-card-content>
 
-        <ion-list lines="none">
+    <div class="profile-modal-card animate-pop">
+      <h2 class="profile-modal-title">
+        <ion-icon name="person-circle-outline"></ion-icon>
+        ¡Actualiza tus datos!
+      </h2>
 
-          <ion-item>
-            <ion-label position="floating">Nombre</ion-label>
-            <ion-input formControlName="nombre_cliente" type="text"></ion-input>
-          </ion-item>
+      <ion-list lines="none" class="profile-modal-list">
 
-          <ion-item>
-            <ion-label position="floating">Apellidos</ion-label>
-            <ion-input formControlName="apellidos_cliente" type="text"></ion-input>
-          </ion-item>
+        <ion-item [class.animated-focus]="focusedIndex===0" (focusin)="focusItem(0)" (focusout)="blurItem()">
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input formControlName="nombre_cliente" type="text"></ion-input>
+        </ion-item>
 
-          <ion-item>
-            <ion-label position="stacked">Fecha de nacimiento</ion-label>
-            <ion-datetime
-              presentation="date"
-              formControlName="fecha_nacimiento"
-              prefer-wheel="false"
-            ></ion-datetime>
-          </ion-item>
+        <ion-item [class.animated-focus]="focusedIndex===1" (focusin)="focusItem(1)" (focusout)="blurItem()">
+          <ion-label position="floating">Apellidos</ion-label>
+          <ion-input formControlName="apellidos_cliente" type="text"></ion-input>
+        </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Sexo</ion-label>
-            <ion-select formControlName="sexo" interface="popover" placeholder="Selecciona sexo">
-              <ion-select-option *ngFor="let sexo of sexos" [value]="sexo">{{ sexo }}</ion-select-option>
-            </ion-select>
-          </ion-item>
+        <ion-item [class.animated-focus]="focusedIndex===2" (focusin)="focusItem(2)" (focusout)="blurItem()">
+          <ion-label position="stacked">Fecha de nacimiento</ion-label>
+          <ion-datetime
+            presentation="date"
+            formControlName="fecha_nacimiento"
+            prefer-wheel="false">
+          </ion-datetime>
+        </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Alergias</ion-label>
-            <ion-textarea formControlName="alergias" auto-grow="true" placeholder="Por ejemplo: gluten, maní..."></ion-textarea>
-          </ion-item>
+        <ion-item [class.animated-focus]="focusedIndex===3" (focusin)="focusItem(3)" (focusout)="blurItem()">
+          <ion-label position="floating">Sexo</ion-label>
+          <ion-select formControlName="sexo" interface="popover" placeholder="Selecciona sexo">
+            <ion-select-option *ngFor="let sexo of sexos" [value]="sexo">{{ sexo }}</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-          <ion-item>
+        <ion-item [class.animated-focus]="focusedIndex===4" (focusin)="focusItem(4)" (focusout)="blurItem()">
+          <ion-label position="floating">Alergias</ion-label>
+          <ion-textarea formControlName="alergias" auto-grow="true" placeholder="Por ejemplo: gluten, maní..."></ion-textarea>
+        </ion-item>
+
+        <div class="profile-modal-row">
+          <ion-item class="half-width" [class.animated-focus]="focusedIndex===5" (focusin)="focusItem(5)" (focusout)="blurItem()">
             <ion-label position="floating">Peso (kg)</ion-label>
             <ion-input formControlName="peso" type="number" step="0.1"></ion-input>
           </ion-item>
-
-          <ion-item>
+          <ion-item class="half-width" [class.animated-focus]="focusedIndex===6" (focusin)="focusItem(6)" (focusout)="blurItem()">
             <ion-label position="floating">Estatura (m)</ion-label>
             <ion-input formControlName="estatura" type="number" step="0.01"></ion-input>
           </ion-item>
+        </div>
+      </ion-list>
 
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-footer class="footer-form">
-      <ion-button expand="block" type="submit" color="success" size="large">
-        Guardar Cambios
-      </ion-button>
-    </ion-footer>
+      <div class="modal-footer-btn">
+        <ion-button expand="block" type="submit" color="primary" size="large" [disabled]="!perfilForm.valid">
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          Guardar Cambios
+        </ion-button>
+      </div>
+    </div>
   </form>
 </ion-content>

@@ -1,4 +1,4 @@
-const baseUrl = 'https://root-unions-ronald-seniors.trycloudflare.com';
+const baseUrl = 'https://rail-inns-adjustable-warm.trycloudflare.com';
 
 export const environment = {
   production: true,

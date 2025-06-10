@@ -114,4 +114,10 @@ export class ModalEditarRecetaComponent implements OnInit {
   cancelar() {
     this.modalCtrl.dismiss(null);
   }
+
+
+  focusedIndex: number|null = null;
+  focusItem(idx:number) { this.focusedIndex = idx; }
+  blurItem() { this.focusedIndex = null; }
+
 }

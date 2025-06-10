@@ -23,7 +23,7 @@ export class MisRecetasService {
 
   crearReceta(data: any): Observable<any> {
     console.log("Datos enviados a backend:", data);
-  return this.http.post(`${environment.apiUrl}/CrearReceta/`, data);
+    return this.http.post(`${environment.apiUrl}/CrearReceta/`, data);
   } 
 
   editarReceta(data: any): Observable<any> {

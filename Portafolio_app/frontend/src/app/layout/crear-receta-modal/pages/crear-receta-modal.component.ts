@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { MisRecetasService } from 'src/app/core/services/mis-recetas.service';
 import { NavController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Firebase
@@ -40,9 +40,11 @@ export class CrearRecetaModalComponent implements OnInit {
     this.formReceta = this.fb.group({
       nombre_receta: ['', [Validators.required]],
       tiempo: ['', [Validators.required]],
-      descripcion_receta: ['', [Validators.required]]
+      descripcion_receta: ['', [Validators.required]],
+      pasos: this.fb.array([])
     });
 
+    this.addPaso();
 
     const token = localStorage.getItem('token');
     if (token) {
@@ -67,6 +69,39 @@ export class CrearRecetaModalComponent implements OnInit {
     }
   }
 
+    get pasos(): FormArray {
+    return this.formReceta.get('pasos') as FormArray;
+  }
+
+  addPaso() {
+    const paso = this.fb.group({
+      numero_paso: [this.pasos.length + 1],
+      descripcion_paso: ['', Validators.required]
+    });
+    this.pasos.push(paso);
+  }
+
+  removePaso(index: number) {
+    this.pasos.removeAt(index);
+    this.actualizarNumeros();
+  }
+
+  reorderPasos(ev: any) {
+    const from = ev.detail.from;
+    const to = ev.detail.to;
+    const item = this.pasos.at(from);
+    this.pasos.removeAt(from);
+    this.pasos.insert(to, item);
+    this.actualizarNumeros();
+    ev.detail.complete();
+  }
+
+  private actualizarNumeros() {
+    this.pasos.controls.forEach((ctrl, idx) => {
+      ctrl.get('numero_paso')?.setValue(idx + 1);
+    });
+  }
+
   crearReceta() {
     if (!this.selectedFile) {
       alert('Por favor selecciona una imagen');
@@ -88,8 +123,17 @@ export class CrearRecetaModalComponent implements OnInit {
         task.snapshotChanges().pipe(
           finalize(() => {
             this.storage.ref(filePath).getDownloadURL().subscribe(downloadURL => {
+              const pasos = this.pasos.controls.map((ctrl, idx) => ({
+                numero_paso: idx + 1,
+                descripcion_paso: ctrl.get('descripcion_paso')?.value
+              }));
+
+              const { nombre_receta, tiempo, descripcion_receta } = this.formReceta.value;
               const receta = {
-                ...this.formReceta.value,
+                nombre_receta,
+                tiempo,
+                descripcion_receta,
+                pasos,
                 id_tipo_creador: 2,
                 id_usuario_creador: this.idUsuario,
                 imagen_url: downloadURL

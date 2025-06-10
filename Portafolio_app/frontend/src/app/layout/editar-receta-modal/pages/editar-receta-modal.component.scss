@@ -1,0 +1,130 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+ion-content {
+  --background: linear-gradient(180deg, #f4fafd 0%, #e0f7fa 100%);
+  min-height: 100vh;
+  animation: fadein .7s cubic-bezier(.7,.2,.1,1);
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(40px);}
+  to   { opacity: 1; transform: none; }
+}
+
+.formulario-perfil {
+  display: flex;
+  flex-direction: column;
+  height: 85%;
+  align-items: stretch;
+  margin: 0;
+
+  ion-card {
+    background: #fff;
+    border-radius: 22px;
+    margin: 22px 8px 18px 8px;
+    box-shadow: 0 8px 28px #22d2fa17;
+    animation: up-in .6s cubic-bezier(.6,.4,.1,1);
+
+    @keyframes up-in {
+      from { opacity: 0; transform: scale(.96) translateY(32px);}
+      to   { opacity: 1; transform: none;}
+    }
+
+    ion-card-content {
+      padding: 22px 6px 10px 6px;
+    }
+  }
+
+  ion-list {
+    background: transparent;
+  }
+
+  ion-item {
+    --background: transparent;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 0 #0abdc96b;
+    transition: box-shadow .2s;
+    animation: slideIn .5s;
+    @keyframes slideIn {
+      from {opacity:0; transform:translateY(20px);}
+      to {opacity:1; transform:none;}
+    }
+    &.item-has-focus {
+      box-shadow: 0 2px 0 #22d2fa;
+    }
+  }
+
+  ion-label {
+    font-weight: 600;
+    color: #1897d3;
+    letter-spacing: .03em;
+    transition: color .2s;
+  }
+
+  ion-input,
+  ion-textarea {
+    --highlight-color-focused: #22d2fa;
+    --color: #1d4259;
+    font-size: 1.04rem;
+    transition: border-color .18s;
+  }
+
+  // Imagen actual
+  ion-label[ng-reflect-position="floating"] + ion-img {
+    display: block;
+    margin: 10px auto 20px auto;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px #0abdc933;
+    border: 2.5px solid #36e99a;
+    max-width: 180px;
+    max-height: 160px;
+    transition: box-shadow .25s, border-color .22s;
+    animation: fadeinImg .7s;
+    @keyframes fadeinImg {
+      from { opacity: 0; transform: scale(.92);}
+      to   { opacity: 1; transform: none;}
+    }
+  }
+
+  input[type="file"] {
+    margin-top: 8px;
+    font-size: 1.02rem;
+    background: transparent;
+    border: none;
+    color: #0abdc9;
+  }
+}
+
+.footer-form {
+  background: transparent !important;
+  padding: 0 20px 32px 20px;
+
+  ion-button {
+    --background: linear-gradient(90deg, #0abdc9, #36e99a 70%);
+    --color: #fff;
+    --box-shadow: 0 2px 12px #22d2fa3b;
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 1.08rem;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    transition: box-shadow .2s, transform .2s;
+    letter-spacing: 0.05em;
+    &:hover { box-shadow: 0 8px 32px #36e99a42; transform: scale(1.03);}
+  }
+}
+
+/* Animación para feedback de foco en items (opcional, si quieres) */
+ion-item.animated-focus {
+  animation: focusPulse .25s;
+}
+@keyframes focusPulse {
+  0% { box-shadow: 0 2px 0 #22d2fa, 0 0 0 0 #36e99a22; }
+  70% { box-shadow: 0 2px 0 #36e99a, 0 0 6px 2px #22d2fa44;}
+  100% { box-shadow: 0 2px 0 #22d2fa, 0 0 0 0 #36e99a22;}
+}
+

@@ -1,0 +1,184 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+/* Fondo suave con glassmorphism */
+ion-content {
+  --background: linear-gradient(180deg, #f6f8fc 0%, #d7eaff 100%);
+}
+
+
+/* Barra superior personalizada */
+.toolbar-custom {
+  --background: linear-gradient(90deg, #36a2eb 0%, #43e97b 100%);
+  --color: #fff;
+  box-shadow: 0 2px 14px #36a2eb19;
+  font-weight: bold;
+}
+
+/* Formulario con tarjeta flotante */
+form {
+  background: rgba(255,255,255,0.83);
+  border-radius: 22px;
+  box-shadow: 0 6px 28px #36a2eb33;
+  margin: 30px auto 18px auto;
+  padding: 26px 16px 28px 16px;
+  max-width: 420px;
+  position: relative;
+  animation: modal-fade-in .7s cubic-bezier(.7,0,.2,1);
+
+  ion-item {
+    --background: transparent;
+    --highlight-color-focused: #36a2eb;
+    border-radius: 14px;
+    margin-bottom: 18px;
+
+    ion-label {
+      color: #1976d2;
+      font-weight: 600;
+      font-size: 1.06rem;
+      letter-spacing: 0.01em;
+    }
+    ion-input, ion-textarea {
+      font-size: 1.06rem;
+      color: #37474f;
+      --placeholder-color: #bbb;
+      padding-left: 3px;
+    }
+  }
+
+  /* Estilo input imagen */
+  input[type="file"] {
+    margin: 8px 0 0 0;
+    font-size: 0.95rem;
+    border: none;
+    background: transparent;
+    color: #1976d2;
+    cursor: pointer;
+  }
+
+  /* Imagen previsualizada con animación */
+  ion-img, img.preview {
+    width: 80%;
+    max-width: 300px;
+    min-height: 160px;
+    display: block;
+    margin: 18px auto 22px auto;
+    border-radius: 22px;
+    box-shadow: 0 4px 16px #43e97b36;
+    object-fit: cover;
+    background: #e1f5fe;
+    animation: fadeInImg 1s;
+    border: 3px solid #43e97b;
+  }
+
+  /* Botón guardar receta */
+  ion-button {
+    --background: linear-gradient(90deg, #36a2eb 0%, #43e97b 100%);
+    --border-radius: 16px;
+    --box-shadow: 0 2px 12px #43e97b44;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+    margin-top: 18px;
+    transition: transform .14s;
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* Animaciones */
+@keyframes modal-fade-in {
+  0% { opacity: 0; transform: translateY(48px) scale(.96);}
+  100% { opacity: 1; transform: none;}
+}
+@keyframes fadeInImg {
+  from { opacity: 0; transform: scale(.9);}
+  to { opacity: 1; transform: scale(1);}
+}
+
+/* Chatball (pelota flotante de ayuda) */
+.chatball {
+  position: fixed;
+  right: 28px;
+  bottom: 92px;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(145deg, #43e97b 60%, #36a2eb 100%);
+  color: #fff;
+  font-size: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 18px #43e97b59;
+  cursor: pointer;
+  z-index: 30;
+  transition: transform 0.18s, box-shadow 0.18s;
+  border: 3px solid #fff;
+  &:hover {
+    transform: scale(1.07);
+    box-shadow: 0 8px 32px #36a2eb99;
+  }
+  animation: bounceIn .6s;
+}
+@keyframes bounceIn {
+  0% { transform: scale(.7);}
+  80% { transform: scale(1.11);}
+  100% { transform: scale(1);}
+}
+
+/* Overlay de chat */
+.chat-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(33,44,77,0.15);
+  z-index: 25;
+  animation: fadeIn 0.5s;
+}
+
+/* Chatbot animado */
+app-chatbot {
+  position: fixed;
+  bottom: 30px; right: 26px;
+  width: 345px; max-width: 96vw; min-height: 340px;
+  z-index: 32;
+  box-shadow: 0 8px 44px #36a2eb3c;
+  border-radius: 18px;
+  transition: opacity .3s, transform .3s;
+  background: #fff;
+  &.hidden { opacity: 0; pointer-events: none; transform: scale(.94);}
+  animation: fadeIn .55s;
+}
+
+@media (max-width: 600px) {
+  app-chatbot, .chatball { right: 8px; }
+  app-chatbot { width: 95vw; }
+}
+
+/* Sombras y detalles visuales para modal */
+.close-btn {
+  --color: #fff;
+  --background: transparent;
+  font-size: 1.3em;
+}
+
+/* Mejorar el enfoque de los campos */
+ion-item.ion-focused {
+  --highlight-color-focused: #43e97b;
+  box-shadow: 0 1px 8px #36a2eb29;
+}
+
+::-webkit-input-placeholder { color: #a5c6d6; }
+:-moz-placeholder { color: #a5c6d6; }
+::-moz-placeholder { color: #a5c6d6; }
+:-ms-input-placeholder { color: #a5c6d6; }
+
+/* Barra de scroll personalizada */
+ion-content::-webkit-scrollbar { width: 6px;}
+ion-content::-webkit-scrollbar-thumb {
+  background: #36a2eb55;
+  border-radius: 5px;
+}

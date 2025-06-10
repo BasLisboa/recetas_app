@@ -1,52 +1,62 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Editar receta</ion-title>
+  <ion-toolbar style="--background:linear-gradient(90deg,#0abdc9,#36e99a);">
+    <ion-title style="color:#fff;">Editar receta</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="cancelar()">Cerrar</ion-button>
+      <ion-button fill="clear" (click)="cancelar()" color="light">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true" class="ion-padding">
+
   <form [formGroup]="RecetaForm" (ngSubmit)="guardar()" class="formulario-perfil">
+
     <ion-card>
       <ion-card-content>
-
         <ion-list lines="none">
 
-          <ion-item>
-            <ion-label position="floating">Nombre receta</ion-label>
+          <ion-item 
+            [class.animated-focus]="focusedIndex===0" 
+            (focusin)="focusItem(0)" 
+            (focusout)="blurItem()">
+            <ion-label position="floating" color="primary">Nombre receta</ion-label>
             <ion-input formControlName="nombre_receta" type="text"></ion-input>
           </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Tiempo preparacion</ion-label>
+          <ion-item 
+            [class.animated-focus]="focusedIndex===1" 
+            (focusin)="focusItem(1)" 
+            (focusout)="blurItem()">
+            <ion-label position="floating" color="primary">Tiempo preparación</ion-label>
             <ion-input formControlName="tiempo" type="text"></ion-input>
           </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Descripción</ion-label>
+          <ion-item 
+            [class.animated-focus]="focusedIndex===2" 
+            (focusin)="focusItem(2)" 
+            (focusout)="blurItem()">
+            <ion-label position="floating" color="primary">Descripción</ion-label>
             <ion-textarea formControlName="descripcion_receta" autoGrow="true"></ion-textarea>
           </ion-item>
-          
-          <ion-label position="floating">Imagen actual</ion-label>
-          <ion-img *ngIf="previewImage" [src]="previewImage"></ion-img>
+
+          <ion-label class="ion-margin-top" color="primary">Imagen actual</ion-label>
+          <ion-img *ngIf="previewImage" [src]="previewImage" class="preview-img"></ion-img>
 
           <ion-item lines="none">
-            <ion-label>Imagen </ion-label>
+            <ion-label color="primary">Nueva Imagen</ion-label>
             <input type="file" (change)="onFileSelected($event)" accept="image/*" />
           </ion-item>
-          
-          
 
         </ion-list>
       </ion-card-content>
     </ion-card>
-
-    <ion-footer class="footer-form">
-      <ion-button expand="block" type="submit" color="success" size="large">
-        Guardar Cambios
-      </ion-button>
-    </ion-footer>
   </form>
+
+  <ion-footer class="footer-form ion-no-border" style="background: transparent;">
+    <ion-button expand="block" type="submit" color="success" size="large" [disabled]="RecetaForm.invalid" (click)="guardar()">
+      Guardar Cambios
+    </ion-button>
+  </ion-footer>
 </ion-content>

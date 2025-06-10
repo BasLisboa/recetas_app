@@ -71,4 +71,15 @@ export class ModalPerfilComponent  implements OnInit {
   cancelar() {
     this.modalCtrl.dismiss(null); // Cierra sin guardar
   }
+
+focusedIndex: number | null = null;
+
+focusItem(idx: number) {
+  this.focusedIndex = idx;
+}
+
+blurItem() {
+  this.focusedIndex = null;
+}
+
 }
