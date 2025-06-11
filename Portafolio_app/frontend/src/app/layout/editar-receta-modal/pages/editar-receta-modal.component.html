@@ -49,6 +49,22 @@
             <input type="file" (change)="onFileSelected($event)" accept="image/*" />
           </ion-item>
 
+           <div formArrayName="pasos" class="ion-margin-top">
+            <ion-reorder-group (ionItemReorder)="reorderPasos($event)" [disabled]="false">
+              <ion-item *ngFor="let paso of pasos.controls; let i = index" [formGroupName]="i">
+                <ion-reorder slot="start"></ion-reorder>
+                <ion-label class="ion-padding-end">{{i + 1}}</ion-label>
+                <ion-textarea formControlName="descripcion_paso" autoGrow="true" placeholder="Descripción del paso"></ion-textarea>
+                <ion-button fill="clear" color="danger" (click)="removePaso(i)">
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-reorder-group>
+            <ion-button expand="block" (click)="addPaso()" class="ion-margin-top">
+              Añadir Paso
+            </ion-button>
+          </div>
+
         </ion-list>
       </ion-card-content>
     </ion-card>

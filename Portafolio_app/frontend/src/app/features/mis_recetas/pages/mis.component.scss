@@ -1,105 +1,150 @@
-ion-content {
-  --background: #f9f9f6;
-  --padding-bottom: 60px;
-  overflow: auto;
+@import '~@ionic/angular/css/core.css';
+
+.misrecetas-bg {
+  --background: linear-gradient(120deg, #f8fafc 0%, #eaf6fb 100%);
+  min-height: 100vh;
+  padding-bottom: 90px;
 }
 
-ion-toolbar {
-  --background: #2e7d32;
-  --color: #ffffff;
-}
-
-ion-title {
+.toolbar-mis {
+  --background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+  --color: #fff;
   font-weight: bold;
-  font-size: 1.2rem;
+}
+
+.misrecetas-title {
+  margin: 18px 0 6px 16px;
+  color: #1a5d56;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  animation: fadeIn 1s;
+}
+
+.recetas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  gap: 20px;
+  padding: 10px 14px 32px 14px;
 }
 
 .receta-card {
-  background-color: #a3d9a5;
-  border-radius: 16px;
-  color: #2e7d32;
-  margin: 12px auto;
-  padding: 12px;
-  width: 95%;
-  max-width: 600px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 22px #12c2e966;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow .23s, transform .17s;
+  animation: fadeInUp 0.6s both;
+  cursor: pointer;
+
+  &:hover, &:focus-within {
+    box-shadow: 0 14px 34px #43e97b3a;
+    transform: translateY(-5px) scale(1.03);
+    .card-overlay { opacity: 1; }
+  }
+  &:active { transform: scale(.98);}
 }
 
-.receta-card:hover {
-  transform: scale(1.01);
+.receta-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 152px;
+  overflow: hidden;
+  background: linear-gradient(90deg,#e5f7fa,#b3f6d8);
+
+  .receta-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 0 16px 16px;
+    transition: filter .22s;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #38f9d7cc 20%, #43e97bcc 80%);
+    opacity: 0;
+    display: flex;
+    align-items: center; justify-content: center;
+    transition: opacity .25s;
+    color: #fff;
+    font-size: 2.2rem;
+    pointer-events: none;
+  }
 }
 
-.receta-contenido {
+.receta-info {
+  padding: 13px 16px 3px 16px;
+  h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.13rem;
+    color: #168478;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .receta-tiempo {
+    color: #38b6ff;
+    font-size: 0.98rem;
+    font-weight: 500;
+    ion-icon { margin-right: 2px; }
+  }
+}
+
+.receta-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
-}
-
-.receta-img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 12px;
-  flex-shrink: 0;
-  border: 2px solid #ececec;
-}
-
-.receta-texto {
-  flex: 1;
-}
-
-ion-card-title {
-  color: #1b5e20;
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-ion-card-content p {
-  margin: 2px 0;
-  font-size: 0.85rem;
-  color: #2e7d32;
-}
-
-.info p {
-  margin: 2px 0;
-  font-size: 0.85rem;
-  color: #2e7d32;
-}
-
-.botones {
-  display: flex;
+  justify-content: flex-end;
   gap: 8px;
-  margin-top: 6px;
+  padding: 8px 12px 14px 12px;
+
+  ion-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    --border-radius: 12px;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px #38f9d744;
+    transition: background .13s;
+    --color: #168478;
+  }
+  ion-button[color="danger"] {
+    --color: #ef5350;
+  }
 }
 
-ion-button {
-  --padding-start: 0;
-  --padding-end: 0;
-  --icon-color: #2e7d32;
-  --background: transparent;
-  font-size: 1.2rem;
+.fab-custom {
+  background: linear-gradient(135deg,#43e97b 30%,#38f9d7 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px #38f9d7aa;
+  border-radius: 50% !important;
+  font-size: 1.5rem;
+  transition: transform .13s;
+  &:active { transform: scale(0.93);}
 }
 
-ion-button[color='danger'] {
-  --color: #e57373;
-}
-
-ion-fab-button {
-  background-color: #2e7d32;
-  color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-ion-fab {
-  bottom: 120px !important;
-}
-
-.contenido-detalle {
+.empty-message {
+  grid-column: 1/-1;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  margin-top: 4px;
+  opacity: 0.7;
+  margin-top: 36px;
+  font-size: 1.12rem;
+  color: #90a4ae;
+  animation: fadeIn 1.1s;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(32px);} to {opacity:1;transform:none;} }
+
+@media (max-width: 520px) {
+  .recetas-grid { grid-template-columns: 1fr; }
+}
+
+app-tab-menu {
+  box-shadow: 0 -2px 8px #38f9d733;
 }

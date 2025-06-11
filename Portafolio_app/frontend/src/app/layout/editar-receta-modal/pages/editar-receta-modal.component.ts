@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MisRecetasService } from 'src/app/core/services/mis-recetas.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { PasosRecetasService } from 'src/app/core/services/pasos-recetas.service';
 
 @Component({
   selector: 'app-editar-receta-modal',
@@ -26,14 +27,16 @@ export class ModalEditarRecetaComponent implements OnInit {
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private recetaService: MisRecetasService,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private pasosService: PasosRecetasService
   ) {}
 
   ngOnInit() {
     this.RecetaForm = this.fb.group({
       nombre_receta: ['', [Validators.required]],
       tiempo: ['', [Validators.required]],
-      descripcion_receta: ['', [Validators.required]]
+      descripcion_receta: ['', [Validators.required]],
+      pasos: this.fb.array([])
     });
 
     // Cargar datos existentes de la receta
@@ -52,6 +55,22 @@ export class ModalEditarRecetaComponent implements OnInit {
         const payload = JSON.parse(atob(token.split('.')[1]));
         this.idUsuario = payload.id;
       }
+
+      // Cargar pasos existentes
+      this.pasosService.obtenerPasos(this.receta.id_recetas).subscribe((pasos) => {
+        if (pasos.length === 0) {
+          this.addPaso();
+        } else {
+          pasos.forEach((p) => {
+            this.pasos.push(
+              this.fb.group({
+                numero_paso: [p.numero_paso],
+                descripcion_paso: [p.descripcion_paso, Validators.required]
+              })
+            );
+          });
+        }
+      });
     }
   }
 
@@ -68,6 +87,39 @@ export class ModalEditarRecetaComponent implements OnInit {
     }
   }
 
+  get pasos(): FormArray {
+    return this.RecetaForm.get('pasos') as FormArray;
+  }
+
+  addPaso() {
+    const paso = this.fb.group({
+      numero_paso: [this.pasos.length + 1],
+      descripcion_paso: ['', Validators.required]
+    });
+    this.pasos.push(paso);
+  }
+
+  removePaso(index: number) {
+    this.pasos.removeAt(index);
+    this.actualizarNumeros();
+  }
+
+  reorderPasos(ev: any) {
+    const from = ev.detail.from;
+    const to = ev.detail.to;
+    const item = this.pasos.at(from);
+    this.pasos.removeAt(from);
+    this.pasos.insert(to, item);
+    this.actualizarNumeros();
+    ev.detail.complete();
+  }
+
+  private actualizarNumeros() {
+    this.pasos.controls.forEach((ctrl, idx) => {
+      ctrl.get('numero_paso')?.setValue(idx + 1);
+    });
+  }
+
   guardar() {
     if (this.RecetaForm.invalid) {
       alert('Por favor, completa todos los campos requeridos.');
@@ -80,6 +132,11 @@ export class ModalEditarRecetaComponent implements OnInit {
       id_usuario_creador: this.idUsuario
     };
 
+    const pasosData = this.pasos.controls.map((ctrl, idx) => ({
+      numero_paso: idx + 1,
+      descripcion_paso: ctrl.get('descripcion_paso')?.value
+    }));
+
     // Si se ha seleccionado una nueva imagen, la subimos
     if (this.selectedFile) {
       const filePath = `recetas/${Date.now()}_${this.selectedFile.name}`;
@@ -90,22 +147,26 @@ export class ModalEditarRecetaComponent implements OnInit {
           this.storage.ref(filePath).getDownloadURL().subscribe(downloadURL => {
             recetaActualizada.imagen_url = downloadURL;
 
-            this.enviarActualizacion(recetaActualizada);
+            this.enviarActualizacion(recetaActualizada, pasosData);
           });
         })
       ).subscribe();
     } else {
       // No hay imagen nueva
-      this.enviarActualizacion(recetaActualizada);
+      this.enviarActualizacion(recetaActualizada, pasosData);
     }
   }
 
-  enviarActualizacion(receta: any) {
+  enviarActualizacion(receta: any, pasos: any[]) {
 
     console.log(receta.idUsuario);
 
     this.recetaService.editarReceta(receta).subscribe(() => {
-      this.modalCtrl.dismiss(receta); // Devolver receta actualizada
+      this.pasosService.actualizarPasos(receta.id_recetas, pasos).subscribe(() => {
+        this.modalCtrl.dismiss(receta);
+      }, err => {
+        console.error('Error al actualizar pasos:', err);
+      });
     }, error => {
       console.error('Error al actualizar la receta:', error);
     });

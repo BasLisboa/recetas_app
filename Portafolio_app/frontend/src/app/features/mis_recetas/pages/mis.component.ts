@@ -9,6 +9,8 @@ import { RecetaModalComponent } from 'src/app/layout/RecetaModal/page/receta-mod
 import { CrearRecetaModalComponent } from 'src/app/layout/crear-receta-modal/pages/crear-receta-modal.component';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ModalEditarRecetaComponent } from 'src/app/layout/editar-receta-modal/pages/editar-receta-modal.component';
+import { trigger, transition, style, animate } from '@angular/animations';
+
 
 interface Receta {
   id_recetas: string;
@@ -32,6 +34,14 @@ interface Receta {
     RecetaModalComponent,
     CrearRecetaModalComponent,
     ModalEditarRecetaComponent,
+  ],
+  animations: [
+    trigger('cardAnim', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(28px) scale(.96)' }),
+        animate('400ms cubic-bezier(.26,.53,.74,1.48)', style({ opacity: 1, transform: 'none' }))
+      ])
+    ])
   ]
 })
 export class MisComponent implements OnInit {

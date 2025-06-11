@@ -1,57 +1,65 @@
 <ion-header>
-  <ion-toolbar class="toolbar-custom">
-    <ion-title>Perfil</ion-title>
+  <ion-toolbar class="toolbar-profile">
+    <ion-title>
+      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+      Perfil
+    </ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="abrirModalEditar()">
-        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+      <ion-button fill="clear" (click)="abrirModalEditar()" class="edit-btn">
+        <ion-icon name="settings-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="profile-bg">
-  <!-- CABECERA -->
-  <div class="profile-header">
-    <ion-avatar class="profile-avatar">
-      <img [src]="usuario.avatar_url || 'assets/avatar-default.png'" />
-    </ion-avatar>
+<ion-content class="profile-bg" [fullscreen]="true">
+  <!-- CABECERA CON AVATAR -->
+  <div class="profile-header animate-in">
+    <div class="avatar-shadow">
+      <ion-avatar class="profile-avatar">
+        <img [src]="usuario.avatar_url || 'assets/avatar-default.png'" />
+      </ion-avatar>
+    </div>
     <div class="profile-user-info">
       <h2>{{ usuario.nombre_cliente || 'Nombre no disponible' }}</h2>
       <p>{{ usuario.email || 'Email no disponible' }}</p>
     </div>
   </div>
 
-  <!-- IMC -->
-  <div class="imc-graph-wrapper">
-    <canvas id="imcChart"></canvas>
-    <div class="imc-value">
-      <strong>{{ imcValor }}</strong>
-      <span>{{ categoriaIMC }}</span>
+  <!-- DATOS CLAVE E IMC -->
+  <div class="profile-cards-row">
+    <div class="profile-card imc animate-card">
+      <div class="imc-chart-circle">
+        <span class="imc-value">{{ imcValor }}</span>
+        <span class="imc-label">{{ categoriaIMC }}</span>
+      </div>
+      <div class="imc-chart-caption">IMC</div>
+    </div>
+    <div class="profile-card animate-card">
+      <div class="profile-card-label">Edad</div>
+      <div class="profile-card-value">{{ edad ? edad + ' años' : 'No definida' }}</div>
+    </div>
+    <div class="profile-card animate-card">
+      <div class="profile-card-label">Peso</div>
+      <div class="profile-card-value">{{ usuario.peso || '--' }} <span>kg</span></div>
+    </div>
+    <div class="profile-card animate-card">
+      <div class="profile-card-label">Estatura</div>
+      <div class="profile-card-value">{{ usuario.estatura || '--' }} <span>m</span></div>
     </div>
   </div>
 
-  <!-- LISTADO DE INFO -->
-  <ion-list class="profile-info-list">
-    <ion-item>
-      <ion-label>Edad</ion-label>
-      <ion-note slot="end">{{ edad ? edad + ' años' : 'No definida' }}</ion-note>
-    </ion-item>
+  <!-- LISTA DE INFORMACIÓN DETALLADA -->
+  <ion-list class="profile-info-list animate-in">
     <ion-item>
       <ion-label>Sexo</ion-label>
       <ion-note slot="end">{{ usuario.sexo || 'No definido' }}</ion-note>
     </ion-item>
     <ion-item>
-      <ion-label>Altura</ion-label>
-      <ion-note slot="end">{{ usuario.estatura || 'No definida' }} m</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-label>Peso</ion-label>
-      <ion-note slot="end">{{ usuario.peso || 'No definido' }} kg</ion-note>
-    </ion-item>
-    <ion-item>
       <ion-label>Alergias</ion-label>
       <ion-note slot="end">{{ usuario.alergias || 'Ninguna' }}</ion-note>
     </ion-item>
+    <!-- Puedes agregar aquí más info relevante -->
     <div class="charts">
       <app-imc-chart [data]="imcChartData" [options]="imcChartOptions"></app-imc-chart>
       <app-macro-chart [data]="macroChartData"></app-macro-chart>
@@ -59,7 +67,7 @@
   </ion-list>
 
   <div class="profile-actions">
-    <ion-button expand="block" color="primary" (click)="abrirModalEditar()">
+    <ion-button expand="block" color="primary" (click)="abrirModalEditar()" class="pulse">
       <ion-icon slot="start" name="create-outline"></ion-icon>
       Editar Perfil
     </ion-button>

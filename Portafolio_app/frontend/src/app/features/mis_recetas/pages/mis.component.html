@@ -1,43 +1,49 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="toolbar-mis">
     <ion-title>Mis Recetas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-
-  <ion-card *ngFor="let receta of misRecetas" class="receta-card"  (click)="verDetalles(receta)">
-    <div class="receta-contenido">
-    <img [src]="receta.imagen_url" alt="Imagen de la receta" class="receta-img" />
-
-      <div class="receta-texto">
-        <ion-card-header>
-          <ion-card-title>{{ receta.nombre_receta }}</ion-card-title>
-        </ion-card-header>        
-        <ion-card-content class="contenido-detalle">
-          <div class="info">
-            <p><strong>Tiempo:</strong> {{ receta.tiempo }}</p>
-          </div>
-
-          <div class="botones">
-            <ion-button fill="clear" (click)="editarReceta(receta); $event.stopPropagation()">
-              <ion-icon name="create-outline"></ion-icon>
-            </ion-button>
-            <ion-button fill="clear" color="danger" (click)="eliminarReceta(receta); $event.stopPropagation()">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </ion-card-content>
+<ion-content class="misrecetas-bg" fullscreen>
+  <h2 class="misrecetas-title">Tus creaciones</h2>
+  <div class="recetas-grid">
+    <ion-card 
+      *ngFor="let receta of misRecetas; let i = index" 
+      class="receta-card" 
+      [@cardAnim]
+      (click)="verDetalles(receta)">
+      <div class="receta-img-wrapper">
+        <img [src]="receta.imagen_url || 'assets/placeholder.jpg'" alt="Imagen de la receta" class="receta-img" />
+        <div class="card-overlay">
+          <ion-icon name="eye-outline"></ion-icon>
+        </div>
       </div>
+      <div class="receta-info">
+        <h3>{{ receta.nombre_receta }}</h3>
+        <span class="receta-tiempo">
+          <ion-icon name="timer-outline"></ion-icon> {{ receta.tiempo || '--' }}
+        </span>
+      </div>
+      <div class="receta-actions">
+        <ion-button fill="clear" color="primary" size="small" (click)="editarReceta(receta); $event.stopPropagation()" shape="round">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" size="small" (click)="eliminarReceta(receta); $event.stopPropagation()" shape="round">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card>
+    <div *ngIf="!misRecetas.length" class="empty-message animate-in">
+      <img src="assets/empty-cook.png" alt="Sin recetas" width="90" height="90" style="opacity:0.8">
+      <p>Aún no has creado recetas.<br>¡Pulsa el botón <strong>+</strong> para agregar la primera!</p>
     </div>
-  </ion-card>
+  </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="agregarReceta()" style="--background: #c3edc0;">
+    <ion-fab-button class="fab-custom" (click)="agregarReceta()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
 </ion-content>
 
 <app-tab-menu></app-tab-menu>

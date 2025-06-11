@@ -21,4 +21,11 @@ export class PasosRecetasService {
       `${environment.apiUrl}/pasos-recetas/${idReceta}`
     );
   }
+
+  actualizarPasos(idReceta: string, pasos: any[]): Observable<any> {
+    return this.http.put(
+      `${environment.apiUrl}/pasos-recetas/${idReceta}`,
+      { pasos }
+    );
+  }
 }
