@@ -11,6 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/home/pages/home.component')
         .then(m => m.HomeComponent)
@@ -24,12 +25,12 @@ const routes: Routes = [
   },
   {
     path: 'tab',
-    //canActivate: [authGuard], 
+    canActivate: [authGuard], 
     loadChildren: () => import('./layout/tab-menu/tab-menu.module').then(m => m.TabMenuModule),  
   },
   {
     path: 'mis',
-    //canActivate: [authGuard], 
+    canActivate: [authGuard], 
     loadChildren: () => import('./features/mis_recetas/mis.module').then( m => m.MisPageModule)
   },
   {
@@ -41,7 +42,7 @@ const routes: Routes = [
 
   {
     path: 'perfil',
-    //canActivate: [authGuard], 
+    canActivate: [authGuard], 
     loadChildren: () => import('./features/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
 

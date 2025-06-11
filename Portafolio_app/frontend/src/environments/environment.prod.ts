@@ -1,4 +1,4 @@
-const baseUrl = 'https://strength-livestock-vietnamese-contests.trycloudflare.com';
+const baseUrl = 'https://bl-santa-concluded-turning.trycloudflare.com';
 
 export const environment = {
   production: true,
