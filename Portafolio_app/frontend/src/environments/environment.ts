@@ -2,7 +2,7 @@
 // Configuración de entorno para desarrollo
 // Este archivo puede ser reemplazado por environment.prod.ts para producción usando fileReplacements en angular.json
 
-const baseUrl = 'https://rail-inns-adjustable-warm.trycloudflare.com';
+const baseUrl = 'https://incorrect-decrease-istanbul-figured.trycloudflare.com';
 
 export const environment = {
   production: false,

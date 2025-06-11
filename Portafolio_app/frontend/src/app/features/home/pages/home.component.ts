@@ -34,6 +34,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private routerSub!: Subscription; // Suscripción para eventos de navegación
 
+
+  //Carousel Hero
+  carouselItems = [
+    { image: 'assets/carousel/slide1.jpg', title: '¡Bienvenido a Cookwell!', subtitle: 'Recetas saludables, fáciles y rápidas' },
+    { image: 'assets/carousel/slide2.jpg', title: 'Descubre y comparte', subtitle: 'Comparte tus mejores recetas con la comunidad' },
+    { image: 'assets/carousel/slide3.jpg', title: 'Come sano', subtitle: 'Aprovecha lo que tienes a mano' },
+  ];
+  carouselIndex = 0;
+  carouselInterval: any;
+  
   constructor(
     private recetasService: RecetasadmService, // Inyección del servicio de recetas
     private router: Router // Inyección del router para navegación
@@ -101,5 +111,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     // this.busquedaActiva = true; // Comentado: indicador de búsqueda activa
     this.recetasService.buscarPorIngrediente(this.textoBusqueda) // Llama al servicio con el texto de búsqueda
       .subscribe(list => this.recetas = list); // Actualiza lista de recetas con resultados
+  }
+
+  // Carrusel: ir a un slide específico
+  goToSlide(index: number) {
+    this.carouselIndex = index;
   }
 }

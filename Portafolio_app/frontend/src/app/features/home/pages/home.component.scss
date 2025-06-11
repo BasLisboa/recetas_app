@@ -1,108 +1,166 @@
-/* home.component.scss */
+@import '~@ionic/angular/css/core.css';
 
-/* Contenido principal con fondo blanco */
+// Fondo degradado general (¡no poner min-height aquí!)
 .home-content {
-  --background: #ffffff;
-  padding-bottom: 80px; /* deja espacio para el footer */
+  --background: linear-gradient(180deg, #f6f8fc 0%, #f5fff9 100%);
+  padding-bottom: 72px; // Solo lo necesario
 }
 
-/* --- Encabezado verde con logo + título en línea y centrados --- */
-.header-wrapper {
-  background-color: #53d938;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;        /* separación entre logo y texto */
-  padding: 16px;    /* autopadding uniforme */
-}
-
-/* Logo: tamaño reducido para encajar en la misma línea */
-.logo-img {
-  width: 38px;
-  height: 38px;
-  object-fit: contain;
-  object-position: center;
-}
-
-/* Título: centrado, sin quebrarse en varias líneas */
-.header-title {
-  color: #ffffff;
-  font-size: 1.2rem;
-  font-weight: bold;
-  white-space: nowrap;        /* fuerza una línea */
+/* HERO CARRUSEL */
+.hero-carousel {
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto 14px auto;
   overflow: hidden;
-  text-overflow: ellipsis;    /* recorta con “…” si es muy largo */
-  margin: 0;
+  position: relative;
+  border-radius: 20px;
+  box-shadow: 0 2px 20px #53e3fa33;
+  background: #fff;
+  .carousel-track {
+    display: flex;
+    transition: transform 0.7s cubic-bezier(0.45,0,0.55,1);
+    will-change: transform;
+  }
+  .carousel-slide {
+    min-width: 100%;
+    position: relative;
+    background: linear-gradient(90deg, #e5f7fa 60%, #b3f6d8 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px 28px 16px;
+    img {
+      width: 120px; height: 120px; object-fit: cover;
+      border-radius: 16px; box-shadow: 0 2px 16px #a2e4fd44;
+      margin-bottom: 10px;
+      animation: float 2s ease-in-out infinite alternate;
+    }
+    .slide-caption {
+      text-align: center;
+      h2 {
+        margin: 0 0 6px 0;
+        color: #1976d2;
+        font-weight: 700;
+        font-size: 1.25rem;
+        letter-spacing: 0.01em;
+      }
+      p {
+        margin: 0;
+        color: #388e3c;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+    }
+  }
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: -10px;
+    margin-bottom: 8px;
+    span {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #b3e5fc;
+      margin: 0 3px; cursor: pointer;
+      transition: background 0.3s;
+      &.active { background: #1976d2; }
+    }
+  }
+}
+@keyframes float {
+  to { transform: translateY(-10px) scale(1.04);}
 }
 
-/* --- Tarjeta de búsqueda --- */
+/* Search */
 .search-card {
-  background: #ffffff;
-  margin: -24px 16px 16px;
-  padding: 16px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  margin: -20px 18px 18px;
+  padding: 18px;
+  border-radius: 20px;
+  box-shadow: 0 4px 18px #62e6ff1c;
+  animation: fadeIn 1s both;
 }
 
 .search-card ion-searchbar {
-  --background: #f5f5f5;
-  --border-radius: 12px;
-  color: #306d24;
+  --background: #f5f8fa;
+  --border-radius: 14px;
+  color: #1976d2;
+  --icon-color: #38e4c7;
 }
-
 .search-button {
-  margin-top: 12px;
-  --background: #51b13e;
-  color: #ffffff;
+  margin-top: 10px;
+  --background: linear-gradient(90deg, #36e99a 50%, #53e3fa 100%);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px #36e99a33;
+  transition: transform 0.12s;
 }
+.search-button:active { transform: scale(0.97); }
 
-/* --- Grid de cards --- */
+/* Cards grid */
 .recipe-card {
-  margin: 8px;
+  margin: 12px 4px 16px 4px;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px #1976d211;
+  overflow: hidden;
+  animation: fadeInUp 0.6s both;
+  transition: box-shadow 0.25s, transform 0.16s;
   cursor: pointer;
+  background: #fff;
+  &:hover, &:focus-within {
+    box-shadow: 0 8px 32px #1976d244;
+    transform: translateY(-4px) scale(1.02);
+  }
+}
+.card-image-wrapper {
+  width: 100%; height: 165px;
+  overflow: hidden;
+  background: linear-gradient(90deg,#e5f7fa,#b3f6d8);
+  display: flex; align-items: center; justify-content: center;
+  img, ion-img { width: 100%; height: 100%; object-fit: cover; }
+}
+ion-card-header {
+  text-align: left;
+  padding: 8px 10px 4px 10px;
+  background: transparent;
+}
+ion-card-title {
+  color: #1976d2;
+  font-weight: 700;
+  font-size: 1.04rem;
+}
+ion-button[fill="clear"][color="primary"] {
+  margin: 2px 0 8px 0;
+  font-weight: 600;
+  --color: #1976d2;
+  --background-hover: #e3f2fd;
+  border-radius: 10px;
+  transition: background 0.16s;
 }
 
-/* --- Footer transparente y sin sombra --- */
+/* Animaciones */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(24px);} to {opacity:1;transform:none;} }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(34px);} to {opacity:1;transform:none;} }
+.animate-in { animation: fadeIn 1s; }
+.animate-card { animation: fadeInUp 0.5s both; }
+
+/* Footer */
 ion-footer ion-toolbar {
-  --background: #ffffff;
+  --background: #fff;
   box-shadow: none;
+  border-top: 1.5px solid #e5e7eb;
+  padding: 0;
 }
 
-/* --- Mensaje de sección personalizado --- */
-.b-title {
-  color: #51b13e;
-}
-
-.section-message {
-  text-align: center;
-  padding: 8px 16px;
-  margin: 16px 0;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.section-message.found {
-  color: #51b13e;
-}
-
-.section-message.not-found {
-  color: #51b13e;
-}
-.recipe-card .card-image {
-  width: 100%;
-  height: 180px;        /* ajusta a la altura que gustes */
-  object-fit: cover;    /* recorta la imagen manteniendo proporción */
-  display: block;
-}
-
-
+/* Chatball */
 .chatball {
   position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  background-color: #28a745;
+  bottom: 86px;
+  right: 22px;
+  width: 54px; height: 54px;
+  background: linear-gradient(135deg, #36e99a, #53e3fa 70%);
   color: white;
   font-size: 30px;
   border-radius: 50%;
@@ -110,26 +168,44 @@ ion-footer ion-toolbar {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: 1001; /* Muy alto para que quede encima de todo */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 900; // menor que el footer!
+  box-shadow: 0 2px 12px #53e3fa33;
   user-select: none;
+  animation: bounceIn 1s;
 }
+@keyframes bounceIn {
+  0% { transform: scale(0.7); opacity: 0;}
+  70% { transform: scale(1.1);}
+  100% { transform: scale(1); opacity: 1;}
+}
+.chatball:active { transform: scale(0.95);}
+.chat-overlay { z-index: 899;}
 
-/* El chat debe tener un z-index menor */
+/* Chatbot */
 app-chatbot {
   position: fixed;
-  bottom: 80px; /* para que no tape la bola */
-  right: 20px;
-  width: 320px;
-  height: 400px;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  border-radius: 8px;
+  bottom: 85px; right: 22px;
+  width: 320px; height: 400px;
+  z-index: 899;
+  box-shadow: 0 2px 16px #36e99a44;
+  border-radius: 12px;
   background: white;
   display: flex;
   flex-direction: column;
+  animation: fadeInUp 0.5s;
+}
+.hidden { display: none !important; }
+
+/* Otros */
+.section-title, .section-message { text-align: center; margin: 24px 0 10px 0; }
+.section-title { color: #36e99a; font-size: 1.2rem; font-weight: bold; }
+.section-message.found { color: #1976d2;}
+.section-message.not-found { color: #ef5350;}
+
+@media (max-width: 500px) {
+  .hero-carousel { max-width: 100%; }
+  app-chatbot { width: 96vw; min-width: 90vw; }
 }
 
-.hidden {
-  display: none !important;
-}
+/* Extra: nunca toques app-tab-menu aquí ni le pongas position fixed a menos que lo quieras siempre encima. */
+
