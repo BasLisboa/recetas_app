@@ -182,3 +182,13 @@ ion-content::-webkit-scrollbar-thumb {
   background: #36a2eb55;
   border-radius: 5px;
 }
+
+/* Chips de ingredientes seleccionados */
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+ion-chip {
+  margin: 4px;
+}

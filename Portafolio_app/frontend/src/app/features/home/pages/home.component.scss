@@ -79,6 +79,9 @@
   border-radius: 20px;
   box-shadow: 0 4px 18px #62e6ff1c;
   animation: fadeIn 1s both;
+  ion-segment {
+    margin-bottom: 10px;
+  }
 }
 
 .search-card ion-searchbar {

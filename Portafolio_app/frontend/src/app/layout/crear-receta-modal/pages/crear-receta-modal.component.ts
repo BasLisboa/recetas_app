@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, AlertController } from '@ionic/angular';
 import { MisRecetasService } from 'src/app/core/services/mis-recetas.service';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // Firebase
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ChatbotComponent } from 'src/app/layout/chatbot/pages/chatbot.component';
+import { IngredientesService } from 'src/app/core/services/ingredientes.service';
 
 
 @Component({
@@ -18,8 +19,10 @@ import { ChatbotComponent } from 'src/app/layout/chatbot/pages/chatbot.component
   templateUrl: './crear-receta-modal.component.html',
   styleUrls: ['./crear-receta-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule,ChatbotComponent]
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule, ChatbotComponent]
 })
+
+
 export class CrearRecetaModalComponent implements OnInit {
 
   showChat = false;
@@ -27,13 +30,19 @@ export class CrearRecetaModalComponent implements OnInit {
   selectedFile: File | null = null;
   previewImage: string | null = null;
   idUsuario: string = '';
+  ingredienteBuscado = '';
+  ingredientes: string[] = [];
+  alertaNoEncontrado = false;
+
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private recetaService: MisRecetasService,
     private navCtrl: NavController,
     private storage: AngularFireStorage,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private ingredientesService: IngredientesService,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -164,6 +173,26 @@ export class CrearRecetaModalComponent implements OnInit {
 
   minimizarChat() {
     this.showChat = false;
+  }
+
+
+  buscarIngredientes() {
+    const termino = this.ingredienteBuscado.trim();
+    if (!termino) {
+      this.ingredientes = [];
+      return;
+    }
+    this.ingredientesService.buscarIngredientes(termino).subscribe({
+      next: (lista) => {
+        this.ingredientes = lista;
+        if (lista.length === 0) {
+          this.alertaNoEncontrado = true;
+        }
+      },
+      error: (err) => {
+        console.error('Error al buscar ingredientes:', err);
+      }
+    });
   }
 }
 

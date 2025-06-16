@@ -21,7 +21,9 @@ export class RecetaModalComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('🧾 Receta recibida en modal:', this.receta);
+  }
 
   compartirReceta() {
     if (navigator.share) {

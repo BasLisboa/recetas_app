@@ -1,4 +1,4 @@
-const baseUrl = 'https://bl-santa-concluded-turning.trycloudflare.com';
+const baseUrl = 'https://hearing-arch-stanford-warnings.trycloudflare.com';
 
 export const environment = {
   production: true,

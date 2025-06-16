@@ -34,6 +34,22 @@
 
     <ion-img *ngIf="previewImage" [src]="previewImage"></ion-img>
 
+    <ion-item>
+      <ion-label position="floating">Buscar ingrediente</ion-label>
+      <ion-input [(ngModel)]="ingredienteBuscado" (ionBlur)="buscarIngredientes()"></ion-input>
+    </ion-item>
+
+    <ion-list *ngIf="ingredientes.length">
+      <ion-item *ngFor="let ing of ingredientes">{{ ing }}</ion-item>
+    </ion-list>
+
+    <ion-alert
+      [isOpen]="alertaNoEncontrado"
+      header="Ingrediente no encontrado"
+      message="El ingrediente ingresado no existe"
+      (didDismiss)="alertaNoEncontrado = false">
+    </ion-alert>
+
     <div formArrayName="pasos">
       <ion-reorder-group (ionItemReorder)="reorderPasos($event)" [disabled]="false">
         <ion-item *ngFor="let paso of pasos.controls; let i=index" [formGroupName]="i">

@@ -2,7 +2,7 @@
 // Configuración de entorno para desarrollo
 // Este archivo puede ser reemplazado por environment.prod.ts para producción usando fileReplacements en angular.json
 
-const baseUrl = 'https://bl-santa-concluded-turning.trycloudflare.com';
+const baseUrl = 'https://hearing-arch-stanford-warnings.trycloudflare.com';
 
 export const environment = {
   production: false,

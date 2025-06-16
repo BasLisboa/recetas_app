@@ -57,6 +57,37 @@ async function buscarRecetasPorIngrediente(req, res) {
     res.status(500).json({ message: 'Error interno' });
   }
 }
+
+async function buscarRecetasPorNombre(req, res) {
+  const nombre = req.query.nombre?.trim();
+  if (!nombre) {
+    return listarRecetasDefault(req, res);
+  }
+
+  const sql = `
+    SELECT
+      r.id_recetas   AS id,
+      r.nombre_receta,
+      COALESCE(MAX(img.ruta_imagen), '') AS imagen_url
+    FROM recetas r
+    LEFT JOIN imagenes img
+      ON img.id_recetas = r.id_recetas
+    WHERE r.nombre_receta COLLATE utf8_general_ci LIKE ?
+    GROUP BY r.id_recetas, r.nombre_receta
+    LIMIT 30
+  `;
+  const values = [`%${nombre}%`];
+
+  try {
+    const [rows] = await db.query(sql, values);
+    res.json(rows);
+  } catch (err) {
+    console.error('❌ Error al buscar recetas por nombre:', err);
+    res.status(500).json({ message: 'Error interno' });
+  }
+}
+
+
 async function getDetalleReceta(req, res) {
   const id = req.params.id_recetas;
   const sqlReceta = `
@@ -95,5 +126,6 @@ async function getDetalleReceta(req, res) {
 module.exports = {
   listarRecetasDefault,
   buscarRecetasPorIngrediente,
+  buscarRecetasPorNombre,
   getDetalleReceta
 };

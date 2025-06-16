@@ -21,8 +21,16 @@
 
   <!-- Buscador bonito -->
   <div class="search-card animate-in">
+    <ion-segment [(ngModel)]="tipoBusqueda" value="ingrediente">
+      <ion-segment-button value="ingrediente">
+        <ion-label>Ingrediente</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="nombre">
+        <ion-label>Receta</ion-label>
+      </ion-segment-button>
+    </ion-segment>
     <ion-searchbar
-      placeholder="Buscar ingrediente..."
+      [placeholder]="tipoBusqueda === 'ingrediente' ? 'Buscar ingrediente...' : 'Buscar receta...'"
       [(ngModel)]="textoBusqueda"
       (ionClear)="reset()"
       [animated]="true">
@@ -57,6 +65,7 @@
           <ion-card
             class="recipe-card animate-card"
             [@cardAnim]="i"
+            (click)="verDetalles(r)"
           >
             <div class="card-image-wrapper">
               <ion-img
@@ -69,7 +78,7 @@
             <ion-card-header>
               <ion-card-title>{{ r.nombre_receta }}</ion-card-title>
             </ion-card-header>
-            <ion-button expand="block" fill="clear" color="primary"><!--(click)="abrirModalReceta(r)"y-->
+            <ion-button expand="block" fill="clear" color="primary" >
               Ver Detalles
               <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
             </ion-button>
@@ -91,6 +100,7 @@
           <ion-card
             class="recipe-card animate-card"
             [@cardAnim]="i"
+            (click)="verDetalles(r)"
           >
             <div class="card-image-wrapper">
               <ion-img
@@ -103,7 +113,7 @@
             <ion-card-header>
               <ion-card-title>{{ r.nombre_receta }}</ion-card-title>
             </ion-card-header>
-            <ion-button expand="block" fill="clear" color="primary"> <!--(click)="abrirModalReceta(r)"-->
+            <ion-button expand="block" fill="clear" color="primary"> 
               Ver Detalles
               <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
             </ion-button>
