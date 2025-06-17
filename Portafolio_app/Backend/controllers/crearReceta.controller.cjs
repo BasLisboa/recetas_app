@@ -5,8 +5,8 @@ const db = require('../config/db.cjs');
 async function crearReceta(req, res){
   console.log("entro a crearReceta en backend");
   
-  const { nombre_receta, tiempo, descripcion_receta, id_tipo_creador, id_usuario_creador, imagen_url, pasos } = req.body;
-  console.log('➡️ Datos recibidos:', { nombre_receta, tiempo, descripcion_receta, id_tipo_creador, id_usuario_creador, imagen_url, pasos });
+  const { nombre_receta, tiempo, descripcion_receta, id_tipo_creador, id_usuario_creador, imagen_url, pasos, ingredientes } = req.body;
+  console.log('➡️ Datos recibidos:', { nombre_receta, tiempo, descripcion_receta, id_tipo_creador, id_usuario_creador, imagen_url, pasos, ingredientes });
 
   if (!nombre_receta || !tiempo || !descripcion_receta || !id_tipo_creador || !id_usuario_creador || !imagen_url) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' });
@@ -28,6 +28,21 @@ async function crearReceta(req, res){
       // Insertar pasos si vienen en la petición
       if (Array.isArray(pasos) && pasos.length > 0) {
         await insertarPasos(id, pasos);
+      }
+
+      // Insertar ingredientes si vienen en la petición
+      if (Array.isArray(ingredientes) && ingredientes.length > 0) {
+        for (const ing of ingredientes) {
+          try {
+            await db.query(
+              'INSERT INTO receta_ingrediente (id_recetas, id_ingrediente, id_medida, cantidad) VALUES (?, ?, ?, ?)',
+              [id, ing.id_ingrediente, ing.id_medida, ing.cantidad]
+            );
+          } catch (err) {
+            console.error('❌ Error al insertar ingrediente:', err);
+            throw err;
+          }
+        }
       }
 
       res.status(201).json({ success: true });     

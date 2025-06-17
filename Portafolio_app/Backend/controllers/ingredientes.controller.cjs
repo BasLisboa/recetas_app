@@ -32,6 +32,20 @@ async function buscarIngredientes(req, res) {
 
   console.log('🔍 Petición recibida para texto:', texto);
 }
+
+async function listarIngredientes(req, res) {
+  try {
+    const [results] = await db.query(
+      'SELECT id_ingrediente, nombre_ingrediente FROM ingredientes ORDER BY nombre_ingrediente'
+    );
+    res.status(200).json(results);
+  } catch (error) {
+    console.error('❌ [BACKEND] Error al listar ingredientes:', error);
+    res.status(500).json({ message: 'Error al obtener ingredientes' });
+  }
+}
+
 module.exports = {
-  buscarIngredientes
+  buscarIngredientes,
+  listarIngredientes
 };

@@ -62,6 +62,7 @@ export class ModalPerfilComponent  implements OnInit {
       const datos = { ...this.usuario, ...this.perfilForm.value, id_usuario: usuarioId };
 
       this.modalCtrl.dismiss(datos);
+      
     } else {
       alert('Por favor, completa los campos requeridos correctamente.');
     }

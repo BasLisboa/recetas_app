@@ -21,10 +21,12 @@ export class MisRecetasService {
     return this.http.delete(`${environment.apiUrl}/recetas/${idReceta}`);
   }
 
-  crearReceta(data: any): Observable<any> {
-    console.log("Datos enviados a backend:", data);
-    return this.http.post(`${environment.apiUrl}/CrearReceta/`, data);
-  } 
+  crearReceta(receta: any, ingredientes: any[]): Observable<any> {
+    const payload = { ...receta, ingredientes };
+    console.log('Datos enviados a backend:', payload);
+    return this.http.post(`${environment.apiUrl}/CrearReceta/`, payload);
+  }
+
 
   editarReceta(data: any): Observable<any> {
     return this.http.put(`${environment.apiUrl}/recetas/${data.id_recetas}`, data).pipe(

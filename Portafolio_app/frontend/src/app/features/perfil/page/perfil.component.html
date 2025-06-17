@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="profile-bg" [fullscreen]="true">
+<ion-content class="profile-bg ion-padding" scroll-y="true">
   <!-- CABECERA CON AVATAR -->
   <div class="profile-header animate-in">
     <div class="avatar-shadow">
@@ -71,6 +71,10 @@
       <ion-icon slot="start" name="create-outline"></ion-icon>
       Editar Perfil
     </ion-button>
+    <ion-button expand="block" class="logout-button" (click)="cerrarSesion()">
+      Cerrar Sesión
+    </ion-button>
   </div>
+
 </ion-content>
 <app-tab-menu></app-tab-menu>

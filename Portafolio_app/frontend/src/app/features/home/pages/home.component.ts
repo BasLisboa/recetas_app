@@ -60,9 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   //Carousel Hero
   carouselItems = [
-    { image: 'assets/carousel/slide1.jpg', title: '¡Bienvenido a Cookwell!', subtitle: 'Recetas saludables, fáciles y rápidas' },
-    { image: 'assets/carousel/slide2.jpg', title: 'Descubre y comparte', subtitle: 'Comparte tus mejores recetas con la comunidad' },
-    { image: 'assets/carousel/slide3.jpg', title: 'Come sano', subtitle: 'Aprovecha lo que tienes a mano' },
+    { image: '/assets/icon/logo.jpg', title: '¡Bienvenido a Cookwell!', subtitle: 'Recetas saludables, fáciles y rápidas' },
   ];
   carouselIndex = 0;
   carouselInterval: any;

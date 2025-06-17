@@ -1,4 +1,4 @@
-const baseUrl = 'https://hearing-arch-stanford-warnings.trycloudflare.com';
+const baseUrl = ' https://doug-mirror-theme-citation.trycloudflare.com';
 
 export const environment = {
   production: true,

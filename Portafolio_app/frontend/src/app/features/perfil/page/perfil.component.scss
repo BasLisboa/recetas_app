@@ -1,6 +1,6 @@
 .profile-bg {
   --background: linear-gradient(180deg, #e3fdfd 0%, #cbf1f5 80%);
-  min-height: 100vh;
+  min-height: 40vh;
   padding-bottom: 70px;
 }
 
@@ -172,4 +172,21 @@ app-tab-menu {
   .profile-header { padding-bottom: 6px;}
   .profile-card { min-width: 76px; min-height: 76px;}
   .charts { flex-direction: column; }
+}
+
+
+.logout-button {
+  --background: linear-gradient(90deg, #36e99a 0%, #53e3fa 100%);
+  --color: #fff;
+  --border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 12px;
+  box-shadow: 0 2px 12px rgba(67, 233, 123, 0.35);
+  transition: transform 0.2s ease-in-out;
+}
+
+
+.logout-button:active {
+  transform: scale(0.97);
 }

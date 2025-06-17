@@ -4,6 +4,11 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { PasosRecetasService } from 'src/app/core/services/pasos-recetas.service';
 import { PasosModalComponent } from 'src/app/layout/pasos-modal/page/pasos-modal.component';
 import { environment } from 'src/environments/environment';
+import {
+  IngredienteNutri,
+  RecetasadmService,
+} from 'src/app/core/services/recetasadm.service';
+
 
 @Component({
   selector: 'app-receta-modal',
@@ -14,8 +19,13 @@ import { environment } from 'src/environments/environment';
 })
 export class RecetaModalComponent implements OnInit {
   @Input() receta: any;
+  ingredientes: IngredienteNutri[] = [];
 
-  constructor(private modalCtrl: ModalController,  private pasosRecetasService: PasosRecetasService) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private pasosRecetasService: PasosRecetasService,
+    private recetasService: RecetasadmService
+  ) {}
 
   cerrarModal() {
     this.modalCtrl.dismiss();
@@ -23,6 +33,16 @@ export class RecetaModalComponent implements OnInit {
 
   ngOnInit() {
     console.log('🧾 Receta recibida en modal:', this.receta);
+    this.recetasService
+      .getNutricionalReceta(this.receta.id_recetas)
+      .subscribe({
+        next: (data) => {
+          this.ingredientes = data.detalle_ingredientes;
+        },
+        error: (err) => {
+          console.error('Error al cargar ingredientes:', err);
+        },
+      });
   }
 
   compartirReceta() {

@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ModalController, AlertController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { MisRecetasService } from 'src/app/core/services/mis-recetas.service';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 // Firebase
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ChatbotComponent } from 'src/app/layout/chatbot/pages/chatbot.component';
-import { IngredientesService } from 'src/app/core/services/ingredientes.service';
+import { IngredientesService, Ingrediente } from 'src/app/core/services/ingredientes.service';
 
 
 @Component({
@@ -30,9 +31,16 @@ export class CrearRecetaModalComponent implements OnInit {
   selectedFile: File | null = null;
   previewImage: string | null = null;
   idUsuario: string = '';
-  ingredienteBuscado = '';
-  ingredientes: string[] = [];
-  alertaNoEncontrado = false;
+  ingredientesDisponibles: Ingrediente[] = [];
+  ingredientesSeleccionados: { id_ingrediente: number; id_medida: number; cantidad: number; nombre_ingrediente: string; }[] = [];
+  ingredienteSeleccionado?: Ingrediente;
+  cantidadIngrediente = 1;
+  idMedida = 1;
+  unidadesMedida = [
+    { id: 1, nombre: 'unidad' },
+    { id: 2, nombre: 'gramos' },
+    { id: 3, nombre: 'tazas' }
+  ];
 
   constructor(
     private modalCtrl: ModalController,
@@ -42,7 +50,7 @@ export class CrearRecetaModalComponent implements OnInit {
     private storage: AngularFireStorage,
     private afAuth: AngularFireAuth,
     private ingredientesService: IngredientesService,
-    private alertController: AlertController
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -59,9 +67,14 @@ export class CrearRecetaModalComponent implements OnInit {
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.idUsuario = payload.id;
-      console.log("id usuario en recetas: ",this.idUsuario );
+      console.log('id usuario en recetas: ', this.idUsuario);
       
     }
+    // Cargar todos los ingredientes disponibles
+    this.ingredientesService.obtenerTodos().subscribe({
+      next: (lista) => (this.ingredientesDisponibles = lista),
+      error: (err) => console.error('Error al cargar ingredientes:', err)
+    });
   }
 
   onFileSelected(event: any) {
@@ -148,7 +161,7 @@ export class CrearRecetaModalComponent implements OnInit {
                 imagen_url: downloadURL
               };
 
-              this.recetaService.crearReceta(receta).subscribe(() => {
+              this.recetaService.crearReceta(receta, this.ingredientesSeleccionados).subscribe(() => {
                 this.navCtrl.navigateBack('/home');
               }, error => {
                 console.error('Error al crear receta:', error);
@@ -161,6 +174,10 @@ export class CrearRecetaModalComponent implements OnInit {
   }
 
 
+  getNombreMedida(id: number): string {
+    const medida = this.unidadesMedida.find(m => m.id === id);
+    return medida ? medida.nombre : 'unidad';
+  }
 
   cerrarModal() {
     this.modalCtrl.dismiss();
@@ -176,23 +193,26 @@ export class CrearRecetaModalComponent implements OnInit {
   }
 
 
-  buscarIngredientes() {
-    const termino = this.ingredienteBuscado.trim();
-    if (!termino) {
-      this.ingredientes = [];
+  agregarIngrediente() {
+    if (!this.ingredienteSeleccionado) {
       return;
     }
-    this.ingredientesService.buscarIngredientes(termino).subscribe({
-      next: (lista) => {
-        this.ingredientes = lista;
-        if (lista.length === 0) {
-          this.alertaNoEncontrado = true;
-        }
-      },
-      error: (err) => {
-        console.error('Error al buscar ingredientes:', err);
-      }
+    this.ingredientesSeleccionados.push({
+      id_ingrediente: this.ingredienteSeleccionado.id_ingrediente,
+      nombre_ingrediente: this.ingredienteSeleccionado.nombre_ingrediente,
+      id_medida: this.idMedida,
+      cantidad: this.cantidadIngrediente,
     });
+    this.ingredienteSeleccionado = undefined;
+    this.cantidadIngrediente = 1;
+  }
+
+  eliminarIngrediente(index: number) {
+    this.ingredientesSeleccionados.splice(index, 1);
+  }
+
+  GuardadoOK(){
+    this.router.navigate(['perfil']);
   }
 }
 

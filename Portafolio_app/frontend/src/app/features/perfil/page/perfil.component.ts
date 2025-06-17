@@ -9,7 +9,7 @@ import { ModalController } from '@ionic/angular';
 import { ModalPerfilComponent } from 'src/app/layout/modal-perfil/pages/modal-perfil.component';
 import { ImcChartComponent } from './imc-chart.component';
 import { MacroChartComponent } from './macro-chart.component';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -41,6 +41,7 @@ export class PerfilComponent {
     private alertController: AlertController,
     private perfilService: PerfilService,
     private modalCtrl: ModalController,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -217,5 +218,11 @@ export class PerfilComponent {
       this.currentModal = null;
     }
   }
+
+  cerrarSesion() {
+    this.authService.logout();
+    this.router.navigate(['auth/login']);
+  }
+
 
 }

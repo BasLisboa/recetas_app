@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { buscarIngredientes } = require('../controllers/ingredientes.controller.cjs'); // o ingredientes.controller si lo separas
+const { buscarIngredientes, listarIngredientes } = require('../controllers/ingredientes.controller.cjs');
 
 router.get('/buscar', buscarIngredientes);
-
+router.get('/', listarIngredientes);
 module.exports = router;

@@ -12,6 +12,8 @@
 <ion-content class="ion-padding">
   <form [formGroup]="formReceta" (ngSubmit)="crearReceta()">
     
+    <h5 style="color: black;">Datos de la receta</h5>
+
     <ion-item class="input-item">
       <ion-label position="floating" color="primary">Nombre de la receta</ion-label>
       <ion-input formControlName="nombre_receta" type="text"></ion-input>
@@ -33,22 +35,45 @@
     </ion-item>
 
     <ion-img *ngIf="previewImage" [src]="previewImage"></ion-img>
+    <br>
+    <br>
+    <h5 style="color: black;">Ingredientes receta</h5>
 
     <ion-item>
-      <ion-label position="floating">Buscar ingrediente</ion-label>
-      <ion-input [(ngModel)]="ingredienteBuscado" (ionBlur)="buscarIngredientes()"></ion-input>
+      <ion-label position="floating">Ingrediente</ion-label>
+      <ion-select [(ngModel)]="ingredienteSeleccionado" [ngModelOptions]="{standalone: true}" style="color: black;">
+        <ion-select-option *ngFor="let ing of ingredientesDisponibles" [value]="ing">{{ ing.nombre_ingrediente }}</ion-select-option>
+      </ion-select>
     </ion-item>
 
-    <ion-list *ngIf="ingredientes.length">
-      <ion-item *ngFor="let ing of ingredientes">{{ ing }}</ion-item>
-    </ion-list>
+    <ion-item>
+      <ion-label position="floating">Unidad</ion-label>
+      <ion-select [(ngModel)]="idMedida" style="color: black;">
+        <ion-select-option *ngFor="let u of unidadesMedida" [value]="u.id">{{ u.nombre }}</ion-select-option>
+      </ion-select>
+    </ion-item>
 
-    <ion-alert
-      [isOpen]="alertaNoEncontrado"
-      header="Ingrediente no encontrado"
-      message="El ingrediente ingresado no existe"
-      (didDismiss)="alertaNoEncontrado = false">
-    </ion-alert>
+    <ion-item>
+      <ion-label position="floating">Cantidad</ion-label>
+      <ion-input type="number" [(ngModel)]="cantidadIngrediente" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+
+
+    <ion-button expand="block" (click)="agregarIngrediente()">Agregar ingrediente</ion-button>
+
+    <!-- Chips visuales con animación y estilo -->
+    <div class="chips-container animate-in">
+      <ion-chip *ngFor="let sel of ingredientesSeleccionados; let i = index" color="success" outline>
+        <ion-label>
+          {{ sel.nombre_ingrediente }} – {{ sel.cantidad }} {{ getNombreMedida(sel.id_medida) }}
+        </ion-label>
+        <ion-icon name="close-circle" (click)="eliminarIngrediente(i)" color="danger"></ion-icon>
+      </ion-chip>
+    </div>
+    
+    <br>
+    <br>
+    <h5 style="color: black;">Pasos de las receta</h5>
 
     <div formArrayName="pasos">
       <ion-reorder-group (ionItemReorder)="reorderPasos($event)" [disabled]="false">
@@ -66,7 +91,7 @@
       </ion-button>
     </div>
     
-    <ion-button expand="full" color="success" type="submit">
+    <ion-button expand="full" color="success" type="submit" (click)="GuardadoOK">
       Guardar Receta
     </ion-button>
 

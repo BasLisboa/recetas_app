@@ -64,8 +64,8 @@
       </ion-list>
 
       <div class="modal-footer-btn">
-        <ion-button expand="block" type="submit" color="primary" size="large" [disabled]="!perfilForm.valid">
-          <ion-icon name="save-outline" slot="start"></ion-icon>
+        <ion-button expand="block" type="submit" color="primary" size="large">
+          <ion-icon name="save-outline" slot="start" (click)="guardar()"></ion-icon>
           Guardar Cambios
         </ion-button>
       </div>

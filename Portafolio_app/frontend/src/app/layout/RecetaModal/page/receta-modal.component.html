@@ -22,19 +22,30 @@
 
     <h2 class="subtitulo">Descripción</h2>
     <p class="descripcion-text">{{ receta?.descripcion_receta }}</p>
-  </div>
 
-  <div class="actions">
-    
-    <ion-button expand="block" color="success" fill="solid" (click)="compartirReceta()">
-      <ion-icon slot="start" name="qr-code-outline"></ion-icon>Compartir receta
-    </ion-button>
+    <div *ngIf="ingredientes.length" class="ingredient-list">
+      <h2 class="subtitulo">Ingredientes</h2>
+      <ion-list lines="none">
+        <ion-item *ngFor="let ing of ingredientes" class="ingredient-item">
+          <ion-icon slot="start" name="leaf-outline"></ion-icon>
+          <ion-label>
+            {{ ing.nombre_ingrediente }}: {{ ing.cantidad_ing }} {{ ing.unidad_medida }}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
 
+    <!-- ✅ Mueven los botones aquí -->
+    <div class="actions">
+      <ion-button expand="block" color="success" fill="solid" (click)="compartirReceta()">
+        <ion-icon slot="start" name="qr-code-outline"></ion-icon>
+        Compartir receta
+      </ion-button>
 
-    <ion-button expand="block" color="secondary" fill="outline" (click)="iniciarPasoAPaso()">
-    <ion-icon slot="start" name="list-outline"></ion-icon>
-      Iniciar Paso a Paso
-    </ion-button>
-
+      <ion-button expand="block" color="secondary" fill="outline" (click)="iniciarPasoAPaso()">
+        <ion-icon slot="start" name="list-outline"></ion-icon>
+        Iniciar Paso a Paso
+      </ion-button>
+    </div>
   </div>
 </ion-content>
