@@ -1,4 +1,4 @@
-const baseUrl = ' https://doug-mirror-theme-citation.trycloudflare.com';
+const baseUrl = 'https://wx-cottage-horses-tanzania.trycloudflare.com';
 
 export const environment = {
   production: true,

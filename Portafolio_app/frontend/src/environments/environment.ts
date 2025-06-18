@@ -2,7 +2,7 @@
 // Configuración de entorno para desarrollo
 // Este archivo puede ser reemplazado por environment.prod.ts para producción usando fileReplacements en angular.json
 
-const baseUrl = ' https://doug-mirror-theme-citation.trycloudflare.com';
+const baseUrl = 'https://wx-cottage-horses-tanzania.trycloudflare.com';
 
 export const environment = {
   production: false,

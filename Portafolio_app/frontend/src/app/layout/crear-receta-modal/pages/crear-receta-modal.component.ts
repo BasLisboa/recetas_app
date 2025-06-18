@@ -124,21 +124,26 @@ export class CrearRecetaModalComponent implements OnInit {
     });
   }
 
+  isSubmitting = false; // al inicio de tu componente
+
   crearReceta() {
+    if (this.isSubmitting) return;
+
     if (!this.selectedFile) {
       alert('Por favor selecciona una imagen');
       return;
     }
 
     if (this.formReceta.valid) {
-      // Verifica si el usuario está autenticado
+      this.isSubmitting = true;
+
       this.afAuth.authState.subscribe(user => {
         if (!user) {
           alert('Debes iniciar sesión para subir una receta');
+          this.isSubmitting = false;
           return;
         }
 
-        // Usuario autenticado, continuar con la subida
         const filePath = `recetas/${Date.now()}_${this.selectedFile!.name}`;
         const task = this.storage.upload(filePath, this.selectedFile!);
 
@@ -162,15 +167,24 @@ export class CrearRecetaModalComponent implements OnInit {
               };
 
               this.recetaService.crearReceta(receta, this.ingredientesSeleccionados).subscribe(() => {
-                this.navCtrl.navigateBack('/home');
+                this.isSubmitting = false;
+                this.modalCtrl.dismiss(); // cerrar modal
+                this.router.navigate(['/home']); // redirigir
               }, error => {
                 console.error('Error al crear receta:', error);
+                this.isSubmitting = false;
               });
             });
           })
         ).subscribe();
       });
     }
+
+    if (this.formReceta.invalid) {
+      this.formReceta.markAllAsTouched();
+      this.isSubmitting = false;
+    return;
+}
   }
 
 
