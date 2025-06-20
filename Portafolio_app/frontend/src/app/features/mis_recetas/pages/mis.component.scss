@@ -2,8 +2,8 @@
 
 .misrecetas-bg {
   --background: linear-gradient(120deg, #f8fafc 0%, #eaf6fb 100%);
-  min-height: 100vh;
-  padding-bottom: 90px;
+  min-height: 30vh;
+  padding-bottom: 100px;
 }
 
 .toolbar-mis {
@@ -26,6 +26,7 @@
   grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
   gap: 20px;
   padding: 10px 14px 32px 14px;
+  padding-bottom: 100px;
 }
 
 .receta-card {

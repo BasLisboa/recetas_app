@@ -2,8 +2,8 @@
 // Configuración de entorno para desarrollo
 // Este archivo puede ser reemplazado por environment.prod.ts para producción usando fileReplacements en angular.json
 
-const baseUrl = 'https://wx-cottage-horses-tanzania.trycloudflare.com';
-
+const baseUrl = 'https://arbor-thinks-presence-norway.trycloudflare.com';
+const shareUrl = 'https://TUAPP.web.app';
 export const environment = {
   production: false,
 
@@ -11,6 +11,7 @@ export const environment = {
   //apiUrl: 'http://localhost:3000/api',
   Url: baseUrl,
   apiUrl: `${baseUrl}/api`,
+  shareUrl: shareUrl,
 
   // Configuración de Firebase (credenciales públicas, no secretas)
   firebase: {

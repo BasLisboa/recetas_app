@@ -75,20 +75,23 @@ async function eliminarReceta(req, res) {
   }
 
   try {
-    // 1. Eliminar pasos relacionados con la receta
+    // 1. Eliminar ingredientes relacionados con la receta
+    await db.execute('DELETE FROM receta_ingrediente WHERE id_recetas = ?', [idReceta]);
+
+    // 2. Eliminar pasos relacionados con la receta
     await db.execute('DELETE FROM pasos_recetas WHERE id_recetas = ?', [idReceta]);
 
-    // 2. Eliminar imágenes relacionadas con la receta
+    // 3. Eliminar imágenes relacionadas con la receta
     await db.execute('DELETE FROM imagenes WHERE id_recetas = ?', [idReceta]);
 
-    // 3. Eliminar la receta
+    // 4. Eliminar la receta
     const [resultado] = await db.execute('DELETE FROM recetas WHERE id_recetas = ?', [idReceta]);
 
     if (resultado.affectedRows === 0) {
       return res.status(404).json({ message: 'Receta no encontrada' });
     }
 
-    res.status(200).json({ message: 'Receta, pasos e imágenes eliminados correctamente' });
+    res.status(200).json({ message: 'Receta, ingredientes, pasos e imágenes eliminados correctamente' });
   } catch (error) {
     console.error('❌ Error al eliminar receta:', error);
     res.status(500).json({ message: 'Error al eliminar receta' });

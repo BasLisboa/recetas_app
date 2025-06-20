@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PerfilService } from 'src/app/core/services/perfil.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-modal-perfil',
@@ -24,7 +25,8 @@ export class ModalPerfilComponent  implements OnInit {
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private perfilService: PerfilService,
-    private authService: AuthService 
+    private authService: AuthService,
+    private alertController: AlertController
   ) {
     // Inicializamos el formulario con validaciones básicas
     this.perfilForm = this.fb.group({
@@ -53,18 +55,43 @@ export class ModalPerfilComponent  implements OnInit {
     }
   }
 
+
+  async mostrarAlerta(titulo: string, mensaje: string) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ['Aceptar'],
+    });
+
+    await alert.present();
+  }
+  
   guardar() {
+    console.log('entro a guardar()');
+
     if (this.perfilForm.valid) {
-      // Obtener el id del usuario desde el AuthService
       const usuarioId = this.authService.getUserIdFromToken();
-
-      // Construir el objeto datos incluyendo el id_usuario
       const datos = { ...this.usuario, ...this.perfilForm.value, id_usuario: usuarioId };
-
       this.modalCtrl.dismiss(datos);
-      
     } else {
-      alert('Por favor, completa los campos requeridos correctamente.');
+      // Identificamos errores clave
+      const errores = [];
+
+      if (this.perfilForm.get('nombre_cliente')?.invalid) {
+        errores.push('El nombre es obligatorio.');
+      }
+      if (this.perfilForm.get('apellidos_cliente')?.invalid) {
+        errores.push('Los apellidos son obligatorios.');
+      }
+      if (this.perfilForm.get('peso')?.invalid) {
+        errores.push('El peso debe ser entre 1 y 500 kg. (formato --> 1,1)');
+      }
+      if (this.perfilForm.get('estatura')?.invalid) {
+        errores.push('La estatura debe ser entre 0.3 m y 3 m. (formato --> 1,1)');
+      }
+
+      const mensaje = errores.length > 0 ? errores.join('<br>') : 'Por favor, completa los campos correctamente.';
+      this.mostrarAlerta('Campos inválidos', mensaje);
     }
   }
 

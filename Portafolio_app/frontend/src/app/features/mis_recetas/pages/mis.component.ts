@@ -83,6 +83,16 @@ export class MisComponent implements OnInit {
     }
   }
 
+  cargarRecetas() {
+  this.misRecetasService.obtenerRecetas(this.idUsuario).subscribe({
+    next: (data: Receta[]) => {
+      this.misRecetas = data;
+      console.log('🔄 Recetas recargadas:', this.misRecetas);
+    },
+      error: (err) => console.error('❌ Error al recargar recetas:', err)
+    });
+  }
+
   async editarReceta(receta: Receta) {
     console.log('🛠 Editar receta:', receta);
     this.usuario = receta; // Establecemos receta actual para el modal
@@ -137,26 +147,31 @@ export class MisComponent implements OnInit {
   }
 
   async agregarReceta() {
-    console.log("➕ Agregar nueva receta");
-    await this.cerrarModalActual();
+  console.log("➕ Agregar nueva receta");
+  await this.cerrarModalActual();
 
-    try {
-      this.currentModal = await this.modalCtrl.create({
-        component: CrearRecetaModalComponent,
-        cssClass: 'custom-modal',
-        backdropDismiss: true,
-        animated: true,
-      });
+  try {
+    const modal = await this.modalCtrl.create({
+      component: CrearRecetaModalComponent,
+      cssClass: 'custom-modal',
+      backdropDismiss: true,
+      animated: true,
+    });
 
-      await this.currentModal.present();
-      const { role } = await this.currentModal.onDidDismiss();
-      console.log("🔵 Modal de creación cerrado con rol:", role);
-      this.currentModal = null;
+    await modal.present();
 
-    } catch (err) {
-      console.error("❌ Error al crear modal:", err);
+    const { data } = await modal.onDidDismiss();
+    console.log("🔵 Modal de creación cerrado con datos:", data);
+    this.currentModal = null;
+
+    if (data === true) {
+      this.cargarRecetas(); // recargar si se creó una nueva receta
     }
+
+  } catch (err) {
+    console.error("❌ Error al crear modal:", err);
   }
+}
 
   async abrirModalEditar(receta: any) {
     const usuarioId = this.authService.getUserIdFromToken();

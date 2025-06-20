@@ -60,7 +60,7 @@ export class PerfilService {
 
   crearCliente(usuario: any): Observable<any> {
     try {
-      const url = environment.apiUrl;  // Mismo endpoint base para crear
+      const url = `${environment.apiUrl}/perfil`; 
       console.log('📤 Llamando a crearCliente con:', usuario);
       // Aquí haces la petición POST enviando el objeto usuario
       return this.http.post<any>(url, usuario).pipe(

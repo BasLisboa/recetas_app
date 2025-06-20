@@ -1,4 +1,5 @@
-const baseUrl = 'https://wx-cottage-horses-tanzania.trycloudflare.com';
+const baseUrl = 'https://arbor-thinks-presence-norway.trycloudflare.com';
+const shareUrl = 'https://guardar-foto-d4a53.web.app';
 
 export const environment = {
   production: true,
@@ -7,6 +8,7 @@ export const environment = {
   //apiUrl: 'http://localhost:3000/api',
   Url: baseUrl,
   apiUrl: `${baseUrl}/api`,
+  shareUrl: shareUrl,
 
 
   // Configuración de Firebase (credenciales públicas, no secretas)
@@ -24,3 +26,4 @@ export const environment = {
     password: 'bas1821.'
   }
 }
+

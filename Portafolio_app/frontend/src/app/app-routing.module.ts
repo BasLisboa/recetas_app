@@ -34,12 +34,11 @@ const routes: Routes = [
     loadChildren: () => import('./features/mis_recetas/mis.module').then( m => m.MisPageModule)
   },
   {
-    path: 'receta-compartida',
-    loadChildren: () =>
-      import('./features/RecetaCompartida/pages/receta-compartida.module')
-        .then(m => m.RecetaCompartidaPageModule)
+    path: 'receta-compartida/:id',
+    loadComponent: () =>
+      import('./features/RecetaCompartida/pages/receta-compartida.page')
+        .then(m => m.RecetaCompartidaPage)
   },
-
   {
     path: 'perfil',
     canActivate: [authGuard], 

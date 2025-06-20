@@ -127,6 +127,10 @@ export class CrearRecetaModalComponent implements OnInit {
   isSubmitting = false; // al inicio de tu componente
 
   crearReceta() {
+    if (this.formReceta.invalid || this.ingredientesSeleccionados.length === 0 || this.isSubmitting) {
+      return;
+    }
+    
     if (this.isSubmitting) return;
 
     if (!this.selectedFile) {
@@ -178,13 +182,16 @@ export class CrearRecetaModalComponent implements OnInit {
           })
         ).subscribe();
       });
+    }else{
+      
     }
 
     if (this.formReceta.invalid) {
       this.formReceta.markAllAsTouched();
       this.isSubmitting = false;
-    return;
-}
+      alert('Aun faltan datos')
+      return;
+    }
   }
 
 
