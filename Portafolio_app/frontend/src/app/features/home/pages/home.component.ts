@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.idUsuario = payload.id;
 
-      this.misRecetasService.obtenerRecetas(this.idUsuario).subscribe({
+       this.misRecetasService.obtenerMisRecetas(this.idUsuario).subscribe({
         next: (data: Receta[]) => {
           this.recetas = data;
           console.log('✅ Recetas cargadas:', this.recetas);

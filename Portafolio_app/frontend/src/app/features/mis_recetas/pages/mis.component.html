@@ -14,6 +14,9 @@
       (click)="verDetalles(receta)">
       <div class="receta-img-wrapper">
         <img [src]="receta.imagen_url || 'assets/placeholder.jpg'" alt="Imagen de la receta" class="receta-img" />
+        <div class="favorito-badge" *ngIf="receta.esFavorita">
+          <ion-icon name="star" color="warning"></ion-icon>
+        </div>
         <div class="card-overlay">
           <ion-icon name="eye-outline"></ion-icon>
         </div>

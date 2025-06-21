@@ -15,6 +15,7 @@ const perfilRoutes = require('./routes/perfil.routes.cjs');
 const chatbotRoutes = require("./routes/chatbot.cjs");
 const nutricionalRoutes = require('./routes/nutricional.routes.cjs');
 const pasosRecetasRoutes = require('./routes/pasosRecetas.routes.cjs');
+const favoritosRoutes = require('./routes/favoritos.routes.cjs');
 
 // Middlewares
 app.use(cors());
@@ -37,6 +38,7 @@ app.use("/api/chatbot", chatbotRoutes);
 app.use('/api/nutricional', nutricionalRoutes)
 app.use('/api/pasos-recetas', pasosRecetasRoutes);
 app.use('/api/nutricional', nutricionalRoutes);
+app.use('/api/favoritos', favoritosRoutes);
 // Ruta base (opcional)
 app.get('/', (req, res) => {
   res.send('¡Backend Express corriendo con MySQL!');

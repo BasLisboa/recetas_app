@@ -10,14 +10,16 @@ import { CrearRecetaModalComponent } from 'src/app/layout/crear-receta-modal/pag
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ModalEditarRecetaComponent } from 'src/app/layout/editar-receta-modal/pages/editar-receta-modal.component';
 import { trigger, transition, style, animate } from '@angular/animations';
-
+import { FavoritosService, Favorito } from 'src/app/core/services/favoritos.service';
 
 interface Receta {
   id_recetas: string;
   nombre_receta: string;
   tiempo: string;
   descripcion: string;
-  imagen_url?: string; 
+  imagen_url?: string;
+  esFavorita?: boolean; 
+  id_usuario_creador?: string;
   // Agrega más campos si existen
 }
 
@@ -59,6 +61,7 @@ export class MisComponent implements OnInit {
     private misRecetasService: MisRecetasService,
     private modalCtrl: ModalController,
     private authService: AuthService,
+    private favoritosService: FavoritosService,
   ) {}
 
   ngOnInit() {
@@ -69,10 +72,11 @@ export class MisComponent implements OnInit {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.idUsuario = payload.id;
 
-      this.misRecetasService.obtenerRecetas(this.idUsuario).subscribe({
+      this.misRecetasService.obtenerMisRecetas(this.idUsuario).subscribe({
         next: (data: Receta[]) => {
           this.misRecetas = data;
           console.log('✅ Recetas cargadas:', this.misRecetas);
+          this.cargarFavoritos();
         },
         error: (err) => console.error('❌ Error al cargar recetas:', err)
 
@@ -84,12 +88,29 @@ export class MisComponent implements OnInit {
   }
 
   cargarRecetas() {
-  this.misRecetasService.obtenerRecetas(this.idUsuario).subscribe({
+  this.misRecetasService.obtenerMisRecetas(this.idUsuario).subscribe({
     next: (data: Receta[]) => {
       this.misRecetas = data;
       console.log('🔄 Recetas recargadas:', this.misRecetas);
+      this.cargarFavoritos();
     },
       error: (err) => console.error('❌ Error al recargar recetas:', err)
+    });
+  }
+
+  private cargarFavoritos() {
+    this.favoritosService.obtenerFavoritos(this.idUsuario).subscribe({
+      next: (lista: Favorito[]) => {
+        lista.forEach(fav => {
+          const existente = this.misRecetas.find(r => r.id_recetas === fav.id_recetas);
+          if (existente) {
+            existente.esFavorita = true;
+          } else {
+            this.misRecetas.push({ ...fav, esFavorita: true,id_usuario_creador: this.idUsuario });
+          }
+        });
+      },
+      error: err => console.error('❌ Error al cargar favoritos:', err)
     });
   }
 
@@ -110,11 +131,23 @@ export class MisComponent implements OnInit {
           text: 'Eliminar',
           role: 'destructive',
           handler: () => {
-            this.misRecetas = this.misRecetas.filter(r => r.id_recetas !== receta.id_recetas);
-            this.misRecetasService.eliminarReceta(receta.id_recetas).subscribe({
-              next: () => console.log('✅ Receta eliminada correctamente'),
-              error: (err) => console.error('❌ Error al eliminar receta:', err)
-            });
+            if (receta.id_usuario_creador === this.idUsuario) {
+              this.misRecetasService.eliminarReceta(receta.id_recetas).subscribe({
+                next: () => {
+                  this.misRecetas = this.misRecetas.filter(r => r.id_recetas !== receta.id_recetas);
+                  console.log('✅ Receta eliminada correctamente');
+                },
+                error: (err) => console.error('❌ Error al eliminar receta:', err)
+              });
+            } else {
+              this.favoritosService.eliminarFavorito(receta.id_recetas, this.idUsuario).subscribe({
+                next: () => {
+                  this.misRecetas = this.misRecetas.filter(r => r.id_recetas !== receta.id_recetas);
+                  console.log('✅ Favorito eliminado correctamente');
+                },
+                error: (err) => console.error('❌ Error al eliminar favorito:', err)
+              });
+            }
           }
         }
       ]

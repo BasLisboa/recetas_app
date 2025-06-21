@@ -60,7 +60,14 @@
     </ng-container>
   
     <!-- ✅ Mueven los botones aquí -->
+     
     <div class="actions">
+
+      <ion-button *ngIf="mostrarAgregar" expand="block" color="warning" fill="outline" (click)="agregarFavorito()">
+        <ion-icon slot="start" name="heart-outline"></ion-icon>
+        Agregar a favoritos
+      </ion-button>
+      
       <ion-button expand="block" color="success" fill="solid" (click)="compartirReceta()">
         <ion-icon slot="start" name="qr-code-outline"></ion-icon>
         Compartir receta

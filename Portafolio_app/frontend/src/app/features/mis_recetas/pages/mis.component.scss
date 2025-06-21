@@ -21,6 +21,15 @@
   animation: fadeIn 1s;
 }
 
+.favorito-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1.4rem;
+    z-index: 2;
+  }
+
+
 .recetas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
