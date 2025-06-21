@@ -1,4 +1,4 @@
-const baseUrl = 'https://library-suffered-craft-moon.trycloudflare.com';
+const baseUrl = 'https://junk-penetration-royalty-variations.trycloudflare.com';
 const shareUrl = 'https://guardar-foto-d4a53.web.app';
 
 export const environment = {

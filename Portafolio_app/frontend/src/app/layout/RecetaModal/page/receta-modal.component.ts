@@ -43,22 +43,24 @@
 
     ngOnInit() {
       console.log('🧾 Receta recibida en modal:', this.receta);
-
+    
       this.loggedUserId = this.authService.getUserIdFromToken();
+    
       if (this.receta?.id_usuario_creador === this.loggedUserId) {
         this.mostrarAgregar = false;
       }
-        
+    
       if (this.receta?.id_recetas) {
         this.recetasService
           .getNutricionalReceta(this.receta.id_recetas)
           .subscribe({
             next: (res) => {
               this.nutricional = res;
+              this.ingredientes = res.detalle_ingredientes; // ✅ Aquí se asignan los ingredientes
               this.muestraNutri = true;
             },
             error: (err) => {
-              console.error('Error cargando datos nutricionales:', err);
+              console.error('❌ Error cargando datos nutricionales o ingredientes:', err);
               this.muestraNutri = false;
             },
           });
