@@ -59,9 +59,12 @@ export class PerfilService {
   }
 
   obtenerResumenNutricional(userId: number): Observable<any> {
-    const url = `${environment.apiUrl}/nutricional/${userId}`;
+    const url = `${environment.apiUrl}/perfil/resumen-nutricional/${userId}`;
     return this.http.get<any>(url).pipe(
-      catchError(error => throwError(() => error))
+      catchError(error => {
+        console.error('❌ Error al obtener resumen nutricional:', error);
+        return throwError(() => error);
+      })
     );
   }
 

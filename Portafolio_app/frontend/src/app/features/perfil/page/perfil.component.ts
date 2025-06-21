@@ -73,11 +73,12 @@ export class PerfilComponent {
 
           this.perfilService.obtenerResumenNutricional(usuarioId).subscribe(
             (resumen) => {
+              // validación
               if (
-                resumen &&
-                resumen.totales?.totalCalorias != null &&
-                resumen.totales?.totalProteinas != null &&
-                resumen.totales?.totalGrasas != null
+                resumen?.totales &&
+                (resumen.totales.totalCalorias > 0 ||
+                 resumen.totales.totalProteinas > 0 ||
+                 resumen.totales.totalGrasas > 0)
               ) {
                 this.resumenNutri = resumen;
               
@@ -110,7 +111,7 @@ export class PerfilComponent {
                   }
                 };
               } else {
-                console.warn('⚠️ Datos incompletos del resumen nutricional:', resumen);
+                console.warn('⛔ Usuario sin recetas nutricionales válidas');
               }
             },
             error => console.error('❌ Error obteniendo resumen nutricional:', error)
@@ -283,25 +284,25 @@ export class PerfilComponent {
   tdee = 0;
   proteinasRecomendadas = 0;
   grasasRecomendadas = 0;
-  
+
   calcularTMB() {
     if (!this.usuario || !this.edad || !this.usuario.peso || !this.usuario.estatura) return;
-  
+
     const peso = this.usuario.peso;
     const estaturaCm = this.usuario.estatura * 100;
     const edad = this.edad;
     const sexo = this.usuario.sexo;
-  
+
     // Fórmula Mifflin-St Jeor
     if (sexo === 'Masculino') {
       this.tmb = 10 * peso + 6.25 * estaturaCm - 5 * edad + 5;
     } else {
       this.tmb = 10 * peso + 6.25 * estaturaCm - 5 * edad - 161;
     }
-  
+
     const factorActividad = 1.55; // actividad moderada por defecto
     this.tdee = Math.round(this.tmb * factorActividad);
-  
+
     // Macronutrientes recomendados (proporción estándar)
     this.proteinasRecomendadas = Math.round((this.tdee * 0.20) / 4); // 1g proteína = 4 kcal
     this.grasasRecomendadas = Math.round((this.tdee * 0.25) / 9);    // 1g grasa = 9 kcal

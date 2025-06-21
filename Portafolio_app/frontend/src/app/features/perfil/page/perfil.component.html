@@ -82,7 +82,11 @@
 
 
     
-    <ion-card *ngIf="resumenNutri" class="macro-card">
+    <ion-card *ngIf="resumenNutri?.totales && (
+      resumenNutri.totales.totalCalorias > 0 ||
+      resumenNutri.totales.totalProteinas > 0 ||
+      resumenNutri.totales.totalGrasas > 0
+      )" class="macro-card">
       <ion-card-header>
         <ion-card-title>Balance Nutricional de Mis Recetas</ion-card-title>
         <ion-card-subtitle>Basado en los ingredientes de tus recetas creadas</ion-card-subtitle>
@@ -90,15 +94,15 @@
       <ion-card-content>
         <ion-item lines="none">
           <ion-label>Calorías totales</ion-label>
-          <ion-note slot="end">{{ resumenNutri?.totales?.totalCalorias ?? '0' }} kcal</ion-note>
+          <ion-note slot="end">{{ resumenNutri?.totales?.totalCalorias || 0 }} kcal</ion-note>
         </ion-item>
         <ion-item lines="none">
           <ion-label>Proteínas totales</ion-label>
-          <ion-note slot="end">{{ resumenNutri?.totales?.totalProteinas ?? '0' }} g</ion-note>
+          <ion-note slot="end">{{ resumenNutri?.totales?.totalProteinas || 0 }} g</ion-note>
         </ion-item>
         <ion-item lines="none">
           <ion-label>Grasas totales</ion-label>
-          <ion-note slot="end">{{ resumenNutri?.totales?.totalGrasas ?? '0' }} g</ion-note>
+          <ion-note slot="end">{{ resumenNutri?.totales?.totalGrasas || 0 }} g</ion-note>
         </ion-item>
       
         <canvas baseChart
@@ -107,6 +111,13 @@
                 chartType="bar"
                 style="margin-top: 20px;">
         </canvas>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="resumenNutri && resumenNutri.totales.totalCalorias === 0 
+                && resumenNutri.totales.totalProteinas === 0 
+                && resumenNutri.totales.totalGrasas === 0">
+      <ion-card-content>
+        <p class="ion-text-center">Aún no has creado recetas con información nutricional.</p>
       </ion-card-content>
     </ion-card>
 

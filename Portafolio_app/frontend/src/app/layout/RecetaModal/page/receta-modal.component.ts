@@ -36,31 +36,27 @@
 
     ngOnInit() {
       console.log('🧾 Receta recibida en modal:', this.receta);
-      this.recetasService
-        .getNutricionalReceta(this.receta.id_recetas)
-        .subscribe({
-          next: (data) => {
-            this.ingredientes = data.detalle_ingredientes;
-          },
-          error: (err) => {
-            console.error('Error al cargar ingredientes:', err);
-          },
-        });
         
       if (this.receta?.id_recetas) {
-      this.recetasService.getNutricionalReceta(this.receta.id_recetas).subscribe({
-        next: (res) => {
-          this.nutricional = res;
-          this.muestraNutri = true;
-        },
-        error: (err) => {
-          console.error('Error cargando datos nutricionales:', err);
-          this.muestraNutri = false;
-        }
-      });
-    }
-
-      
+        this.recetasService.getNutricionalReceta(this.receta.id_recetas).subscribe({
+          next: (res) => {
+            console.log('📊 Datos nutricionales recibidos:', res);
+          
+            this.ingredientes = res.detalle_ingredientes;
+            this.nutricional = res;
+          
+            this.muestraNutri =
+              !!res?.totales &&
+              (res.totales.totalCalorias > 0 ||
+               res.totales.totalProteinas > 0 ||
+               res.totales.totalGrasas > 0);
+          },
+          error: (err) => {
+            console.error('❌ Error cargando datos nutricionales:', err);
+            this.muestraNutri = false;
+          }
+        });
+      }
     }
 
     async compartirReceta() {

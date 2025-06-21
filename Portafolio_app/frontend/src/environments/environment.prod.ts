@@ -1,4 +1,4 @@
-const baseUrl = 'https://lambda-centered-preferred-any.trycloudflare.com';
+const baseUrl = 'https://library-suffered-craft-moon.trycloudflare.com';
 const shareUrl = 'https://guardar-foto-d4a53.web.app';
 
 export const environment = {

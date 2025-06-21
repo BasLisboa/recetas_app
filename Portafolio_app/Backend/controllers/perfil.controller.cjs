@@ -30,10 +30,24 @@ async function obtenerResumenNutricional(req, res) {
   }
 
   try {
+    console.log('📥 Obteniendo resumen nutricional para usuario:', userId);
+
     const [rows] = await db.query(
-      'SELECT id_recetas FROM recetas WHERE id_usuario_creador = ?',
+      'SELECT id_recetas FROM recetas WHERE id_usuario_creador IS NOT NULL AND id_usuario_creador = ?',
       [userId]
     );
+
+    console.log('📄 Recetas encontradas para usuario', userId, ':', rows);
+
+    if (!rows || rows.length === 0) {
+      return res.json({
+        totales: {
+          totalCalorias: 0,
+          totalProteinas: 0,
+          totalGrasas: 0
+        }
+      });
+    }
 
     let totalCalorias = 0;
     let totalProteinas = 0;
@@ -41,15 +55,20 @@ async function obtenerResumenNutricional(req, res) {
 
     for (const row of rows) {
       const resumen = await calcularNutricional(row.id_recetas);
-      totalCalorias += resumen.totales.totalCalorias;
-      totalProteinas += resumen.totales.totalProteinas;
-      totalGrasas += resumen.totales.totalGrasas;
+      console.log('🧪 RESUMEN PARA RECETA', row.id_recetas, ':', resumen);
+      if (!resumen?.totales) continue;
+
+      totalCalorias += resumen.totales.totalCalorias || 0;
+      totalProteinas += resumen.totales.totalProteinas || 0;
+      totalGrasas += resumen.totales.totalGrasas || 0;
     }
 
     res.json({
-      totalCalorias: parseFloat(totalCalorias.toFixed(2)),
-      totalProteinas: parseFloat(totalProteinas.toFixed(2)),
-      totalGrasas: parseFloat(totalGrasas.toFixed(2))
+      totales: {
+        totalCalorias: parseFloat(totalCalorias.toFixed(2)),
+        totalProteinas: parseFloat(totalProteinas.toFixed(2)),
+        totalGrasas: parseFloat(totalGrasas.toFixed(2))
+      }
     });
   } catch (error) {
     console.error('❌ Error al obtener resumen nutricional:', error);

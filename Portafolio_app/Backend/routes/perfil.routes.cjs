@@ -6,5 +6,6 @@ router.get('/', perfilController.obtenerCliente);
 router.post('/', perfilController.crearCliente);
 router.put('/:id_cliente', perfilController.actualizarCliente);
 router.get('/nutricional/:userId', perfilController.obtenerResumenNutricional);
+router.get('/resumen-nutricional/:userId', perfilController.obtenerResumenNutricional);
 
 module.exports = router;

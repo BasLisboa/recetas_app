@@ -64,13 +64,17 @@ async function obtenerValoresNutricionales(req, res) {
 
     // 5) Procesar cada ingrediente y calcular su contribución
     const detalleIngredientes = rows.map((fila) => {
-      // 5.1) Convertir a números
-      const unidadesUsadas   = parseFloat(fila.cantidad_unidades);   // ej. “2” tazas
-      const gramosPorUnidad  = parseFloat(fila.peso_unitario);       // ej. 240 g/taza
-      const calBase          = parseFloat(fila.cal_base);            // calorías POR 100 g
-      const protBase         = parseFloat(fila.prot_base);           // proteínas POR 100 g
-      const grasBase         = parseFloat(fila.gras_base);           // grasas POR 100 g
 
+      // 5.1) Convertir a números
+      const unidadesUsadas   = parseFloat(fila.cantidad_unidades) || 0;   // ej. “2” tazas
+      const gramosPorUnidad  = parseFloat(fila.peso_unitario) || 0;       // ej. 240 g/taza
+      const calBase          = parseFloat(fila.cal_base) || 0;          // calorías POR 100 g
+      const protBase         = parseFloat(fila.prot_base) || 0;          // proteínas POR 100 g
+      const grasBase         = parseFloat(fila.gras_base) || 0;           // grasas POR 100 g
+
+
+      if (calBase === 0 && protBase === 0 && grasBase === 0) return null;
+      
       // 5.2) Calcular peso real en gramos que se está usando
       //       ej. si unidadesUsadas = 2 (tazas) y gramosPorUnidad = 240, entonces pesoUsado = 480 g
       const pesoUsado = unidadesUsadas * gramosPorUnidad;
@@ -118,7 +122,7 @@ async function obtenerValoresNutricionales(req, res) {
           grasas: grasContrib
         }
       };
-    });
+    }).filter(ing => ing !== null);
 
     // 6) Si la suma total de gramos es 0, devolvemos error
     if (totalPeso === 0) {
@@ -161,6 +165,7 @@ async function obtenerValoresNutricionales(req, res) {
  *  dentro de otros controladores. Devuelve el mismo objeto `resultado`.
  */
 async function calcularNutricional(idReceta) {
+  console.log("🔎 Entró a calcularNutricional con receta ID:", idReceta);
   if (typeof idReceta !== "number" || isNaN(idReceta)) {
     throw new Error("ID de receta inválido.");
   }
@@ -210,11 +215,11 @@ async function calcularNutricional(idReceta) {
   let totalGrasas     = 0;
 
   const detalleIngredientes = rows.map((fila) => {
-    const unidadesUsadas   = parseFloat(fila.cantidad_unidades);
-    const gramosPorUnidad  = parseFloat(fila.peso_unitario);
-    const calBase          = parseFloat(fila.cal_base);
-    const protBase         = parseFloat(fila.prot_base);
-    const grasBase         = parseFloat(fila.gras_base);
+    const unidadesUsadas   = parseFloat(fila.cantidad_unidades) || 0;
+    const gramosPorUnidad  = parseFloat(fila.peso_unitario) || 0;
+    const calBase = parseFloat(fila.cal_base) || 0; 
+    const protBase = parseFloat(fila.prot_base) || 0;
+    const grasBase = parseFloat(fila.gras_base) || 0;
 
     const pesoUsado = unidadesUsadas * gramosPorUnidad;
     const factor = pesoUsado > 0 ? pesoUsado / 100 : 0;
@@ -245,6 +250,10 @@ async function calcularNutricional(idReceta) {
       }
     };
   });
+
+  if (totalCalorias === 0 && totalProteinas === 0 && totalGrasas === 0) {
+   console.warn('⚠️ Todos los valores nutricionales resultaron cero. Revisa datos base en la BD.');
+  }
 
   if (totalPeso === 0) {
     return {
