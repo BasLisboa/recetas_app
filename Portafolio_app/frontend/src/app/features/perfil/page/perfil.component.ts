@@ -10,6 +10,7 @@ import { ModalPerfilComponent } from 'src/app/layout/modal-perfil/pages/modal-pe
 import { ImcChartComponent } from './imc-chart.component';
 import { MacroChartComponent } from './macro-chart.component';
 import { Router } from '@angular/router';
+import { NgChartsModule } from 'ng2-charts';
 
 @Component({
   selector: 'app-perfil',
@@ -23,6 +24,7 @@ import { Router } from '@angular/router';
     TabMenuComponent,
     ImcChartComponent,
     MacroChartComponent,
+    NgChartsModule,
   ]
 })
 export class PerfilComponent {
@@ -33,8 +35,11 @@ export class PerfilComponent {
   imcChartData: any;
   imcChartOptions: any;
   macroChartData: any;
+  macroChartOptions: any;
   mostrarCampos: boolean = false; // Controla visibilidad de campos
   private currentModal: HTMLIonModalElement | null = null;
+
+  resumenNutri: any;
 
   constructor(
     private authService: AuthService,
@@ -63,6 +68,54 @@ export class PerfilComponent {
           this.calcularEdad(this.usuario.fecha_nacimiento);
           this.validarPerfil();
           this.calcularIMC();
+          this.calcularTMB();
+          this.configurarGraficos();
+
+          this.perfilService.obtenerResumenNutricional(usuarioId).subscribe(
+            (resumen) => {
+              if (
+                resumen &&
+                resumen.totales?.totalCalorias != null &&
+                resumen.totales?.totalProteinas != null &&
+                resumen.totales?.totalGrasas != null
+              ) {
+                this.resumenNutri = resumen;
+              
+                this.macroChartData = {
+                  labels: ['Calorías', 'Proteínas', 'Grasas'],
+                  datasets: [
+                    {
+                      label: 'Resumen Macros',
+                      data: [
+                        resumen.totales.totalCalorias,
+                        resumen.totales.totalProteinas,
+                        resumen.totales.totalGrasas
+                      ],
+                      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    }
+                  ]
+                };
+              
+                this.macroChartOptions = {
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: 'top'
+                    }
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                };
+              } else {
+                console.warn('⚠️ Datos incompletos del resumen nutricional:', resumen);
+              }
+            },
+            error => console.error('❌ Error obteniendo resumen nutricional:', error)
+          );
+
           this.configurarGraficos();
 
           // Aquí activo mostrarCampos si hay al menos un dato relleno
@@ -151,11 +204,13 @@ export class PerfilComponent {
       }
     };
 
+
+
     this.macroChartData = {
-      labels: ['Carbohidratos', 'Proteínas', 'Grasas'],
+      labels: ['Calorías', 'Proteínas', 'Grasas'],
       datasets: [
         {
-          data: [50, 30, 20],
+          data: [0, 0, 0],
           backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
         }
       ]
@@ -224,5 +279,32 @@ export class PerfilComponent {
     this.router.navigate(['auth/login']);
   }
 
+  tmb = 0;
+  tdee = 0;
+  proteinasRecomendadas = 0;
+  grasasRecomendadas = 0;
+  
+  calcularTMB() {
+    if (!this.usuario || !this.edad || !this.usuario.peso || !this.usuario.estatura) return;
+  
+    const peso = this.usuario.peso;
+    const estaturaCm = this.usuario.estatura * 100;
+    const edad = this.edad;
+    const sexo = this.usuario.sexo;
+  
+    // Fórmula Mifflin-St Jeor
+    if (sexo === 'Masculino') {
+      this.tmb = 10 * peso + 6.25 * estaturaCm - 5 * edad + 5;
+    } else {
+      this.tmb = 10 * peso + 6.25 * estaturaCm - 5 * edad - 161;
+    }
+  
+    const factorActividad = 1.55; // actividad moderada por defecto
+    this.tdee = Math.round(this.tmb * factorActividad);
+  
+    // Macronutrientes recomendados (proporción estándar)
+    this.proteinasRecomendadas = Math.round((this.tdee * 0.20) / 4); // 1g proteína = 4 kcal
+    this.grasasRecomendadas = Math.round((this.tdee * 0.25) / 9);    // 1g grasa = 9 kcal
+  }
 
 }

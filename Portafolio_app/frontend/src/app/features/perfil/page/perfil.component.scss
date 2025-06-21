@@ -24,6 +24,61 @@
   animation: fadeIn 1.1s both;
 }
 
+.tdee-card {
+  background: #ffffffdd;
+  border-radius: 16px;
+  margin: 16px 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  ion-card-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #222;
+  }
+
+  ion-card-subtitle {
+    font-size: 0.85rem;
+    color: #666;
+    padding-top: 4px;
+  }
+
+  ion-item {
+    --background: transparent;
+    font-size: 0.95rem;
+  }
+
+  ion-note {
+    font-weight: bold;
+    color: #1e88e5;
+  }
+}
+
+
+.macro-card {
+  background-color: #ffffffee;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  margin: 16px 0;
+  padding-bottom: 20px;
+
+  ion-card-title {
+    color: #000;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+
+  ion-item {
+    --background: transparent;
+    font-size: 0.95rem;
+  }
+
+  ion-note {
+    font-weight: bold;
+    color: #222;
+  }
+}
+
 .avatar-shadow {
   box-shadow: 0 6px 22px #38e9fa48, 0 0 0 8px #f2f6f7;
   border-radius: 50%;

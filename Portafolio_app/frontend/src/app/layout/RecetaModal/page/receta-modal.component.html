@@ -35,6 +35,30 @@
       </ion-list>
     </div>
 
+    <ng-container *ngIf="muestraNutri">
+      <ion-card class="nutri-summary-card">
+        <ion-card-header>
+          <ion-card-title>Resumen Nutricional</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="nutri-summary-content">
+            <div>
+              <strong>Calorías totales:</strong>
+              {{ nutricional.totales.totalCalorias }} kcal
+            </div>
+            <div>
+              <strong>Proteínas totales:</strong>
+              {{ nutricional.totales.totalProteinas }} g
+            </div>
+            <div>
+              <strong>Grasas totales:</strong>
+              {{ nutricional.totales.totalGrasas }} g
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  
     <!-- ✅ Mueven los botones aquí -->
     <div class="actions">
       <ion-button expand="block" color="success" fill="solid" (click)="compartirReceta()">

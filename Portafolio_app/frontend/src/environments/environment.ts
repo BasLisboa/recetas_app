@@ -2,7 +2,7 @@
 // Configuración de entorno para desarrollo
 // Este archivo puede ser reemplazado por environment.prod.ts para producción usando fileReplacements en angular.json
 
-const baseUrl = 'https://arbor-thinks-presence-norway.trycloudflare.com';
+const baseUrl = 'https://lambda-centered-preferred-any.trycloudflare.com';
 const shareUrl = 'https://TUAPP.web.app';
 export const environment = {
   production: false,

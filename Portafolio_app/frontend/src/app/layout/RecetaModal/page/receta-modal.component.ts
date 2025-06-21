@@ -6,10 +6,11 @@
   import { environment } from 'src/environments/environment';
   import {
     IngredienteNutri,
+    NutricionalReceta,
     RecetasadmService,
   } from 'src/app/core/services/recetasadm.service';
-
   import { Share } from '@capacitor/share';
+  
 
   @Component({
     selector: 'app-receta-modal',
@@ -21,7 +22,8 @@
   export class RecetaModalComponent implements OnInit {
     @Input() receta: any;
     ingredientes: IngredienteNutri[] = [];
-
+    nutricional!: NutricionalReceta;
+    muestraNutri = false;
     constructor(
       private modalCtrl: ModalController,
       private pasosRecetasService: PasosRecetasService,
@@ -44,6 +46,21 @@
             console.error('Error al cargar ingredientes:', err);
           },
         });
+        
+      if (this.receta?.id_recetas) {
+      this.recetasService.getNutricionalReceta(this.receta.id_recetas).subscribe({
+        next: (res) => {
+          this.nutricional = res;
+          this.muestraNutri = true;
+        },
+        error: (err) => {
+          console.error('Error cargando datos nutricionales:', err);
+          this.muestraNutri = false;
+        }
+      });
+    }
+
+      
     }
 
     async compartirReceta() {

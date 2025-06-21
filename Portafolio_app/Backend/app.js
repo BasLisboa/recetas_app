@@ -36,7 +36,7 @@ app.use('/api/perfil', perfilRoutes);
 app.use("/api/chatbot", chatbotRoutes);
 app.use('/api/nutricional', nutricionalRoutes)
 app.use('/api/pasos-recetas', pasosRecetasRoutes);
-
+app.use('/api/nutricional', nutricionalRoutes);
 // Ruta base (opcional)
 app.get('/', (req, res) => {
   res.send('¡Backend Express corriendo con MySQL!');

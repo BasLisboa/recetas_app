@@ -1,4 +1,5 @@
 const db = require('../config/db.cjs');
+const { calcularNutricional } = require('./nutricional.controller.cjs');
 
 async function obtenerCliente(req, res) {
   console.log('📥 Entró a obtenerCliente (backend)');
@@ -19,6 +20,40 @@ async function obtenerCliente(req, res) {
   } catch (err) {
     console.error('❌ Error al obtener datos cliente:', err);
     return res.status(500).json({ message: 'Error al obtener datos cliente' });
+  }
+}
+
+async function obtenerResumenNutricional(req, res) {
+  const userId = parseInt(req.params.userId, 10);
+  if (isNaN(userId)) {
+    return res.status(400).json({ message: 'ID de usuario inválido' });
+  }
+
+  try {
+    const [rows] = await db.query(
+      'SELECT id_recetas FROM recetas WHERE id_usuario_creador = ?',
+      [userId]
+    );
+
+    let totalCalorias = 0;
+    let totalProteinas = 0;
+    let totalGrasas = 0;
+
+    for (const row of rows) {
+      const resumen = await calcularNutricional(row.id_recetas);
+      totalCalorias += resumen.totales.totalCalorias;
+      totalProteinas += resumen.totales.totalProteinas;
+      totalGrasas += resumen.totales.totalGrasas;
+    }
+
+    res.json({
+      totalCalorias: parseFloat(totalCalorias.toFixed(2)),
+      totalProteinas: parseFloat(totalProteinas.toFixed(2)),
+      totalGrasas: parseFloat(totalGrasas.toFixed(2))
+    });
+  } catch (error) {
+    console.error('❌ Error al obtener resumen nutricional:', error);
+    res.status(500).json({ message: 'Error al obtener resumen nutricional' });
   }
 }
 
@@ -106,5 +141,6 @@ async function actualizarCliente(req, res) {
 module.exports = {
   obtenerCliente,
   crearCliente,
-  actualizarCliente
+  actualizarCliente,
+  obtenerResumenNutricional
 };

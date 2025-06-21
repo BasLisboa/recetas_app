@@ -58,6 +58,14 @@ export class PerfilService {
     }
   }
 
+  obtenerResumenNutricional(userId: number): Observable<any> {
+    const url = `${environment.apiUrl}/nutricional/${userId}`;
+    return this.http.get<any>(url).pipe(
+      catchError(error => throwError(() => error))
+    );
+  }
+
+
   crearCliente(usuario: any): Observable<any> {
     try {
       const url = `${environment.apiUrl}/perfil`; 
