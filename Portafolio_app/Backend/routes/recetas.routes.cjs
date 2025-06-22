@@ -25,7 +25,7 @@ router.delete('/:id_receta', RecetasController.eliminarReceta);
 
 router.get('/:id_receta', RecetasController.obtenerRecetaPorId);
 
-
+router.put('/:id_receta/ingredientes', RecetasController.actualizarIngredientes);
 
 module.exports = router;
 

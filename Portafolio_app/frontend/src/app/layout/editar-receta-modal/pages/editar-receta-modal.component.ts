@@ -4,15 +4,17 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { MisRecetasService } from 'src/app/core/services/mis-recetas.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray,FormsModule } from '@angular/forms';
 import { PasosRecetasService } from 'src/app/core/services/pasos-recetas.service';
+import { IngredientesService, Ingrediente } from 'src/app/core/services/ingredientes.service';
+import { RecetasadmService } from 'src/app/core/services/recetasadm.service';
 
 @Component({
   selector: 'app-editar-receta-modal',
   templateUrl: './editar-receta-modal.component.html',
   styleUrls: ['./editar-receta-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule]
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule]
 })
 export class ModalEditarRecetaComponent implements OnInit {
 
@@ -22,13 +24,25 @@ export class ModalEditarRecetaComponent implements OnInit {
   selectedFile: File | null = null;
   previewImage: string | null = null;
   idUsuario: string = '';
+  ingredientesDisponibles: Ingrediente[] = [];
+  ingredientesSeleccionados: { id_ingrediente: number; id_medida: number; cantidad: number; nombre_ingrediente: string; }[] = [];
+  ingredienteSeleccionado?: Ingrediente;
+  cantidadIngrediente = 1;
+  idMedida = 1;
+  unidadesMedida = [
+    { id: 1, nombre: 'unidad' },
+    { id: 2, nombre: 'gramos' },
+    { id: 3, nombre: 'tazas' }
+  ];
 
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private recetaService: MisRecetasService,
     private storage: AngularFireStorage,
-    private pasosService: PasosRecetasService
+    private pasosService: PasosRecetasService,
+    private ingredientesService: IngredientesService,
+    private recetasadmService: RecetasadmService
   ) {}
 
   ngOnInit() {
@@ -37,6 +51,11 @@ export class ModalEditarRecetaComponent implements OnInit {
       tiempo: ['', [Validators.required]],
       descripcion_receta: ['', [Validators.required]],
       pasos: this.fb.array([])
+    });
+
+    this.ingredientesService.obtenerTodos().subscribe({
+      next: lista => (this.ingredientesDisponibles = lista),
+      error: err => console.error('Error al cargar ingredientes:', err)
     });
 
     // Cargar datos existentes de la receta
@@ -70,6 +89,22 @@ export class ModalEditarRecetaComponent implements OnInit {
             );
           });
         }
+      });
+
+       // Cargar ingredientes existentes de la receta
+      this.recetasadmService.getNutricionalReceta(this.receta.id_recetas).subscribe({
+        next: (data) => {
+          this.ingredientesSeleccionados = data.detalle_ingredientes.map((ing: any) => {
+            const unidad = this.unidadesMedida.find(u => u.nombre === ing.unidad_medida || u.nombre === ing.unidad_medida_plural);
+            return {
+              id_ingrediente: ing.id_ingrediente,
+              nombre_ingrediente: ing.nombre_ingrediente,
+              cantidad: ing.cantidad_ing,
+              id_medida: unidad ? unidad.id : 1
+            };
+          });
+        },
+        error: err => console.error('Error al obtener ingredientes:', err)
       });
     }
   }
@@ -120,6 +155,29 @@ export class ModalEditarRecetaComponent implements OnInit {
     });
   }
 
+  agregarIngrediente() {
+    if (!this.ingredienteSeleccionado) {
+      return;
+    }
+    this.ingredientesSeleccionados.push({
+      id_ingrediente: this.ingredienteSeleccionado.id_ingrediente,
+      nombre_ingrediente: this.ingredienteSeleccionado.nombre_ingrediente,
+      id_medida: this.idMedida,
+      cantidad: this.cantidadIngrediente,
+    });
+    this.ingredienteSeleccionado = undefined;
+    this.cantidadIngrediente = 1;
+  }
+
+  eliminarIngrediente(index: number) {
+    this.ingredientesSeleccionados.splice(index, 1);
+  }
+
+  getNombreMedida(id: number): string {
+    const medida = this.unidadesMedida.find(m => m.id === id);
+    return medida ? medida.nombre : 'unidad';
+  }
+
   guardar() {
     if (this.RecetaForm.invalid) {
       alert('Por favor, completa todos los campos requeridos.');
@@ -163,7 +221,11 @@ export class ModalEditarRecetaComponent implements OnInit {
 
     this.recetaService.editarReceta(receta).subscribe(() => {
       this.pasosService.actualizarPasos(receta.id_recetas, pasos).subscribe(() => {
-        this.modalCtrl.dismiss(receta);
+        this.recetaService.actualizarIngredientes(receta.id_recetas, this.ingredientesSeleccionados).subscribe(() => {
+          this.modalCtrl.dismiss(receta);
+        }, err => {
+          console.error('Error al actualizar ingredientes:', err);
+        });
       }, err => {
         console.error('Error al actualizar pasos:', err);
       });

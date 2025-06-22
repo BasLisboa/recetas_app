@@ -130,5 +130,31 @@ async function obtenerRecetaPorId(req, res) {
   }
 }
 
-module.exports = { obtenerRecetas, editarReceta, eliminarReceta , obtenerRecetaPorId};
+async function actualizarIngredientes(req, res) {
+  const { id_receta } = req.params;
+  const { ingredientes } = req.body;
+
+  if (!Array.isArray(ingredientes)) {
+    return res.status(400).json({ message: 'Formato de ingredientes no válido' });
+  }
+
+  try {
+    await db.query('DELETE FROM receta_ingrediente WHERE id_recetas = ?', [id_receta]);
+
+    for (const ing of ingredientes) {
+      const { id_ingrediente, id_medida, cantidad } = ing;
+      await db.query(
+        'INSERT INTO receta_ingrediente (id_recetas, id_ingrediente, id_medida, cantidad) VALUES (?, ?, ?, ?)',
+        [id_receta, id_ingrediente, id_medida, cantidad]
+      );
+    }
+
+    res.status(200).json({ message: 'Ingredientes actualizados correctamente' });
+  } catch (err) {
+    console.error('❌ Error al actualizar ingredientes:', err);
+    res.status(500).json({ message: 'Error al actualizar ingredientes' });
+  }
+}
+
+module.exports = { obtenerRecetas, editarReceta, eliminarReceta , obtenerRecetaPorId, actualizarIngredientes };
 

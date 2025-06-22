@@ -120,8 +120,7 @@ export class RecetasadmService {
 
   getNutricionalReceta(id: number): Observable<NutricionalReceta> {
     // AHORA apunta a /api/nutricional/${:id}
-    return this.http.get<NutricionalReceta>(`http://localhost:3000/api/nutricional/${id}`);
-
+    return this.http.get<NutricionalReceta>(`${environment.apiUrl}/nutricional/${id}`);
   }
 
   obtenerRecetaPorId(id: number | string) {

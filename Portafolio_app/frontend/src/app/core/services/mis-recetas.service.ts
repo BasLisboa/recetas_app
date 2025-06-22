@@ -39,6 +39,11 @@ export class MisRecetasService {
     );
   }
 
+  actualizarIngredientes(idReceta: string, ingredientes: any[]): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/recetas/${idReceta}/ingredientes`, { ingredientes });
+  }
+
+
   obtenerRecetaPorId(id: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/recetas/${id}`);
   }

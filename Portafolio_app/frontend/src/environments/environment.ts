@@ -2,7 +2,7 @@
 // Configuración de entorno para desarrollo
 // Este archivo puede ser reemplazado por environment.prod.ts para producción usando fileReplacements en angular.json
 
-const baseUrl = 'https://junk-penetration-royalty-variations.trycloudflare.com';
+const baseUrl = 'https://affiliated-aging-survive-creation.trycloudflare.com';
 const shareUrl = 'https://TUAPP.web.app';
 export const environment = {
   production: false,

@@ -56,7 +56,7 @@
           .subscribe({
             next: (res) => {
               this.nutricional = res;
-              this.ingredientes = res.detalle_ingredientes; // ✅ Aquí se asignan los ingredientes
+              this.ingredientes = res.detalle_ingredientes; 
               this.muestraNutri = true;
             },
             error: (err) => {

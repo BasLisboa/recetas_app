@@ -4,10 +4,12 @@
   --height: 100%;
 }
 
+
 :host {
   display: block;
   height: 100%;
 }
+
 
 ion-content.scroll-content {
   --background: linear-gradient(180deg, #f6f8fc 0%, #d7eaff 100%);
@@ -98,6 +100,7 @@ ion-chip ion-icon {
   --color: #fff;
   box-shadow: 0 2px 14px #36a2eb19;
   font-weight: bold;
+  padding-top: 30px;
 }
 
 /* Formulario con tarjeta flotante */

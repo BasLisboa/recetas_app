@@ -1,4 +1,4 @@
-const baseUrl = 'https://junk-penetration-royalty-variations.trycloudflare.com';
+const baseUrl = 'https://affiliated-aging-survive-creation.trycloudflare.com';
 const shareUrl = 'https://guardar-foto-d4a53.web.app';
 
 export const environment = {

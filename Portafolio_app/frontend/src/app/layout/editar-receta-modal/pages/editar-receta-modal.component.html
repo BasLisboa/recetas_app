@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar style="--background:linear-gradient(90deg,#0abdc9,#36e99a);">
+  <ion-toolbar style="--background:linear-gradient(90deg,#0abdc9,#36e99a); padding-top: 30px;">
     <ion-title style="color:#fff;">Editar receta</ion-title>
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="cancelar()" color="light">
@@ -49,6 +49,36 @@
             <input type="file" (change)="onFileSelected($event)" accept="image/*" />
           </ion-item>
 
+          <ion-item>
+            <ion-label position="floating">Ingrediente</ion-label>
+            <ion-select [(ngModel)]="ingredienteSeleccionado" [ngModelOptions]="{standalone: true}">
+              <ion-select-option *ngFor="let ing of ingredientesDisponibles" [value]="ing">{{ ing.nombre_ingrediente }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Unidad</ion-label>
+            <ion-select [(ngModel)]="idMedida">
+              <ion-select-option *ngFor="let u of unidadesMedida" [value]="u.id">{{ u.nombre }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Cantidad</ion-label>
+            <ion-input type="number" [(ngModel)]="cantidadIngrediente" [ngModelOptions]="{standalone: true}"></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" (click)="agregarIngrediente()">Agregar ingrediente</ion-button>
+
+          <div class="chips-container animate-in">
+            <ion-chip *ngFor="let sel of ingredientesSeleccionados; let i = index" color="success" outline>
+              <ion-label>
+                {{ sel.nombre_ingrediente }} – {{ sel.cantidad }} {{ getNombreMedida(sel.id_medida) }}
+              </ion-label>
+              <ion-icon name="close-circle" (click)="eliminarIngrediente(i)" color="danger"></ion-icon>
+            </ion-chip>
+          </div>
+
            <div formArrayName="pasos" class="ion-margin-top">
             <ion-reorder-group (ionItemReorder)="reorderPasos($event)" [disabled]="false">
               <ion-item *ngFor="let paso of pasos.controls; let i = index" [formGroupName]="i">
@@ -70,7 +100,7 @@
     </ion-card>
   </form>
 
-  <ion-footer class="footer-form ion-no-border" style="background: transparent;">
+  <ion-footer class="footer-form ion-no-border" style="background: transparent; margin-bottom: 50px;">
     <ion-button expand="block" type="submit" color="success" size="large" [disabled]="RecetaForm.invalid" (click)="guardar()">
       Guardar Cambios
     </ion-button>
